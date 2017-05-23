@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="EPlayerSDK">
+      <UniqueIdentifier>{e2e9c0b8-1faf-4fdf-8da1-aa7a47a5c109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinPlayer">
+      <UniqueIdentifier>{4c98bad8-28f5-4cf4-a5b1-9c99bee0eee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\player">
+      <UniqueIdentifier>{484ab970-d057-42c7-8cff-da32d90cf7e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\exAPI">
+      <UniqueIdentifier>{6d85cfc8-102c-44f3-a2b1-51dca07ed641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\framework">
+      <UniqueIdentifier>{86497a82-d1d7-4a9c-8758-46d149b6430b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\source">
+      <UniqueIdentifier>{51b73eb3-f0c4-4b07-8d86-4783f00f6582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\clock">
+      <UniqueIdentifier>{4ec7e7eb-70f6-4ea1-8001-ec1308f16fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\base">
+      <UniqueIdentifier>{202916a6-f2e2-40ad-8337-555ef4d51ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\render">
+      <UniqueIdentifier>{18919795-cbe8-4e2b-8d83-1ca86d0f31c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\decoder">
+      <UniqueIdentifier>{64d2235a-5865-4fd5-bea4-4d4c06611050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\render\audio">
+      <UniqueIdentifier>{7a810558-17e1-452f-8268-51704eed1f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\render\video">
+      <UniqueIdentifier>{7d8189b6-b587-435b-bdb5-2639887cb4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\decoder\audio">
+      <UniqueIdentifier>{41a0388a-dfc2-4374-b4f7-35a12da4f4ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EPlayerSDK\decoder\video">
+      <UniqueIdentifier>{f6726c80-394e-4174-b481-c53e3d51aeb4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\base\ECAutoLock.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECMemOP.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECMutex.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECSignal.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECString.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECStringOP.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECThreadDriver.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECThreadWorker.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECUtil.cpp">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\clock\MediaClock.cpp">
+      <Filter>EPlayerSDK\clock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\decoder\audio\AudioDecoder.cpp">
+      <Filter>EPlayerSDK\decoder\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\decoder\audio\AudioDecPort.cpp">
+      <Filter>EPlayerSDK\decoder\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\decoder\audio\FFmpegAudioDecoder.cpp">
+      <Filter>EPlayerSDK\decoder\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\decoder\video\FFmpegVideoDecoder.cpp">
+      <Filter>EPlayerSDK\decoder\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\decoder\video\VideoDecoder.cpp">
+      <Filter>EPlayerSDK\decoder\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\decoder\video\VideoDecPort.cpp">
+      <Filter>EPlayerSDK\decoder\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\exAPI\C_C++\EPlayerAPI_IMP.cpp">
+      <Filter>EPlayerSDK\exAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\framework\MediaCtrl.cpp">
+      <Filter>EPlayerSDK\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\framework\MessageHub.cpp">
+      <Filter>EPlayerSDK\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\player\Player.cpp">
+      <Filter>EPlayerSDK\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\audio\AudioRender.cpp">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\audio\AudioDevice\common\SDL_AudioDevice.cpp">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\audio\AudioDevice\win\Win_AudioDevice.cpp">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\video\VideoRender.cpp">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\FrameScale.cpp">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\SDL_VideoDevice.cpp">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\video\VideoDevice\win\Win_VideoDevice.cpp">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\source\FFmpegReader.cpp">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\source\MediaSource.cpp">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\source\PacketManager.cpp">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\source\SourceAudioPort.cpp">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\source\SourceVideoPort.cpp">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>WinPlayer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\base\ECAutoLock.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECError.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECLog.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECMemOP.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECMutex.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECNode.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECOSDef.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECRingQueue.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECSignal.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECString.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECStringOP.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECThreadDriver.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECThreadWorker.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECType.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECUtil.h">
+      <Filter>EPlayerSDK\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\clock\MediaClock.h">
+      <Filter>EPlayerSDK\clock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\decoder\audio\AudioDecoder.h">
+      <Filter>EPlayerSDK\decoder\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\decoder\audio\AudioDecPort.h">
+      <Filter>EPlayerSDK\decoder\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\decoder\audio\FFmpegAudioDecoder.h">
+      <Filter>EPlayerSDK\decoder\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\decoder\video\FFmpegVideoDecoder.h">
+      <Filter>EPlayerSDK\decoder\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\decoder\video\VideoDecoder.h">
+      <Filter>EPlayerSDK\decoder\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\decoder\video\VideoDecPort.h">
+      <Filter>EPlayerSDK\decoder\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\exAPI\C_C++\EPlayerAPI.h">
+      <Filter>EPlayerSDK\exAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\framework\MediaCtrl.h">
+      <Filter>EPlayerSDK\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\framework\MessageHub.h">
+      <Filter>EPlayerSDK\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\player\Player.h">
+      <Filter>EPlayerSDK\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\audio\AudioDeviceI.h">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\audio\AudioRender.h">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\audio\AudioDevice\common\SDL_AudioDevice.h">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\audio\AudioDevice\win\Win_AudioDevice.h">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\video\VideoDeviceI.h">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\video\VideoRender.h">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\FrameScale.h">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\SDL_VideoDevice.h">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\video\VideoDevice\win\Win_VideoDevice.h">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\source\FFmpegReader.h">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\source\MediaSource.h">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\source\PacketManager.h">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\source\SourceAudioPort.h">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\source\SourceVideoPort.h">
+      <Filter>EPlayerSDK\source</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

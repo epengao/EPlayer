@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
+            <connections>
+                <outlet property="MediaCtrPanel" destination="nnW-aK-o5p" id="XKs-Eo-P6f"/>
+                <outlet property="audioDecreaseVolume" destination="HUb-Bv-ibO" id="mqZ-jx-uBn"/>
+                <outlet property="audioIncreaseVolume" destination="1UK-8n-QPP" id="K9D-mX-yXx"/>
+                <outlet property="audioMute" destination="tB6-0R-CCr" id="RoT-z8-Ke7"/>
+                <outlet property="closeMediaMenu" destination="KD1-18-h2Q" id="02j-Nw-lfN"/>
+                <outlet property="videoResizeDouble" destination="HWj-NN-VI4" id="6Jq-rz-CoM"/>
+                <outlet property="videoResizeEntryFullScreen" destination="fsr-ZN-5uH" id="O10-Gv-h3u"/>
+                <outlet property="videoResizeHalf" destination="Vi1-oO-1MB" id="3AQ-uH-tFv"/>
+                <outlet property="videoResizeNormal" destination="pZg-Mv-FGV" id="q3P-Sz-HYf"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="lQa-k8-sfm"/>
+                <outlet property="windowInFront" destination="4rJ-rq-B6r" id="Ecl-BT-GOw"/>
+            </connections>
+        </customObject>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
+            <items>
+                <menuItem title="EPlayer" id="1Xt-HY-uBw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="EPlayer" systemMenu="apple" id="uQy-DD-JDr">
+                        <items>
+                            <menuItem title="About EPlayer" id="5kV-Vb-QxS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
+                            <menuItem title="Hide EPlayer" keyEquivalent="h" id="Olw-nP-bQN">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="Kd2-mp-pUS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="Dhg-Le-xox"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                            <menuItem title="Quit EPlayer" keyEquivalent="q" id="4sb-4s-VLi">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="File" id="dMs-cI-mzQ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="File" id="bib-Uj-vzu">
+                        <items>
+                            <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
+                                <connections>
+                                    <action selector="menuOpenDocument:" target="Voe-Tx-rLC" id="Fmh-o2-Tp7"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open URL..." id="tXI-mr-wws">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
+                            <menuItem title="CloseMedia" keyEquivalent="c" id="KD1-18-h2Q"/>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Audio" id="H8h-7b-M4v">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Audio" id="HyV-fh-RgO">
+                        <items>
+                            <menuItem title="Increase Volume" id="1UK-8n-QPP">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuAudioIncreaseVolume:" target="Voe-Tx-rLC" id="bWg-uE-Hdn"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Decrease Volume" id="HUb-Bv-ibO">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuAudioDecreaseVolume:" target="Voe-Tx-rLC" id="mu6-d0-nMX"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                            <menuItem title="Mute" id="tB6-0R-CCr">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuAudioMute:" target="Voe-Tx-rLC" id="gLo-ZF-DHn"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Video" id="50I-ax-MhA">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Video" id="pZA-Tr-p7w">
+                        <items>
+                            <menuItem title="Half Size" id="Vi1-oO-1MB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuResizeHalf:" target="Voe-Tx-rLC" id="cxB-yp-COr"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Normal Size" id="pZg-Mv-FGV">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuResizeNormal:" target="Voe-Tx-rLC" id="d0H-Wl-ewC"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Double Size" id="HWj-NN-VI4">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuResizeDouble:" target="Voe-Tx-rLC" id="J2K-Ah-aPO"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="GAq-Hf-wAl"/>
+                            <menuItem title="Enter Full Screen" keyEquivalent="f" id="fsr-ZN-5uH">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                <connections>
+                                    <action selector="menuEentryFullScreen:" target="Voe-Tx-rLC" id="toL-5O-IYv"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="aUF-d1-5bR">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="OY7-WF-poV">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="VwT-WD-YPe"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Fit to Screen" id="R4o-n2-Eq4">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuFitToScreen:" target="Voe-Tx-rLC" id="txW-ne-ctu"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                            <menuItem title="Always in Front" id="4rJ-rq-B6r">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuAlwaysInFront:" target="Voe-Tx-rLC" id="DM0-6A-qNq"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="wpr-3q-Mcd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
+                        <items>
+                            <menuItem title="EPlayer Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Format" id="jxT-CU-nIS">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="-634" y="-165"/>
+        </menu>
+        <window title="EPlayer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="MainWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="335" y="390" width="655" height="418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="655" height="418"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+            <point key="canvasLocation" x="-501" y="157"/>
+        </window>
+        <customView wantsLayer="YES" id="nnW-aK-o5p" customClass="MediaCtrlView">
+            <rect key="frame" x="0.0" y="0.0" width="720" height="76"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D7u-bb-6Ze" customClass="LADSlider">
+                    <rect key="frame" x="2" y="62" width="716" height="15"/>
+                    <sliderCell key="cell" controlSize="small" state="on" alignment="left" maxValue="100" doubleValue="48.84715257879656" tickMarkPosition="above" sliderType="linear" id="Lt4-nT-s7k"/>
+                </slider>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="THL-Ew-MJI">
+                    <rect key="frame" x="344" y="21" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="QWH-vE-U1W"/>
+                        <constraint firstAttribute="height" constant="32" id="ram-Wh-qqD"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyUpOrDown" inset="2" id="odC-EM-5ZR">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="playPause:" target="nnW-aK-o5p" id="pam-ke-j8h"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="BgG-2O-OoD">
+                    <rect key="frame" x="263" y="27" width="18" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="18" id="Idx-9A-fch"/>
+                        <constraint firstAttribute="height" constant="18" id="Z1j-LB-h2z"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyUpOrDown" inset="2" id="u2U-04-Rsy">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="volumeButtonClicked:" target="nnW-aK-o5p" id="zpc-Yy-eYi"/>
+                    </connections>
+                </button>
+                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4hP-xl-gy8" customClass="LADSlider">
+                    <rect key="frame" x="283" y="30" width="53" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="53" id="qDJ-yg-qJe"/>
+                    </constraints>
+                    <sliderCell key="cell" controlSize="small" state="on" alignment="left" maxValue="100" doubleValue="48.408203125" tickMarkPosition="above" sliderType="linear" id="l1e-DX-rAk"/>
+                </slider>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="F66-vx-JWP">
+                    <rect key="frame" x="392" y="29" width="15" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15" id="3Hg-z7-AR9"/>
+                        <constraint firstAttribute="height" constant="15" id="BSY-KY-b4T"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyUpOrDown" inset="2" id="kAc-nM-TyS">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="stopButtonClicked:" target="nnW-aK-o5p" id="4rZ-yc-cxA"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="dHx-bG-G39">
+                    <rect key="frame" x="427" y="26" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="2UN-Fq-5Mv"/>
+                        <constraint firstAttribute="height" constant="24" id="KyA-xq-6dc"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyUpOrDown" inset="2" id="ClY-JE-OBL">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="fullScreenButtonClicked:" target="nnW-aK-o5p" id="LeW-DY-nbl"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="D7u-bb-6Ze" firstAttribute="top" secondItem="nnW-aK-o5p" secondAttribute="top" id="274-bk-tzP"/>
+                <constraint firstAttribute="trailing" secondItem="D7u-bb-6Ze" secondAttribute="trailing" constant="2" id="9Bq-Uq-dAo"/>
+                <constraint firstItem="F66-vx-JWP" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="19" id="ATY-AT-SU7"/>
+                <constraint firstItem="4hP-xl-gy8" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="19" id="FJd-cZ-yV7"/>
+                <constraint firstItem="THL-Ew-MJI" firstAttribute="centerX" secondItem="nnW-aK-o5p" secondAttribute="centerX" id="FZz-Gz-LAb"/>
+                <constraint firstItem="BgG-2O-OoD" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="18" id="FsF-FW-Gew"/>
+                <constraint firstItem="F66-vx-JWP" firstAttribute="leading" secondItem="THL-Ew-MJI" secondAttribute="trailing" constant="16" id="Np6-OW-oaS"/>
+                <constraint firstItem="dHx-bG-G39" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="13" id="Qk8-S0-48T"/>
+                <constraint firstItem="4hP-xl-gy8" firstAttribute="leading" secondItem="BgG-2O-OoD" secondAttribute="trailing" constant="2" id="SiG-NI-neJ"/>
+                <constraint firstAttribute="trailing" secondItem="D7u-bb-6Ze" secondAttribute="trailing" constant="2" id="U0M-59-yjj"/>
+                <constraint firstItem="D7u-bb-6Ze" firstAttribute="leading" secondItem="nnW-aK-o5p" secondAttribute="leading" constant="2" id="gLw-4F-FLV"/>
+                <constraint firstItem="THL-Ew-MJI" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="10" id="hmY-bf-X9A"/>
+                <constraint firstItem="dHx-bG-G39" firstAttribute="leading" secondItem="F66-vx-JWP" secondAttribute="trailing" constant="20" id="jwh-v5-Ny5"/>
+                <constraint firstItem="D7u-bb-6Ze" firstAttribute="leading" secondItem="nnW-aK-o5p" secondAttribute="leading" constant="2" id="m42-Fi-zhW"/>
+                <constraint firstItem="THL-Ew-MJI" firstAttribute="leading" secondItem="4hP-xl-gy8" secondAttribute="trailing" constant="8" id="pI8-AY-d8e"/>
+            </constraints>
+            <connections>
+                <outlet property="fullScreenButton" destination="dHx-bG-G39" id="LVN-24-pCP"/>
+                <outlet property="playPauseButton" destination="THL-Ew-MJI" id="aiP-t1-uRI"/>
+                <outlet property="playStopButton" destination="F66-vx-JWP" id="BpT-gJ-yJM"/>
+                <outlet property="progressBar" destination="D7u-bb-6Ze" id="7Qo-Y0-DuM"/>
+                <outlet property="volumeCtrlButton" destination="BgG-2O-OoD" id="MsI-hH-1j7"/>
+                <outlet property="volumeCtrlSlider" destination="4hP-xl-gy8" id="ILC-82-Egf"/>
+            </connections>
+            <point key="canvasLocation" x="-541" y="593"/>
+        </customView>
+    </objects>
+</document>

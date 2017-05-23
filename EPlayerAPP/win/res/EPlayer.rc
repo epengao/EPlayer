@@ -1,0 +1,250 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "Resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (Simplified, PRC) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "Resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "icon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_LOGO         BITMAP                  "logo.bmp"
+IDB_BITMAP_TOOLBAR      BITMAP                  "toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "文件(&F)"
+    BEGIN
+        MENUITEM "打开文件(&O)...\tCtrl+O",         IDM_FILE_OPEN
+        MENUITEM "关闭(&C)...\tCtrl+C",           IDM_FILE_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "退出(&X)...\tAlt+X",            IDM_FILE_EXIT
+    END
+    POPUP "播放(&P)"
+    BEGIN
+        MENUITEM "播放/暂停(&P)\t空格",               IDM_PLAY_PAUSE
+        MENUITEM "停止(&S)",                      IDM_STOP
+        MENUITEM SEPARATOR
+        POPUP "缩放"
+        BEGIN
+            MENUITEM "50%\tAlt+1",                  IDM_SIZE_50
+            MENUITEM "75%\tAlt+2",                  IDM_SIZE_75
+            MENUITEM "100%\tAlt+3",                 IDM_SIZE_100
+            MENUITEM "150%\tAlt+4",                 IDM_SIZE_150
+            MENUITEM "全屏\tAlt+5",                   IDM_SIZE_FULL
+        END
+        MENUITEM SEPARATOR
+        POPUP "前端显示"
+        BEGIN
+            MENUITEM "从不",                          IDM_TOP1, CHECKED
+            MENUITEM "始终",                          IDM_TOP2
+            MENUITEM "播放时",                         IDM_TOP3
+        END
+    END
+    POPUP "帮助(&H)"
+    BEGIN
+        MENUITEM "关于(&A)...",                   IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_PANEL DIALOGEX 0, 0, 868, 34
+STYLE DS_SETFONT | WS_CHILD
+FONT 10, "System", 0, 0, 0x0
+BEGIN
+    CONTROL         "Slider1",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,7,7,68,10
+END
+
+IDD_DLG_VIDEO_SCREEN DIALOG 0, 0, 0, 0
+STYLE DS_SETFONT | WS_CHILD
+FONT 10, "System"
+BEGIN
+END
+
+IDD_DLG_LIST DIALOGEX 0, 0, 322, 128
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "播放列表"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    CONTROL         "List1",IDC_PLAYLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,7,7,308,93,WS_EX_ACCEPTFILES
+    PUSHBUTTON      "添加文件",IDC_BTN_ADDFILE,41,107,48,14
+    PUSHBUTTON      "添加目录",IDC_BTN_ADDFOLDER,137,107,48,14
+    PUSHBUTTON      "删除",IDC_BTN_DELETEFILE,233,107,48,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DLG_PANEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 861
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 27
+    END
+
+    IDD_DLG_VIDEO_SCREEN, DIALOG
+    BEGIN
+    END
+
+    IDD_DLG_LIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 315
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 121
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST             "WidgetStyle.Manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR1 ACCELERATORS
+BEGIN
+    "1",            IDM_SIZE_50,            VIRTKEY, ALT, NOINVERT
+    "2",            IDM_SIZE_75,            VIRTKEY, ALT, NOINVERT
+    "3",            IDM_SIZE_100,           VIRTKEY, ALT, NOINVERT
+    "4",            IDM_SIZE_150,           VIRTKEY, ALT, NOINVERT
+    "5",            IDM_SIZE_FULL,          VIRTKEY, ALT, NOINVERT
+    "C",            IDM_FILE_CLOSE,         VIRTKEY, CONTROL, NOINVERT
+    "L",            IDM_PLAYLIST,           VIRTKEY, CONTROL, NOINVERT
+    "O",            IDM_FILE_OPEN,          VIRTKEY, CONTROL, NOINVERT
+    "R",            IDM_RESETRATE,          VIRTKEY, CONTROL, NOINVERT
+    VK_DOWN,        IDM_DECREASERATE,       VIRTKEY, CONTROL, NOINVERT
+    VK_RIGHT,       IDM_NEXTFRAME,          VIRTKEY, NOINVERT
+    VK_UP,          IDM_INCREASERATE,       VIRTKEY, CONTROL, NOINVERT
+    "X",            IDM_FILE_EXIT,          VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "Comments", "EPlayer(易播)，基于FFmpeg的一款简单易用的播放器"
+            VALUE "FileDescription", "易播[EPlayer]"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "LegalCopyright", "Copyright ? 2015"
+            VALUE "OriginalFilename", "EPlayer.exe"
+            VALUE "ProductName", "EPlayer"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // Chinese (Simplified, PRC) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

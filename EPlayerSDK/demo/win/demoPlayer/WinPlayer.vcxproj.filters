@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="EPlayerSDK">
+      <UniqueIdentifier>{e2e9c0b8-1faf-4fdf-8da1-aa7a47a5c109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinPlayer">
+      <UniqueIdentifier>{4c98bad8-28f5-4cf4-a5b1-9c99bee0eee9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>WinPlayer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EPlayerSDK\EPlayerAPI.h">
+      <Filter>EPlayerSDK</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EPlayerSDK\EPlayerSDK.dll">
+      <Filter>EPlayerSDK</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="EPlayerSDK\EPlayerSDK.lib">
+      <Filter>EPlayerSDK</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
