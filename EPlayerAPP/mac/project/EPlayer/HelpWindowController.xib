@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="HelpWindowController">
+            <connections>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <rect key="contentRect" x="196" y="240" width="260" height="280"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="260" height="280"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIf-eb-WqG">
+                        <rect key="frame" x="79" y="241" width="102" height="19"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="EPlayer Help" id="NfU-Ur-1Nm">
+                            <font key="font" metaFont="systemBold" size="15"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hk8-Tx-7Ox">
+                        <rect key="frame" x="50" y="107" width="161" height="126"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" id="fJj-gc-TA1">
+                            <font key="font" metaFont="system" size="14"/>
+                            <string key="title">Short Keys:
+OpenFile:  Cmd + O
+Close/Stop:  Cmd + C
+Play:     Space
+Pause:  Space
+FullScreen: Enter/Retrun
+ExtFullScreen:  Esc</string>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rug-P8-Ial">
+                        <rect key="frame" x="50" y="50" width="160" height="51"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" id="PlJ-os-BFZ">
+                            <font key="font" metaFont="system"/>
+                            <string key="title">Developer: 高鹏
+Email: epengao@126.com
+QQ: 380154185</string>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVI-Ya-x3m">
+                        <rect key="frame" x="49" y="28" width="162" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="http://www.player.me        " id="IUU-N6-xTA">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.12243617326021194" green="0.059340335428714752" blue="0.9783673882484436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.92540913820266724" green="0.92554205656051636" blue="0.92538005113601685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="jXH-Nd-tzh" name="fontFamilyName" keyPath="values" id="zD7-PS-3wN"/>
+                        </connections>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="hVI-Ya-x3m" firstAttribute="top" secondItem="Rug-P8-Ial" secondAttribute="bottom" constant="5" id="0aq-It-ujA"/>
+                    <constraint firstItem="Rug-P8-Ial" firstAttribute="top" secondItem="Hk8-Tx-7Ox" secondAttribute="bottom" constant="6" id="20U-gM-OwX"/>
+                    <constraint firstItem="oIf-eb-WqG" firstAttribute="centerX" secondItem="se5-gp-TjO" secondAttribute="centerX" id="2HK-5x-p3r"/>
+                    <constraint firstItem="oIf-eb-WqG" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="81" id="4r2-4v-3XW"/>
+                    <constraint firstItem="Hk8-Tx-7Ox" firstAttribute="top" secondItem="oIf-eb-WqG" secondAttribute="bottom" constant="8" id="D0g-TS-Pj8"/>
+                    <constraint firstAttribute="trailing" secondItem="oIf-eb-WqG" secondAttribute="trailing" constant="81" id="Pwg-Eb-qGi"/>
+                    <constraint firstItem="hVI-Ya-x3m" firstAttribute="centerX" secondItem="se5-gp-TjO" secondAttribute="centerX" id="QJr-Gi-op4"/>
+                    <constraint firstItem="Hk8-Tx-7Ox" firstAttribute="centerX" secondItem="se5-gp-TjO" secondAttribute="centerX" id="jfU-7b-anq"/>
+                    <constraint firstItem="oIf-eb-WqG" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="20" id="r7Z-o2-WZa"/>
+                    <constraint firstItem="Rug-P8-Ial" firstAttribute="centerX" secondItem="se5-gp-TjO" secondAttribute="centerX" id="w9Z-bj-3jb"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="32" y="142"/>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="jXH-Nd-tzh"/>
+    </objects>
+</document>

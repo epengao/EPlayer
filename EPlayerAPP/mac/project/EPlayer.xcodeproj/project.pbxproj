@@ -27,6 +27,8 @@
 		904384E21EC807B600240A6C /* WinTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 904384E11EC807B600240A6C /* WinTitleView.m */; };
 		904C890B1ECA0E0900AA3CC5 /* LADSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C89081ECA0E0900AA3CC5 /* LADSlider.m */; };
 		904C890C1ECA0E0900AA3CC5 /* LADSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C890A1ECA0E0900AA3CC5 /* LADSliderCell.m */; };
+		9060BA211ED4917F009EF05B /* HelpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060BA1F1ED4917F009EF05B /* HelpWindowController.m */; };
+		9060BA221ED4917F009EF05B /* HelpWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9060BA201ED4917F009EF05B /* HelpWindowController.xib */; };
 		90699C4C1ECC926D00F77B43 /* MediaCtrlViewShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 90699C4B1ECC926D00F77B43 /* MediaCtrlViewShadow.m */; };
 		90B315ED1EC8C5D900D2B78A /* ISSoundAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B315EC1EC8C5D900D2B78A /* ISSoundAdditions.m */; };
 		90D2282E1EC75F0E00EDCEB0 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90D2282D1EC75F0E00EDCEB0 /* AppDelegate.mm */; };
@@ -61,6 +63,9 @@
 		904C89081ECA0E0900AA3CC5 /* LADSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LADSlider.m; sourceTree = "<group>"; };
 		904C89091ECA0E0900AA3CC5 /* LADSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LADSliderCell.h; sourceTree = "<group>"; };
 		904C890A1ECA0E0900AA3CC5 /* LADSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LADSliderCell.m; sourceTree = "<group>"; };
+		9060BA1E1ED4917F009EF05B /* HelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpWindowController.h; sourceTree = "<group>"; };
+		9060BA1F1ED4917F009EF05B /* HelpWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpWindowController.m; sourceTree = "<group>"; };
+		9060BA201ED4917F009EF05B /* HelpWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpWindowController.xib; sourceTree = "<group>"; };
 		90699C4A1ECC926D00F77B43 /* MediaCtrlViewShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCtrlViewShadow.h; sourceTree = "<group>"; };
 		90699C4B1ECC926D00F77B43 /* MediaCtrlViewShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaCtrlViewShadow.m; sourceTree = "<group>"; };
 		90B315EB1EC8C5D900D2B78A /* ISSoundAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSoundAdditions.h; sourceTree = "<group>"; };
@@ -136,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				90D228341EC75F0E00EDCEB0 /* MainMenu.xib */,
+				9060BA201ED4917F009EF05B /* HelpWindowController.xib */,
 			);
 			name = xib;
 			sourceTree = "<group>";
@@ -173,6 +179,8 @@
 				025CE0651EC9B23D00DD46B4 /* MediaCtrlView.m */,
 				90699C4A1ECC926D00F77B43 /* MediaCtrlViewShadow.h */,
 				90699C4B1ECC926D00F77B43 /* MediaCtrlViewShadow.m */,
+				9060BA1E1ED4917F009EF05B /* HelpWindowController.h */,
+				9060BA1F1ED4917F009EF05B /* HelpWindowController.m */,
 				90B315EB1EC8C5D900D2B78A /* ISSoundAdditions.h */,
 				90B315EC1EC8C5D900D2B78A /* ISSoundAdditions.m */,
 				90D228321EC75F0E00EDCEB0 /* Assets.xcassets */,
@@ -251,6 +259,7 @@
 			files = (
 				90D228331EC75F0E00EDCEB0 /* Assets.xcassets in Resources */,
 				90D228361EC75F0E00EDCEB0 /* MainMenu.xib in Resources */,
+				9060BA221ED4917F009EF05B /* HelpWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +277,7 @@
 				90D2282E1EC75F0E00EDCEB0 /* AppDelegate.mm in Sources */,
 				904C890B1ECA0E0900AA3CC5 /* LADSlider.m in Sources */,
 				90699C4C1ECC926D00F77B43 /* MediaCtrlViewShadow.m in Sources */,
+				9060BA211ED4917F009EF05B /* HelpWindowController.m in Sources */,
 				904384E21EC807B600240A6C /* WinTitleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,6 +392,7 @@
 				INFOPLIST_FILE = EPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../sdk";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.com.EPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -396,6 +407,7 @@
 				INFOPLIST_FILE = EPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../sdk";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.com.EPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

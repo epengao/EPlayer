@@ -11,6 +11,7 @@
 #import "WinTitleView.h"
 #import "MediaCtrlView.h"
 #import "ISSoundAdditions.h"
+#import "HelpWindowController.h"
 
 @interface AppDelegate ()
 /* EPlayer SDK */
@@ -37,6 +38,8 @@
 @property (weak) IBOutlet NSMenuItem *windowInFront;
 /* Media Ctrl Panel */
 @property (weak) IBOutlet MediaCtrlView *MediaCtrPanel;
+/* Help window controller */
+@property HelpWindowController* helpWindowController;
 @end
 
 /* NSView extension [静态毛玻璃效果] */
@@ -100,6 +103,7 @@
 {
     self.window.appCtrl = self;
     self.window.delegate = self;
+    self.helpWindowController = nil;
     [self.window setMovableByWindowBackground:YES];
     self.window.contentMinSize = NSMakeSize(260, 220);
     self.window.titleVisibility = NSWindowTitleHidden;
@@ -409,6 +413,29 @@
 -(IBAction)menuEentryFullScreen:(id)sender
 {
     [self entryFullScreen];
+}
+
+-(IBAction)menuOpenHelpWindow:(id)sender
+{
+    if(self.helpWindowController == nil)
+    {
+        self.helpWindowController = [[HelpWindowController alloc] initWithWindowNibName:@"HelpWindowController"];
+        [self.helpWindowController showWindow:self.window];
+    }
+    else
+    {
+        [self.helpWindowController.window makeKeyAndOrderFront:nil];
+    }
+}
+
+-(IBAction)menuEPlayerHomePage:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: @"http://www.eplayer.me"]];
+}
+
+-(IBAction)menuEPlayerSourceCode:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: @"http://www.eplayer.me"]];
 }
 
 #pragma mark - Exit/Entry FullScreen

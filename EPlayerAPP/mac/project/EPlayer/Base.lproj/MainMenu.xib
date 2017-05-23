@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -166,9 +165,23 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                         <items>
-                            <menuItem title="EPlayer Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                            <menuItem title="Help Window" id="fiF-Tr-1wd">
+                                <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                    <action selector="menuOpenHelpWindow:" target="Voe-Tx-rLC" id="dAS-e7-fNp"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="g98-wa-06h"/>
+                            <menuItem title="EPlayer HomePage" id="3JI-WM-NRR">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuEPlayerHomePage:" target="Voe-Tx-rLC" id="m1J-Fw-j2T"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="EPlayer Source Code" id="7Xf-ET-006">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuEPlayerSourceCode:" target="Voe-Tx-rLC" id="QNI-NO-o9Z"/>
                                 </connections>
                             </menuItem>
                         </items>
