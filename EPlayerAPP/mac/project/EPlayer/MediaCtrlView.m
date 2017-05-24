@@ -125,6 +125,17 @@
 
 - (void)updateViewFrame:(NSRect)rect
 {
+    if(rect.size.width * 0.5 < 240 * 0.5 + 120 + 20)
+    {
+        [_playTimeDurationTextLable setHidden:YES];
+    }
+    else
+    {
+        if([_playTimeDurationTextLable isHidden] && [_playerSDK hasMediaActived])
+        {
+            [_playTimeDurationTextLable setHidden:NO];
+        }
+    }
     [self setFrame:rect];
 
     CGFloat width = 240;
