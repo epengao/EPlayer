@@ -197,7 +197,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="655" height="418"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="655" height="418"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -275,14 +275,24 @@
                         <action selector="fullScreenButtonClicked:" target="nnW-aK-o5p" id="LeW-DY-nbl"/>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wzs-qF-R4E">
+                    <rect key="frame" x="594" y="46" width="120" height="16"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="00:00:00 / 00:00:00" usesSingleLineMode="YES" id="whl-Wf-aAg">
+                        <font key="font" metaFont="cellTitle"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="D7u-bb-6Ze" firstAttribute="top" secondItem="nnW-aK-o5p" secondAttribute="top" id="274-bk-tzP"/>
+                <constraint firstItem="Wzs-qF-R4E" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="1" id="8n1-iD-MWz"/>
                 <constraint firstAttribute="trailing" secondItem="D7u-bb-6Ze" secondAttribute="trailing" constant="2" id="9Bq-Uq-dAo"/>
                 <constraint firstItem="F66-vx-JWP" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="19" id="ATY-AT-SU7"/>
                 <constraint firstItem="4hP-xl-gy8" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="19" id="FJd-cZ-yV7"/>
                 <constraint firstItem="THL-Ew-MJI" firstAttribute="centerX" secondItem="nnW-aK-o5p" secondAttribute="centerX" id="FZz-Gz-LAb"/>
                 <constraint firstItem="BgG-2O-OoD" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="18" id="FsF-FW-Gew"/>
+                <constraint firstAttribute="trailing" secondItem="Wzs-qF-R4E" secondAttribute="trailing" constant="8" id="LJM-n1-rdY"/>
                 <constraint firstItem="F66-vx-JWP" firstAttribute="leading" secondItem="THL-Ew-MJI" secondAttribute="trailing" constant="16" id="Np6-OW-oaS"/>
                 <constraint firstItem="dHx-bG-G39" firstAttribute="top" secondItem="D7u-bb-6Ze" secondAttribute="bottom" constant="13" id="Qk8-S0-48T"/>
                 <constraint firstItem="4hP-xl-gy8" firstAttribute="leading" secondItem="BgG-2O-OoD" secondAttribute="trailing" constant="2" id="SiG-NI-neJ"/>
@@ -297,6 +307,7 @@
                 <outlet property="fullScreenButton" destination="dHx-bG-G39" id="LVN-24-pCP"/>
                 <outlet property="playPauseButton" destination="THL-Ew-MJI" id="aiP-t1-uRI"/>
                 <outlet property="playStopButton" destination="F66-vx-JWP" id="BpT-gJ-yJM"/>
+                <outlet property="playTimeDurationTextLable" destination="Wzs-qF-R4E" id="quN-VC-jgy"/>
                 <outlet property="progressBar" destination="D7u-bb-6Ze" id="7Qo-Y0-DuM"/>
                 <outlet property="volumeCtrlButton" destination="BgG-2O-OoD" id="MsI-hH-1j7"/>
                 <outlet property="volumeCtrlSlider" destination="4hP-xl-gy8" id="ILC-82-Egf"/>

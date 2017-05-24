@@ -170,7 +170,7 @@
 {
     [_playerSDK closeMedia];
     [_MediaCtrPanel updatePlayPauseUI:NO];
-    [_MediaCtrPanel updateProgressBarInfo:0.0 max:0.0 currValue:0.0 runing:NO];
+    [_MediaCtrPanel updateProgressBarInfo:0.0 max:100.0 currValue:0.0 runing:NO];
     [self setAudioMenuItems:NO];
     [self setVideoMenuItems:NO];
     [self setMenuStatus:_closeMediaMenu status:NO action:nil];

@@ -23,6 +23,7 @@
 @property (weak) IBOutlet NSButton *volumeCtrlButton;
 @property (weak) IBOutlet NSButton *fullScreenButton;
 @property (weak) IBOutlet LADSlider *volumeCtrlSlider;
+@property (weak) IBOutlet NSTextField *playTimeDurationTextLable;
 @end
 
 @implementation MediaCtrlView
@@ -111,13 +112,15 @@
     [_progressBar setKnobImage:sliderKnob];
     [_progressBar setMinimumValueImage:sliderLeftImage];
     [_progressBar setMaximumValueImage:sliderRightImage];
-    
+
     _progressBar.minValue = 0.0;
     _progressBar.maxValue = 100;
     _progressBar.floatValue = 0.0;
-    
+
     [_progressBar setTarget:self];
     [_progressBar setAction:@selector(progressBarAction:)];
+
+    [_playTimeDurationTextLable setHidden:YES];
 }
 
 - (void)updateViewFrame:(NSRect)rect
@@ -141,6 +144,11 @@
     }
     _progressBar.doubleValue = value;
     [_progressBar setNeedsDisplay];
+
+    NSString* playTimeString = [self getTimeString:value];
+    NSString* oldPlayTimeDurationString = _playTimeDurationTextLable.stringValue;
+    NSString* playTimeDurationString = [NSString stringWithFormat:@"%@ / %@", playTimeString, [oldPlayTimeDurationString substringFromIndex:11]];
+    [_playTimeDurationTextLable setStringValue:playTimeDurationString];
 }
 - (IBAction)progressBarAction:(LADSlider *)sender
 {
@@ -150,7 +158,6 @@
     }
     else
     {
-        //_progressBar.doubleValue = 0.0;
         [self performSelector:@selector(updateProgressBarValue) withObject:nil afterDelay:0.01];
     }
 }
@@ -162,17 +169,23 @@
     _progressBar.minValue = min;
     _progressBar.maxValue = max;
     _progressBar.doubleValue = value;
+    NSString *startTime = [self getTimeString:min];
+    NSString *durationTime = [self getTimeString:max];
     if(run)
     {
         _progressBarTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgressBarValue) userInfo:nil repeats:YES];
+        _playTimeDurationTextLable.stringValue = [NSString stringWithFormat:@"%@ / %@", startTime, durationTime];
+        [_playTimeDurationTextLable setHidden:NO];
     }
     else
     {
-        if(!_progressBarTimer.valid)
+        if(_progressBarTimer != nil)
         {
             [_progressBarTimer invalidate];
             _progressBarTimer = nil;
         }
+        _playTimeDurationTextLable.stringValue = @"00:00:00 / 00:00:00";
+        [_playTimeDurationTextLable setHidden:YES];
     }
 }
 
@@ -256,4 +269,13 @@
     [self.mainCtrl entryFullScreen];
 }
 
+-(NSString*)getTimeString:(int)time
+{
+    int toal_s = time / 1000;
+    int hh = toal_s / 3600;
+    int mm = (toal_s % 3600) / 60;
+    int ss = toal_s % 60;
+
+    return [NSString stringWithFormat:@"%02d:%02d:%02d",hh, mm, ss];
+}
 @end
