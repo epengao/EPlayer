@@ -18,6 +18,7 @@
                 <outlet property="audioDecreaseVolume" destination="HUb-Bv-ibO" id="mqZ-jx-uBn"/>
                 <outlet property="audioIncreaseVolume" destination="1UK-8n-QPP" id="K9D-mX-yXx"/>
                 <outlet property="audioMute" destination="tB6-0R-CCr" id="RoT-z8-Ke7"/>
+                <outlet property="backgroundImageView" destination="Zks-GX-ICs" id="mhf-Gh-Bzy"/>
                 <outlet property="closeMediaMenu" destination="KD1-18-h2Q" id="02j-Nw-lfN"/>
                 <outlet property="videoResizeDouble" destination="HWj-NN-VI4" id="6Jq-rz-CoM"/>
                 <outlet property="videoResizeEntryFullScreen" destination="fsr-ZN-5uH" id="O10-Gv-h3u"/>
@@ -201,6 +202,20 @@
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="655" height="418"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zks-GX-ICs">
+                        <rect key="frame" x="303" y="223" width="48" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="gvH-u6-10p"/>
+                            <constraint firstAttribute="width" constant="48" id="p4D-TJ-IAM"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ffn-rB-iqA"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Zks-GX-ICs" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" constant="-38" id="Qyt-GR-fbv"/>
+                    <constraint firstItem="Zks-GX-ICs" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="skU-VV-sLi"/>
+                </constraints>
             </view>
             <point key="canvasLocation" x="-501" y="157"/>
         </window>

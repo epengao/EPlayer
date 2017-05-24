@@ -40,6 +40,8 @@
 @property (weak) IBOutlet MediaCtrlView *MediaCtrPanel;
 /* Help window controller */
 @property HelpWindowController* helpWindowController;
+/* Video Window background Icon */
+@property (weak) IBOutlet NSImageView *backgroundImageView;
 @end
 
 /* NSView extension [静态毛玻璃效果] */
@@ -139,9 +141,15 @@
     [self setMenuStatus:_closeMediaMenu status:NO action:nil];
 }
 
+-(void)initVideoWindowBackgroundImage
+{
+    [self.backgroundImageView setImage:[NSImage imageNamed:@"AppIcon"]];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self initMeidaWindow];
     [self initMediaCtrlPanel];
+    [self initVideoWindowBackgroundImage];
     
     self.playerSDK = [EPlayerAPI sharedEPlayerAPI];
     self.playerSDK.msgHandler = self;
@@ -178,6 +186,7 @@
     [self.window setViewsNeedDisplay:YES];
     self.window.ctrViewNeedDisplay = YES;
     [self updateMediaCtrlPanelVisible];
+    [self.backgroundImageView setHidden:NO];
     if(self.window.isFullScreen)
     {
         dispatch_sync(dispatch_get_main_queue(),^
@@ -344,6 +353,7 @@
             {
                 [self setVideoMenuItems:YES];
             }
+            [self.backgroundImageView setHidden:YES];
             [self setMenuStatus:_closeMediaMenu status:YES action:@selector(menuCloseMedia:)];
             float duration = _mediaInfo.duration;
             [_MediaCtrPanel updatePlayPauseUI:YES];
