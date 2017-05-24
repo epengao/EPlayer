@@ -173,7 +173,32 @@
     NSString *durationTime = [self getTimeString:max];
     if(run)
     {
-        _progressBarTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgressBarValue) userInfo:nil repeats:YES];
+        _progressBarTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(updateProgressBarValue) userInfo:nil repeats:YES];
+// 通过另外起一个线程来轮询更新进度条，在这个线程里在切到主线程更新UI。
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            while (_playerSDK != nil)
+//            {
+//                [NSThread sleepForTimeInterval:0.1];
+//                float value = 0.0;
+//                BOOL willExit = NO;
+//                if([_playerSDK hasMediaActived])
+//                {
+//                    value = [_playerSDK getPlayingPos];
+//                }
+//                else
+//                {
+//                    willExit = YES;
+//                }
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    _progressBar.doubleValue = value;
+//                    [_progressBar setNeedsDisplay:YES];
+//                });
+//                if(willExit)
+//                {
+//                    break;
+//                }
+//            }
+//        });
         _playTimeDurationTextLable.stringValue = [NSString stringWithFormat:@"%@ / %@", startTime, durationTime];
         [_playTimeDurationTextLable setHidden:NO];
     }
@@ -181,8 +206,13 @@
     {
         if(_progressBarTimer != nil)
         {
-            [_progressBarTimer invalidate];
-            _progressBarTimer = nil;
+            _progressBar.doubleValue = 0.0;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [NSThread sleepForTimeInterval:0.2];
+                [_progressBarTimer invalidate];
+                _progressBarTimer = nil;
+                [_progressBar setNeedsDisplay:YES];
+            });
         }
         _playTimeDurationTextLable.stringValue = @"00:00:00 / 00:00:00";
         [_playTimeDurationTextLable setHidden:YES];
