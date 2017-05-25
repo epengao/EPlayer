@@ -30,12 +30,15 @@
 
 Mac_AudioDevice::Mac_AudioDevice(AudioRender* pAudioRender)
 :AudioDeviceI(pAudioRender)
+,m_Running(false)
 {
     ECMemSet(&m_sAudioDescription, 0, sizeof(m_sAudioDescription));
 }
 
 int Mac_AudioDevice::Init(MediaContext* pMediaCtx)
 {
+    m_Running = false;
+
     AudioSampleFormat nSampleFmt = m_pAudioRender->SampleFmtSwitch(pMediaCtx->nSampleFormat);
     m_sAudioDescription.mFramesPerPacket = 1;
     m_sAudioDescription.mSampleRate = pMediaCtx->nSampleRate;
@@ -63,6 +66,7 @@ int Mac_AudioDevice::Init(MediaContext* pMediaCtx)
 
 void Mac_AudioDevice::Uninit()
 {
+    m_Running = false;
     ECMemSet(&m_sAudioDescription, 0, sizeof(m_sAudioDescription));
     for(int i=0;i<QUEUE_BUFFER_COUNT;i++)
     {
@@ -72,11 +76,13 @@ void Mac_AudioDevice::Uninit()
 
 void Mac_AudioDevice::Run()
 {
+    m_Running = true;
     AudioQueueStart(m_rAudioQueue, NULL);
 }
 
 void Mac_AudioDevice::Pause()
 {
+    m_Running = false;
     AudioQueuePause(m_rAudioQueue);
 }
 
@@ -134,16 +140,19 @@ UInt32 Mac_AudioDevice::SampleFmtSwitch(AudioSampleFormat nFmtIn)
 
 void Mac_AudioDevice::PlaySoundCallback(void* pUserData, AudioQueueRef inQueue, AudioQueueBufferRef outQueueBuf)
 {
+    Mac_AudioDevice *pSelf = (Mac_AudioDevice*)pUserData;
+
     char* pPCM = NULL;
     unsigned int nOutSize = 0;
     unsigned int nOutSamples = 0;
-    Mac_AudioDevice *pSelf = (Mac_AudioDevice*)pUserData;
-
-    pSelf->m_pAudioRender->GetPCMBuffer(&pPCM, &nOutSize, &nOutSamples);
     Byte *pAudioQueueRndBuf = (Byte*)outQueueBuf->mAudioData;
-    if (pPCM && (nOutSize > 0))
+    if(pSelf->m_Running)
     {
-        ECMemCopy(pAudioQueueRndBuf, pPCM, nOutSize);
+        pSelf->m_pAudioRender->GetPCMBuffer(&pPCM, &nOutSize, &nOutSamples);
+        if (pPCM && (nOutSize > 0))
+        {
+            ECMemCopy(pAudioQueueRndBuf, pPCM, nOutSize);
+        }
     }
     else
     {

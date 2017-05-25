@@ -52,7 +52,7 @@ int main(int argc, const char * argv[]) {
     //int xxx = player.OpenMedia("http://live.whtv.com.cn/live/2a532d70bcbe47e6aaccc74dea2655cc?fmt=h264_450k_flv", drawable, 600, 400);
 
     playerAPI.Init();
-    int xxx = playerAPI.OpenMedia("/Users/AnthonLiu/Work/data/testAV/wzz.mkv", drawable, W_WIDTH, W_HEIGHT);
+    int xxx = playerAPI.OpenMedia("/Users/epengao/Downloads/111.dat", drawable, W_WIDTH, W_HEIGHT);
     if(xxx)
     {
         printf("Open Faild: 0x%08X\n", xxx);
@@ -74,7 +74,7 @@ int main(int argc, const char * argv[]) {
             i++;
             if(i == 8)
             {
-                playerAPI.Seek(40 * 1000);
+                playerAPI.Seek(136 * 1000);
             }
             else if(i == 15)
             {

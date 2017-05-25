@@ -37,7 +37,7 @@
 
 #define MAX_SEEK_TRY        500
 #define MAX_NOTIFY_WAIT    1000
-#define A_RND_SEEK_MAX_TRY   32
+#define A_RND_SEEK_MAX_TRY  300
 
 #ifdef EC_OS_Win32
 #include "Win_AudioDevice.h"
@@ -231,7 +231,7 @@ void AudioRender::DoAccurteSeek(EC_U32 nPos)
         audioFram.nTimestamp = 0;
         audioFram.pPCMData = NULL;
         nRet = m_pDecoderPort->GetAudioFrame(&audioFram, m_bRawPCM);
-    } while ((nMaxTry > 0) && (audioFram.nTimestamp < nPos));
+    } while ((nMaxTry > 0) && (audioFram.nTimestamp < nPos - 500));
 
     if(nRet == Audio_Dec_Err_None)
     {

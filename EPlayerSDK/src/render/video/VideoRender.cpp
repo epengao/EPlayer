@@ -35,7 +35,7 @@
 #include "VideoDecPort.h"
 
 #define V_RND_RETRY_WAIT     10
-#define V_RND_SEEK_MAX_TRY   32
+#define V_RND_SEEK_MAX_TRY  300
 #define V_RND_FORWARD_TIME  100
 #define DROP_FRAM_WAIT_TIME 200
 
@@ -187,8 +187,7 @@ void VideoRender::DoRunning()
                 }
                 else
                 {
-                    ecLogW("Drop Frame,timstamp:%d, currPlayTime:%d, timeAfter:%d\n",
-                           (int)m_VFrame.nTimestamp, (int)nClockTime, nForwardTime);
+                    //ecLogW("Drop Frame,timstamp:%d, currPlayTime:%d, timeAfter:%d\n", (int)m_VFrame.nTimestamp, (int)nClockTime, nForwardTime);
                     return;
                 }
             }
