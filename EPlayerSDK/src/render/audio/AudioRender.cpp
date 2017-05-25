@@ -37,7 +37,7 @@
 
 #define MAX_SEEK_TRY        500
 #define MAX_NOTIFY_WAIT    1000
-#define A_RND_SEEK_MAX_TRY  300
+#define A_RND_SEEK_MAX_TRY   32
 
 #ifdef EC_OS_Win32
 #include "Win_AudioDevice.h"
@@ -98,17 +98,13 @@ void AudioRender::Flush()
     m_pAudioDevice->Flush();
 }
 
-void AudioRender::Seek(EC_U32 nPos)
+void AudioRender::Seek(EC_U32 nPos, bool fastSeek)
 {
-	Flush();
-	AudioFrame audioFram;
-	audioFram.nTimestamp = 1;
-	EC_U32 nMaxTry = A_RND_SEEK_MAX_TRY;
-	do
-	{
-		nMaxTry--;
-		m_pDecoderPort->GetAudioFrame(&audioFram, m_bRawPCM);
-	} while ((nMaxTry > 0) && (audioFram.nTimestamp < nPos));
+    Flush();
+    if(fastSeek)
+        DoFastSeek(nPos);
+    else
+        DoAccurteSeek(nPos);
 }
 
 EC_U32 AudioRender::OpenDevice(MediaContext* pMediaContext,
@@ -214,4 +210,31 @@ AudioSampleFormat AudioRender::SampleFmtSwitch(int nFmtIn)
         case AV_SAMPLE_FMT_NB:   return AudioSampleFormat_NB;
     }
     return AudioSampleFormat_Error;
+}
+
+/* Private Methods */
+void AudioRender::DoFastSeek(EC_U32 nPos)
+{
+    m_pMedaiClock->SetMediaTime(nPos);
+}
+
+void AudioRender::DoAccurteSeek(EC_U32 nPos)
+{
+    EC_U32 nRet = 0;
+    AudioFrame audioFram;
+    EC_U32 nMaxTry = A_RND_SEEK_MAX_TRY;
+    do
+    {
+        nMaxTry--;
+        audioFram.nSamples = 0;
+        audioFram.nDataSize = 0;
+        audioFram.nTimestamp = 0;
+        audioFram.pPCMData = NULL;
+        nRet = m_pDecoderPort->GetAudioFrame(&audioFram, m_bRawPCM);
+    } while ((nMaxTry > 0) && (audioFram.nTimestamp < nPos));
+
+    if(nRet == Audio_Dec_Err_None)
+    {
+        m_pMedaiClock->SetMediaTime(nPos);
+    }
 }

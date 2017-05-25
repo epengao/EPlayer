@@ -52,7 +52,7 @@ int main(int argc, const char * argv[]) {
     //int xxx = player.OpenMedia("http://live.whtv.com.cn/live/2a532d70bcbe47e6aaccc74dea2655cc?fmt=h264_450k_flv", drawable, 600, 400);
 
     playerAPI.Init();
-    int xxx = playerAPI.OpenMedia("/Users/epengao/Downloads/222.wmv", drawable, W_WIDTH, W_HEIGHT);
+    int xxx = playerAPI.OpenMedia("/Users/AnthonLiu/Work/data/testAV/wzz.mkv", drawable, W_WIDTH, W_HEIGHT);
     if(xxx)
     {
         printf("Open Faild: 0x%08X\n", xxx);
@@ -67,31 +67,31 @@ int main(int argc, const char * argv[]) {
             int playTime = playerAPI.GetPlayingPos();
             int buffTime = playerAPI.GetBufferingPos();
             _switch_media_time(playTime);
-            cout<<" ";
-            _switch_media_time(buffTime);
+            //cout<<" ";
+            //_switch_media_time(buffTime);
             cout<<endl;
             sleep(1);
             i++;
             if(i == 8)
             {
-                //player.Pause();
+                playerAPI.Seek(40 * 1000);
             }
             else if(i == 15)
             {
-                //player.Seek(200 * 1000);
+                
             }
             else if(i == 20)
             {
-                //player.Play();
+                //playerAPI.Play();
             }
             /* resize */
             if(10 < i && i < 20)
             {
-                //player.ResizeVidoeScreen(300, 300);
+                //playerAPI.ResizeVidoeScreen(300, 300);
             }
             else if(i == 20)
             {
-                //player.ResizeVidoeScreen(200+200%8, 200+200%8);
+                //playerAPI.ResizeVidoeScreen(200+200%8, 200+200%8);
             }
         }
 

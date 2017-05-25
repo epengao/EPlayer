@@ -45,8 +45,7 @@ public:
     void Run();
     void Pause();
     void Flush();
-    void Seek(EC_U32 nPos);
-    EC_U32 GetCurrPlayingTime();
+    void Seek(EC_U32 nPos, bool fastSeek = false);
     EC_U32 OpenDevice(void* pVideoWindow,
                       int nWindowWidth,
                       int nWindowHeight,
@@ -54,9 +53,14 @@ public:
                       VideoDecPort* pVideoDecPort);
     void CloseDevice();
     void UpdateVideoWindow(void* pWindow, int nWidth, int nHeight);
+
 private:
     /* ECThreadWorkerI */
     virtual void DoRunning();
+    /* Do Seek action */
+    EC_U32 DoFastSeek(EC_U32 nPos);
+    EC_U32 DoAccurteSeek(EC_U32 nPos);
+
 private:
     bool            m_bEOS;
     VideoFrame      m_VFrame;

@@ -34,8 +34,8 @@
 #include "VideoRender.h"
 #include "VideoDecPort.h"
 
-#define V_RND_RETRY_WAIT     50
-#define V_RND_SEEK_MAX_TRY  300
+#define V_RND_RETRY_WAIT     10
+#define V_RND_SEEK_MAX_TRY   32
 #define V_RND_FORWARD_TIME  100
 #define DROP_FRAM_WAIT_TIME 200
 
@@ -101,20 +101,18 @@ void VideoRender::Flush()
     m_VFrame.nTimestamp = 0;
 }
 
-void VideoRender::Seek(EC_U32 nPos)
+void VideoRender::Seek(EC_U32 nPos, bool fastSeek)
 {
     Flush();
     EC_U32 nRet = 0;
-    EC_U32 nMaxTry = V_RND_SEEK_MAX_TRY;
-    do
-    {
-        nMaxTry--;
-        nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
-	} while ((nMaxTry > 0) && (m_VFrame.nTimestamp < nPos));
-
+    if(fastSeek)
+        nRet = DoFastSeek(nPos);
+    else
+        nRet = DoAccurteSeek(nPos);
     if (nRet == Video_Render_Err_None)
     {
         //m_pThreadDriver->RunSteps(1);
+        ECAutoLock Lock(&m_mtxVideoDev);
         m_pVideoDevice->DrawFrame(&m_VFrame);
     }
 }
@@ -211,7 +209,31 @@ void VideoRender::DoRunning()
     }
     else
     {
-        ecLogW("No DrawFrame\n");
         ECSleep(V_RND_RETRY_WAIT);
     }
+}
+
+/* Private Method */
+EC_U32 VideoRender::DoFastSeek(EC_U32 nPos)
+{
+    EC_U32 nRet = 0;
+    EC_U32 nMaxTry = V_RND_SEEK_MAX_TRY;
+    do
+    {
+        nMaxTry--;
+        nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
+    } while ((nMaxTry > 0) && (nRet != 0));
+    return nRet;
+}
+
+EC_U32 VideoRender::DoAccurteSeek(EC_U32 nPos)
+{
+    EC_U32 nRet = 0;
+    EC_U32 nMaxTry = V_RND_SEEK_MAX_TRY;
+    do
+    {
+        nMaxTry--;
+        nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
+    } while ((nMaxTry > 0) && (m_VFrame.nTimestamp < nPos));
+    return nRet;
 }

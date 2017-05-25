@@ -65,12 +65,16 @@ public:
     void Run();
     void Pause();
     void Flush();
-    void Seek(EC_U32 nPos);
+    void Seek(EC_U32 nPos, bool fastSeek = false);
     EC_U32 OpenDevice(MediaContext* pMediaContext,
                       AudioDecPort* pAudioDecPort);
     void CloseDevice();
     void GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSamples, bool rawData = false);
     AudioSampleFormat SampleFmtSwitch(int nFmtIn);
+
+private:
+    void DoFastSeek(EC_U32 nPos);
+    void DoAccurteSeek(EC_U32 nPos);
 
 private:
     bool          m_bEOS;

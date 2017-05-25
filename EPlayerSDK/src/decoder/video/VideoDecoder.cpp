@@ -96,23 +96,27 @@ EC_U32 VideoDecoder::GetVideoFrame(VideoFrame* pFrameOut)
     if (pFrameOut)
     {
         ECAutoLock lock(&m_mtxDec);
-        if (m_pCurrPacket == NULL)  
+        nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut);
+        if(nRet != Video_Dec_Err_None)
         {
-            nRet = m_pSourcePort->GetVideoDataPacket(&m_pCurrPacket);
-        }
-        if (nRet == Source_Err_None && m_pCurrPacket)
-        {
-            nRet = m_pFFmpegDecoder->SetInputPacket(m_pCurrPacket);
-            if (nRet != Video_Dec_Err_KeepPkt)
+            if (m_pCurrPacket == NULL)
             {
-                m_pSourcePort->ReturnVideoEmptyPacket(m_pCurrPacket);
-                m_pCurrPacket = NULL;
+                nRet = m_pSourcePort->GetVideoDataPacket(&m_pCurrPacket);
             }
-            nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut);
-        }
-        else
-        {
-            ECSleep(VIDEO_DEC_WAIT_TIME);
+            if (nRet == Source_Err_None && m_pCurrPacket)
+            {
+                nRet = m_pFFmpegDecoder->SetInputPacket(m_pCurrPacket);
+                if (nRet != Video_Dec_Err_KeepPkt)
+                {
+                    m_pSourcePort->ReturnVideoEmptyPacket(m_pCurrPacket);
+                    m_pCurrPacket = NULL;
+                }
+                nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut);
+            }
+            else
+            {
+                ECSleep(VIDEO_DEC_WAIT_TIME);
+            }
         }
     }
     return nRet;

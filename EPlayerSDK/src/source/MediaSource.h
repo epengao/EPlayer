@@ -69,9 +69,7 @@ public:
 
 private:
     void DoPlay();
-    EC_U32 DoFastSeek();
-	EC_U32 DoAccurateSeek();
-
+    EC_U32 DoSeek();
     /* ECThreadWorkerI */
     virtual void DoRunning();
 

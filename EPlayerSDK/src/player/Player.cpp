@@ -138,21 +138,18 @@ int Player::Seek(unsigned int nSeekPos)
     int ret = CheckStatusSwitch(PlayerStatus_Seeking);
     if(Player_Err_None == ret)
     {
+        ECAutoLock Lock(&m_mtxStatus);
         PlayerStatus statusBak = m_nPlayerStatus;
         m_nPlayerStatus = PlayerStatus_Seeking;
         if (nSeekPos > m_pMediaCtrl->GetDuration())
             ret = Player_Err_OutOfDuraion;
         else
         {
-            ret = Player_Err_None;
+            m_pMediaCtrl->Pause();
+            ret = m_pMediaCtrl->Seek(nSeekPos);
+            if (statusBak == PlayerStatus_Playing)
             {
-                ECAutoLock Lock(&m_mtxStatus);
-                m_pMediaCtrl->Pause();
-                ret = m_pMediaCtrl->Seek(nSeekPos);
-                if (statusBak == PlayerStatus_Playing)
-                {
-                    m_pMediaCtrl->Play();
-                }
+                m_pMediaCtrl->Play();
             }
             if(ret != Player_Err_None)
             {

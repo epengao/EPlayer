@@ -112,7 +112,7 @@ EC_U32 AudioDecoder::GetAudioFrame(AudioFrame* pFrameOut, bool rawData)
                     m_pCurrPacket = NULL;
                 }
             }
-            m_pFFmpegDecoder->GetOutputFrame(pFrameOut, rawData);
+            nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut, rawData);
         }
     }
     return nRet;

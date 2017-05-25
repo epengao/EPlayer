@@ -113,7 +113,7 @@ EC_U32 MediaSource::Seek(EC_U32 nPos)
 	m_nSeekPos = nPos;
 	{
 		ECAutoLock lock(&m_mtxFFmpeg);
-		nRet = DoAccurateSeek();
+        nRet = DoSeek();
 	}
 	m_nSeekPos = -1;
 	return nRet;
@@ -185,51 +185,10 @@ void MediaSource::DoPlay()
     }
 }
 
-EC_U32 MediaSource::DoFastSeek()
+EC_U32 MediaSource::DoSeek()
 {
 	m_pPacketManager->ClearAll();
 	return m_pFFmpegReader->SetPlaybackPos(m_nSeekPos);
-}
-
-EC_U32 MediaSource::DoAccurateSeek()
-{
-	EC_U32 nRet = DoFastSeek();
-	if (nRet != Source_Err_None)
-	{
-		return nRet;
-	}
-
-	EC_U32 nMaxTry = SRC_MAX_SEEK_TRY;
-	do
-	{
-		nMaxTry--;
-		if (m_pPacketManager->IsPacketQueueFull())
-		{
-			break;
-		}
-		SourcePacket* pPkt = NULL;
-		m_pPacketManager->PopEmptyDataPacket(&pPkt);
-		if (pPkt != NULL)
-		{
-			EC_U32 nRet = m_pFFmpegReader->ReadPacket(pPkt);
-			if (nRet == Source_Err_ReadAudioPkt)
-			{
-				m_pPacketManager->PushAudioDataPacket(pPkt);
-			}
-			else if (nRet == Source_Err_ReadVideoPkt)
-			{
-				m_pPacketManager->PushVideoDataPacket(pPkt);
-			}
-			else if (nRet == Source_Err_ReadEOS)
-			{
-				m_bEOS = true;
-				m_bRunning = false;
-				break;
-			}
-		}
-	} while (nMaxTry >= 0);
-
-	return Source_Err_None;
 }
 
 void MediaSource::DoRunning()

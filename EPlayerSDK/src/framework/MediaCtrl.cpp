@@ -197,6 +197,7 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
     int ret = m_pSrc->Seek(nSeekPos);
     if(Source_Err_None == ret)
     {
+        m_pSrc->Run();
         if(m_HasA)
         {
             if(m_pADec) m_pADec->Flush();
@@ -207,6 +208,7 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
             if(m_pVDec) m_pVDec->Flush();
             if(m_pVRnd) m_pVRnd->Seek(nSeekPos);
         }
+        m_pSrc->Pause();
     }
     return ret;
 }
