@@ -12,8 +12,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define W_WIDTH  202
-#define W_HEIGHT 301
+#define W_WIDTH  907
+#define W_HEIGHT 617
 
 NSWindow* creat_window(int w, int h)
 {
@@ -52,7 +52,7 @@ int main(int argc, const char * argv[]) {
     //int xxx = player.OpenMedia("http://live.whtv.com.cn/live/2a532d70bcbe47e6aaccc74dea2655cc?fmt=h264_450k_flv", drawable, 600, 400);
 
     playerAPI.Init();
-    int xxx = playerAPI.OpenMedia("/Users/epengao/Downloads/111.dat", drawable, W_WIDTH, W_HEIGHT);
+    int xxx = playerAPI.OpenMedia("/Users/epengao/Downloads/222.wmv", drawable, W_WIDTH, W_HEIGHT);
     if(xxx)
     {
         printf("Open Faild: 0x%08X\n", xxx);

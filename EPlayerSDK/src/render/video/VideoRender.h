@@ -57,9 +57,6 @@ public:
 private:
     /* ECThreadWorkerI */
     virtual void DoRunning();
-    /* Do Seek action */
-    EC_U32 DoFastSeek(EC_U32 nPos);
-    EC_U32 DoAccurteSeek(EC_U32 nPos);
 
 private:
     bool            m_bEOS;

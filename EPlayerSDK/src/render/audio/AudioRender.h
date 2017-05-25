@@ -73,10 +73,6 @@ public:
     AudioSampleFormat SampleFmtSwitch(int nFmtIn);
 
 private:
-    void DoFastSeek(EC_U32 nPos);
-    void DoAccurteSeek(EC_U32 nPos);
-
-private:
     bool          m_bEOS;
 	bool          m_bRawPCM;
     bool          m_bBufing;
