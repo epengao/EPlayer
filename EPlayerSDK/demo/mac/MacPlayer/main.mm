@@ -12,8 +12,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define W_WIDTH  900
-#define W_HEIGHT 600
+#define W_WIDTH  202
+#define W_HEIGHT 301
 
 NSWindow* creat_window(int w, int h)
 {

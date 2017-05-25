@@ -154,26 +154,26 @@ void SDL2_VideoDevice::SetEqualScaling(SDL_Rect *pRect)
 {
     if (pRect == NULL) return;
     
-    EC_U32 nTmpWidth = m_nVideoWndWidth;
-    EC_U32 nTmpHeight = m_nVideoHeight * nTmpWidth / m_nVideoWidth;
-    pRect->x = 0;
-    pRect->y = (m_nVideoWndHeight - nTmpHeight) / 2;
+    float ratio = 1.0f * (float)m_nVideoWidth / (float)m_nVideoHeight;
+    EC_U32 nVideoScaleToHeight = m_nVideoWndHeight;
+    EC_U32 nVideoScaleToWidth = (EC_U32)(ratio * nVideoScaleToHeight);
 
-    if (nTmpHeight > m_nVideoWndHeight)
+    if (nVideoScaleToWidth > m_nVideoWndWidth)
     {
-        nTmpHeight = m_nVideoWndHeight;
-        nTmpWidth = m_nVideoWidth * nTmpHeight / m_nVideoHeight;
-        pRect->y = 0;
-        pRect->x = (m_nVideoWndWidth - nTmpWidth) / 2 ;
+        nVideoScaleToWidth = m_nVideoWndWidth;
+        nVideoScaleToHeight = (EC_U32)((float)nVideoScaleToWidth / ratio);
     }
+    
+    nVideoScaleToWidth = (nVideoScaleToWidth >> 4) << 4;
+    nVideoScaleToHeight = (nVideoScaleToHeight >> 4) << 4;
+    pRect->w = nVideoScaleToWidth;
+    pRect->h = nVideoScaleToHeight;
+    pRect->x = (m_nVideoWndWidth - nVideoScaleToWidth) * 0.5;
+    pRect->y = (m_nVideoWndHeight - nVideoScaleToHeight) * 0.5;
     
     EC_U32 xa = pRect->x % VIDEO_POSI_ALIGN;
     EC_U32 ya = pRect->y % VIDEO_POSI_ALIGN;
-    EC_U32 wa = nTmpWidth % VIDEO_SIZE_ALIGN;
-    EC_U32 ha = nTmpHeight % VIDEO_SIZE_ALIGN;
-
     pRect->x = pRect->x + xa;
     pRect->y = pRect->y + ya;
-    pRect->w = nTmpWidth - wa;
-    pRect->h = nTmpHeight - ha;
+
 }
