@@ -42,6 +42,8 @@
 @property HelpWindowController* helpWindowController;
 /* Video Window background Icon */
 @property (weak) IBOutlet NSImageView *backgroundImageView;
+/* Mouse moved event trace */
+@property NSTrackingArea* traceArea;
 @end
 
 /* NSView extension [静态毛玻璃效果] */
@@ -427,6 +429,25 @@
     [self entryFullScreen];
 }
 
+-(IBAction)menuFitToScreen:(id)sender
+{
+    [self.window setFrame:[[NSScreen mainScreen] visibleFrame] display:YES animate:YES];
+}
+
+-(IBAction)menuAlwaysInFront:(id)sender
+{
+    if(NSOnState == _windowInFront.state)
+    {
+        [self.window setLevel:NSNormalWindowLevel];
+        [_windowInFront setState:NSOffState];
+    }
+    else
+    {
+        [self.window setLevel:NSFloatingWindowLevel];
+        [_windowInFront setState:NSOnState];
+    }
+}
+
 -(IBAction)menuOpenHelpWindow:(id)sender
 {
     if(self.helpWindowController == nil)
@@ -456,10 +477,16 @@
     self.window.isFullScreen = YES;
     self.window.ctrViewNeedDisplay = NO;
     [self performSelector:@selector(updateMediaCtrlPanelVisible) withObject:nil afterDelay:0.5];
+
+    CGRect rect = CGRectMake(0.0f, 0.0f, self.window.frame.size.width, self.window.frame.size.height);
+    NSTrackingAreaOptions options = NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect;
+    _traceArea = [[NSTrackingArea alloc] initWithRect:rect options:options owner:self.window userInfo:nil];
+    [self.window.contentView addTrackingArea:_traceArea];
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
+    [self.window.contentView removeTrackingArea:_traceArea];
     self.window.isFullScreen = NO;
     self.window.ctrViewNeedDisplay = YES;
     [self.window stopHideCtrlPannelTimer];
@@ -477,6 +504,7 @@
     {
         [_videoResizeEntryFullScreen setState:NSOnState];
     }
+    [self.window setFrame:[NSScreen mainScreen].visibleFrame display:YES];
     [self.window toggleFullScreen:self];
 }
 
@@ -489,26 +517,6 @@
     else
     {
         [_MediaCtrPanel setHidden:NO];
-    }
-}
-
-#pragma mark -  FitToScreen
--(IBAction)menuFitToScreen:(id)sender
-{
-    [self.window setFrame:[[NSScreen mainScreen] frame] display:YES animate:YES];
-}
-
--(IBAction)menuAlwaysInFront:(id)sender
-{
-    if(NSOnState == _windowInFront.state)
-    {
-        [self.window setLevel:NSNormalWindowLevel];
-        [_windowInFront setState:NSOffState];
-    }
-    else
-    {
-        [self.window setLevel:NSFloatingWindowLevel];
-        [_windowInFront setState:NSOnState];
     }
 }
 
