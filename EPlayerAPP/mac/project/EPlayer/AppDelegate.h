@@ -19,6 +19,6 @@
 @property BOOL ctrViewNeedDisplay;
 @property AppDelegate* appCtrl;
 @property NSTimer* ctrViewWatcher;
-- (void)startCtrlViewWatcher;
-- (void)stopCtrlViewWatcher;
+- (void)hideMediaCtrlPannelAfterTime:(float)time;
+- (void)stopHideCtrlPannelTimer;
 @end

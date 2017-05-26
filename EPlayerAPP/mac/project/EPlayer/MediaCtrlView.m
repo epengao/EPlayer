@@ -284,8 +284,8 @@
     if(_playerSDK != nil && [_playerSDK hasMediaActived])
     {
         [_playerSDK closeMedia];
+        [self.mainCtrl mediaStopedNotify];
     }
-    [self.mainCtrl mediaStopedNotify];
 }
 
 #pragma mark - full screen button control

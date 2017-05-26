@@ -109,7 +109,7 @@
     [self.window setMovableByWindowBackground:YES];
     self.window.contentMinSize = NSMakeSize(260, 220);
     self.window.titleVisibility = NSWindowTitleHidden;
-    self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenNone;
+    //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenNone;
 
     CGFloat screenWidth = [NSScreen mainScreen].frame.size.width;
     CGFloat screenHeight = [NSScreen mainScreen].frame.size.height;
@@ -189,12 +189,13 @@
     [self.backgroundImageView setHidden:NO];
     if(self.window.isFullScreen)
     {
-        dispatch_sync(dispatch_get_main_queue(),^
-        {
-            [self entryFullScreen];
-        });
+        [self performSelector:@selector(entryFullScreen) withObject:nil afterDelay:0.1];
+//        dispatch_sync(dispatch_get_main_queue(),^
+//        {
+//            [self entryFullScreen];
+//        });
     }
-    self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenNone;
+    //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenNone;
 }
 
 //- (NSSize)windowWillResize:(NSWindow *)window toSize:(NSSize)proposedFrameSize
@@ -265,12 +266,10 @@
     }
 }
 
--(void)windowDidChangeScreen:(NSNotification *)notification
-{
-    CGFloat x = [NSScreen mainScreen].backingScaleFactor;
-    NSLog(@" --- factor = %f", x);
-    [self.window setFrame:self.window.frame display:YES animate:YES];
-}
+//-(void)windowDidChangeScreen:(NSNotification *)notification
+//{
+//    [self.window setFrame:self.window.frame display:YES animate:YES];
+//}
 
 -(void)setMenuStatus:(NSMenuItem*)menu status:(BOOL)enable action:(SEL)method
 {
@@ -358,7 +357,7 @@
             float duration = _mediaInfo.duration;
             [_MediaCtrPanel updatePlayPauseUI:YES];
             [_MediaCtrPanel updateProgressBarInfo:0.0 max:duration currValue:0.0 runing:YES];
-            self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+            //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
             [_playerSDK play];
             if(!self.window.isFullScreen)
             {
@@ -452,15 +451,17 @@
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     self.window.isFullScreen = YES;
+    self.window.ctrViewNeedDisplay = NO;
     [self performSelector:@selector(updateMediaCtrlPanelVisible) withObject:nil afterDelay:0.5];
-    [self.window startCtrlViewWatcher];
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
     self.window.isFullScreen = NO;
+    self.window.ctrViewNeedDisplay = YES;
+    [self.window stopHideCtrlPannelTimer];
     [self updateMediaCtrlPanelVisible];
-    [self.window stopCtrlViewWatcher];
+    [self.MediaCtrPanel setHidden:NO];
 }
 
 - (void)entryFullScreen
@@ -565,24 +566,29 @@
 
 - (void)mouseDown:(NSEvent *)event
 {
-    CGFloat x = [NSScreen mainScreen].backingScaleFactor;
-    NSLog(@"mouse factor = %f", x);
+    if(self.isFullScreen)
+    {
+        /* Current show */
+        self.ctrViewNeedDisplay = YES;
+        [self stopHideCtrlPannelTimer];
+        [self.appCtrl.MediaCtrPanel setHidden:NO];
+        /* 3.0 second after will hide */
+        self.ctrViewNeedDisplay = NO;
+        [self hideMediaCtrlPannelAfterTime:3.0];
+    }
 }
 
 - (void)mouseMoved:(NSEvent *)event
 {
     if(self.isFullScreen)
     {
+        /* Current show */
         self.ctrViewNeedDisplay = YES;
-        [self.appCtrl updateMediaCtrlPanelVisible];
-    }
-    else
-    {
-        if(self.ctrViewNeedDisplay == NO)
-        {
-            self.ctrViewNeedDisplay = YES;
-            [self.appCtrl updateMediaCtrlPanelVisible];
-        }
+        [self stopHideCtrlPannelTimer];
+        [self.appCtrl.MediaCtrPanel setHidden:NO];
+        /* 1.5 second after will hide */
+        self.ctrViewNeedDisplay = NO;
+        [self hideMediaCtrlPannelAfterTime:1.5];
     }
 }
 
@@ -607,23 +613,20 @@
 #pragma mark - CtrlView Manager
 - (void)updateCtrlViewVisiable
 {
-    if(self.ctrViewNeedDisplay == NO)
-    {
-        [self.appCtrl updateMediaCtrlPanelVisible];
-    }
+    [self.appCtrl updateMediaCtrlPanelVisible];
     self.ctrViewNeedDisplay = NO;
 }
-- (void)startCtrlViewWatcher
+- (void)hideMediaCtrlPannelAfterTime:(float)time
 {
-    _ctrViewWatcher = [NSTimer scheduledTimerWithTimeInterval:0.8
+    _ctrViewWatcher = [NSTimer scheduledTimerWithTimeInterval:time
                                                        target:self
                                                      selector:@selector(updateCtrlViewVisiable)
                                                      userInfo:nil
-                                                      repeats:YES];
+                                                      repeats:NO];
 }
-- (void)stopCtrlViewWatcher
+- (void)stopHideCtrlPannelTimer
 {
-    if(!_ctrViewWatcher.valid)
+    if(_ctrViewWatcher)
     {
         [_ctrViewWatcher invalidate];
         _ctrViewWatcher = nil;
