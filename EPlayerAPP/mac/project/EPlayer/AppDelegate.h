@@ -12,6 +12,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, EPlayerSdkDelegate>
 - (void)entryFullScreen;
 - (void)mediaStopedNotify;
+- (void)volumeMuteNotify:(BOOL)mute;
 @end
 
 @interface MainWindow : NSWindow

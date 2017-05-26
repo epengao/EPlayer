@@ -236,7 +236,7 @@
     CGFloat factor = [NSScreen mainScreen].backingScaleFactor;
     int width = wndWidth * factor;
     int height = (wndHeight - ctrlViewHeight) * factor;
-    if([_playerSDK hasMediaActived])
+    if([_playerSDK hasMediaActived] && _mediaInfo.hasVideo)
     {
         [_playerSDK updateVideoWindow:videoWnd windowWidth:width windowHeight:height];
     }
@@ -332,43 +332,7 @@
     if ([openDocPanel runModal] == NSModalResponseOK)
     {
         NSString* mediaPath = openDocPanel.URL.absoluteString;
-        if([_playerSDK hasMediaActived])
-        {
-            [_playerSDK closeMedia];
-        }
-        int ctrlViewHeight = 76;
-        if(self.window.isFullScreen)
-        {
-            ctrlViewHeight = 0;
-        }
-        void* videoWnd = (__bridge void*)(self.window);
-        CGFloat factor = [NSScreen mainScreen].backingScaleFactor;
-        unsigned int width = self.window.contentView.frame.size.width * factor;
-        unsigned int height = (self.window.contentView.frame.size.height - ctrlViewHeight) * factor;
-        NSInteger ret = [_playerSDK openMediaPath:mediaPath videoWindow:videoWnd windowWidth:width windowHeight:height];
-        if(ret == EPlayer_Err_None)
-        {
-            _mediaInfo = [_playerSDK getMeidaInfo];
-            if(_mediaInfo.hasAudio)
-            {
-                [self setAudioMenuItems:YES];
-            }
-            if(_mediaInfo.hasVideo)
-            {
-                [self setVideoMenuItems:YES];
-            }
-            [self.backgroundImageView setHidden:YES];
-            [self setMenuStatus:_closeMediaMenu status:YES action:@selector(menuCloseMedia:)];
-            float duration = _mediaInfo.duration;
-            [_MediaCtrPanel updatePlayPauseUI:YES];
-            [_MediaCtrPanel updateProgressBarInfo:0.0 max:duration currValue:0.0 runing:YES];
-            //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
-            [_playerSDK play];
-            if(!self.window.isFullScreen)
-            {
-                [self resizeVideoWindowByRatio:1];
-            }
-        }
+        [self openMedia:mediaPath];
     }
 }
 
@@ -397,6 +361,7 @@
         [NSSound applyMute:YES];
         [_audioMute setState:NSOnState];
     }
+    [_MediaCtrPanel updateVolumeUI:_audioMute.state];
 }
 
 -(IBAction)menuAudioIncreaseVolume:(id)sender
@@ -521,16 +486,65 @@
 }
 
 #pragma mark - medaiCtrl Panel notify
+- (void)volumeMuteNotify:(BOOL)mute
+{
+    [_audioMute setState:mute];
+}
+
 - (void)mediaStopedNotify
 {
     [self closeMediaWithUpdateUI];
     //[self performSelector:@selector(closeMediaWithUpdateUI) withObject:nil afterDelay:0.1];
 }
+
+-(void)openMedia:(NSString*)mediaURL
+{
+    if([_playerSDK hasMediaActived])
+    {
+        [_playerSDK closeMedia];
+    }
+
+    int ctrlViewHeight = 76;
+    if(self.window.isFullScreen)
+    {
+        ctrlViewHeight = 0;
+    }
+    void* videoWnd = (__bridge void*)(self.window);
+    CGFloat factor = [NSScreen mainScreen].backingScaleFactor;
+    unsigned int width = self.window.contentView.frame.size.width * factor;
+    unsigned int height = (self.window.contentView.frame.size.height - ctrlViewHeight) * factor;
+    NSInteger ret = [_playerSDK openMediaPath:mediaURL videoWindow:videoWnd windowWidth:width windowHeight:height];
+    if(ret == EPlayer_Err_None)
+    {
+        _mediaInfo = [_playerSDK getMeidaInfo];
+        if(_mediaInfo.hasAudio)
+        {
+            [self setAudioMenuItems:YES];
+        }
+        if(_mediaInfo.hasVideo)
+        {
+            [self setVideoMenuItems:YES];
+        }
+        [self.backgroundImageView setHidden:YES];
+        [self setMenuStatus:_closeMediaMenu status:YES action:@selector(menuCloseMedia:)];
+        float duration = _mediaInfo.duration;
+        [_MediaCtrPanel updatePlayPauseUI:YES];
+        [_MediaCtrPanel updateProgressBarInfo:0.0 max:duration currValue:0.0 runing:YES];
+        //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+        [_playerSDK play];
+        if(!self.window.isFullScreen && _mediaInfo.hasVideo)
+        {
+            [self resizeVideoWindowByRatio:1];
+        }
+    }
+}
+
 @end
 
 @implementation MainWindow
 #pragma mark - keyboard event
 
+#define R_Key     15
 #define EscKey    53
 #define EnterKey  36
 #define ReturnKey 76
@@ -572,6 +586,18 @@
             [self.appCtrl entryFullScreen];
         }
     }
+    else if ([event modifierFlags] & NSCommandKeyMask)
+    {
+        if(keyCode == R_Key)
+        {
+            NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+            if ([[pasteboard types] containsObject:NSPasteboardTypeString])
+            {
+                NSString *mediaURL = [pasteboard stringForType:NSPasteboardTypeString];
+                [self.appCtrl openMedia:mediaURL];
+            }
+        }
+    }
 }
 
 #pragma mark - mounse event
@@ -609,6 +635,10 @@
 }
 
 - (void)mouseDragged:(NSEvent *)event;
+{
+}
+
+-(void)rightMouseDown:(NSEvent *)event
 {
 }
 

@@ -19,6 +19,7 @@
 - (void)initPlayStopButton;
 - (void)initPlayPauseButton;
 - (void)initFullScreenButton;
+- (void)updateVolumeUI:(BOOL)mute;
 - (void)updatePlayPauseUI:(BOOL)canBePaused;
 - (void)updateViewFrame:(NSRect)rect;
 - (void)updateProgressBarInfo:(float)min max:(float)max currValue:(float)value runing:(BOOL)run;

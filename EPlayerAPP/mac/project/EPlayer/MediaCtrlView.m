@@ -270,12 +270,14 @@
         [NSSound applyMute:NO];
         [self updateVolumeUI:NO];
     }
+    [_mainCtrl volumeMuteNotify:!sender.state];
 }
 - (IBAction)volumeSliderAction:(LADSlider *)sender
 {
     [self updateVolumeUI:NO];
     [_volumeCtrlButton setState:NSOnState];
     [NSSound setSystemVolume:sender.doubleValue];
+    [_mainCtrl volumeMuteNotify:NO];
 }
 
 #pragma mark - stop button control
