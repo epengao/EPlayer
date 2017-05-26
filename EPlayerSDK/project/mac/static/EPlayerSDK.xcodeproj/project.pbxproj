@@ -100,7 +100,7 @@
 		02E4E3381EB888DE009612AF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(PROJECT_DIR)/../../../release/mac";
+			dstPath = "$(PROJECT_DIR)/../../../release/mac/static";
 			dstSubfolderSpec = 0;
 			files = (
 				02BA0E811ECD76B1008D136E /* EPlayerAPI.h in CopyFiles */,

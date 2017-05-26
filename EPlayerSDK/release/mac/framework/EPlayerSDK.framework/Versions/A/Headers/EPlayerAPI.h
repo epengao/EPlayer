@@ -25,7 +25,6 @@
  * ****************************************************************
  */
 
-#import <AppKit/NSWindow.h>
 #import <Foundation/Foundation.h>
 
 /* Return Err Define */
@@ -108,13 +107,14 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
 /*
  * API: openMeida
  * @pMediaPath: Local file/Network URL
- * @videoWindow: Video output NSWindow
+ * @videoWindow: Video output Window
+                 Mac with NSWindow, iOS with UIImage
  * @windowWidth: Video output window width
  * @windowHeight: Video output window height
  * API return: If open a media OK return 0, else return Err value.
  */
 - (NSInteger) openMediaPath:(NSString*)path
-                videoWindow:(NSWindow*)window
+                videoWindow:(void*)window
                 windowWidth:(NSUInteger)width
                windowHeight:(NSUInteger)height;
 /*
@@ -174,12 +174,13 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
                     height:(NSInteger)height;
 /*
  * API: updateVideoWindow
- * @window: new video output NSWindow:
+ * @videoWindow: Video output Window
+                 Mac with NSWindow, iOS with UIImage
  * @width: new video output window width
  * @hight: new video output window height
  * This API for video output window changed, from current window to another.
  */
-- (void) updateVideoWindow:(NSWindow*)window
+- (void) updateVideoWindow:(void*)window
                windowWidth:(NSUInteger)width
               windowHeight:(NSUInteger)height;
 /*
