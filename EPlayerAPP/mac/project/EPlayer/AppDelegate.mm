@@ -531,6 +531,7 @@
 @implementation MainWindow
 #pragma mark - keyboard event
 
+#define EscKey    53
 #define EnterKey  36
 #define ReturnKey 76
 #define SpaceKey  49
@@ -562,6 +563,13 @@
                 [self.appCtrl.playerSDK play];
                 [self.appCtrl.MediaCtrPanel updatePlayPauseUI:YES];
             }
+        }
+    }
+    else if(keyCode == EscKey)
+    {
+        if(self.isFullScreen)
+        {
+            [self.appCtrl entryFullScreen];
         }
     }
 }
