@@ -118,7 +118,7 @@ void VideoRender::Seek(EC_U32 nPos, bool fastSeek)
         }
         else
         {
-            checkAgain = (m_VFrame.nTimestamp < nPos);
+            checkAgain = (m_VFrame.nTimestamp < (nPos - 500));
         }
     } while (nMaxTry > 0 && checkAgain);
 
@@ -182,10 +182,10 @@ void VideoRender::DoRunning()
                     if (nForwardTime > V_RND_FORWARD_TIME)
                     {
                         EC_U32 nWaitTime = nForwardTime - V_RND_FORWARD_TIME;
-                        if (nWaitTime < 2000)
+                        if (nWaitTime < 1000)
                             ECSleep(nWaitTime);
                         else
-							ECSleep(2000);
+							ECSleep(1000);
                     }
                 }
                 else if(0 - nForwardTime > DROP_FRAM_WAIT_TIME)

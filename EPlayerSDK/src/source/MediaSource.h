@@ -45,7 +45,7 @@
 #define Source_Err_NoMediaTrack    0x0000F007
 #define Source_Err_ReadPacketFaild 0x0000F008
 
-#define SRC_WAIT_TIME     20
+#define SRC_WAIT_TIME      5
 #define SRC_MAX_SEEK_TRY 256
 
 class SourceAudioPort;

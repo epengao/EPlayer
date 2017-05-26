@@ -193,11 +193,17 @@ void MediaCtrl::Pause()
 
 int MediaCtrl::Seek(EC_U32 nSeekPos)
 {
-    bool fastSeek = true;
+    /* Pause all */
+    if(m_pClk) m_pClk->Pause();
+    if(m_HasA && m_pARnd) m_pARnd->Pause();
+    if(m_HasV && m_pVRnd) m_pVRnd->Pause();
+    if(m_pSrc)  m_pSrc->Pause();
+    /* Do seek action */
     m_pClk->SetMediaTime(nSeekPos);
     int ret = m_pSrc->Seek(nSeekPos);
     if(Source_Err_None == ret)
     {
+        bool fastSeek = true;
         if(m_HasA)
         {
             if(m_pADec) m_pADec->Flush();
@@ -207,6 +213,13 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
         {
             if(m_pVDec) m_pVDec->Flush();
             if(m_pVRnd) m_pVRnd->Seek(nSeekPos, fastSeek);
+        }
+        if(m_nStatus == MediaCtrlStatus_Play)
+        {
+            if(m_HasA && m_pARnd) m_pARnd->Run();
+            if(m_HasV && m_pVRnd) m_pVRnd->Run();
+            m_pClk->Run();
+            m_pSrc->Run();
         }
     }
     return ret;

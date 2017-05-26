@@ -145,12 +145,7 @@ int Player::Seek(unsigned int nSeekPos)
             ret = Player_Err_OutOfDuraion;
         else
         {
-            m_pMediaCtrl->Pause();
             ret = m_pMediaCtrl->Seek(nSeekPos);
-            if (statusBak == PlayerStatus_Playing)
-            {
-                m_pMediaCtrl->Play();
-            }
             if(ret != Player_Err_None)
             {
                 ret = Player_Err_SeekFailed;
