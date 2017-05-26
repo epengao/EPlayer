@@ -311,7 +311,10 @@
 {
     if(msg == EPlayer_Msg_PlayStop)
     {
-        [self closeMediaWithUpdateUI];
+        dispatch_sync(dispatch_get_main_queue(),^
+        {
+            [self closeMediaWithUpdateUI];
+        });
     }
 }
 
@@ -512,10 +515,7 @@
 #pragma mark - medaiCtrl Panel notify
 - (void)mediaStopedNotify
 {
-    dispatch_async(dispatch_get_main_queue(),^
-    {
-        [self closeMediaWithUpdateUI];
-    });
+    [self closeMediaWithUpdateUI];
     //[self performSelector:@selector(closeMediaWithUpdateUI) withObject:nil afterDelay:0.1];
 }
 @end
