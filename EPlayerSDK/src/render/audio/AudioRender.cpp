@@ -37,7 +37,7 @@
 
 #define MAX_SEEK_TRY        500
 #define MAX_NOTIFY_WAIT    1000
-#define A_RND_SEEK_MAX_TRY  300
+#define A_RND_SEEK_MAX_TRY  256
 
 #ifdef EC_OS_Win32
 #include "Win_AudioDevice.h"

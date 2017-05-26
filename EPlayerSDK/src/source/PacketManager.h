@@ -32,8 +32,8 @@
 #include "ECRingQueue.h"
 #include "FFmpegReader.h"
 
-#define A_PACKET_QUEUE_MAX_SIZE 128
-#define V_PACKET_QUEUE_MAX_SIZE 256
+#define A_PACKET_QUEUE_MAX_SIZE 256
+#define V_PACKET_QUEUE_MAX_SIZE 512
 
 class PacketManager
 {
