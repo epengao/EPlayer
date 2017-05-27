@@ -2,7 +2,7 @@
 
 FF_V="3.2"
 CUR_DIR=$(pwd)
-SRC_DIR=$(pwd)/../src/"ffmpeg-"${FF_V}
+SRC_DIR=$(pwd)/../src/"ffmpeg-n"${FF_V}
 BIN_OUT=$(pwd)/../export/bin/mac
 HEADERS_OUT=$(pwd)/../export/include
 OUT_PREFIX=${SRC_DIR}/build_out/mac
@@ -37,7 +37,6 @@ function do_build_post_clean
     if [ -d "${HEADERS_OUT}" ]; then
         cd ${SRC_DIR}
         make clean
-        rm -rf build_out
     fi
 }
 

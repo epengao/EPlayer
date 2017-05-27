@@ -47,7 +47,6 @@ function do_build_post_clean
     if [ -d "${HEADERS_OUT}" ]; then
         cd ${SRC_DIR}
         make clean
-        rm -rf build_out
     fi
 }
 
