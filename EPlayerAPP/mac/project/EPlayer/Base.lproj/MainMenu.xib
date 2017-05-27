@@ -198,23 +198,23 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="655" height="418"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="655" height="418"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zks-GX-ICs">
-                        <rect key="frame" x="303" y="223" width="48" height="48"/>
+                        <rect key="frame" x="287" y="207" width="80" height="80"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="48" id="gvH-u6-10p"/>
-                            <constraint firstAttribute="width" constant="48" id="p4D-TJ-IAM"/>
+                            <constraint firstAttribute="width" constant="80" id="F3B-Uz-Xy6"/>
+                            <constraint firstAttribute="height" constant="80" id="Olg-j0-0Aa"/>
                         </constraints>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ffn-rB-iqA"/>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Zks-GX-ICs" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" constant="-38" id="Qyt-GR-fbv"/>
-                    <constraint firstItem="Zks-GX-ICs" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="skU-VV-sLi"/>
+                    <constraint firstItem="Zks-GX-ICs" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" constant="-38" id="eFo-yq-91a"/>
+                    <constraint firstItem="Zks-GX-ICs" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="etM-Rt-Jpr"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="-501" y="157"/>
