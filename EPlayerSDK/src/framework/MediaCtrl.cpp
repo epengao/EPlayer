@@ -203,7 +203,7 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
     int ret = m_pSrc->Seek(nSeekPos);
     if(Source_Err_None == ret)
     {
-        bool fastSeek = true;
+        bool fastSeek = false;
         if(m_HasA)
         {
             if(m_pADec) m_pADec->Flush();

@@ -8,22 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		02F3C2601ED9487D00037962 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02F3C25F1ED9487D00037962 /* main.mm */; };
-		02F3C2651ED9498700037962 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2641ED9498700037962 /* AudioToolbox.framework */; };
-		02F3C2671ED9498F00037962 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2661ED9498E00037962 /* CoreVideo.framework */; };
-		02F3C2691ED9499800037962 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2681ED9499800037962 /* CoreAudio.framework */; };
 		02F3C26B1ED949A000037962 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C26A1ED949A000037962 /* Carbon.framework */; };
-		02F3C26D1ED949AA00037962 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C26C1ED949AA00037962 /* Cocoa.framework */; };
-		02F3C26F1ED949B700037962 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C26E1ED949B700037962 /* IOKit.framework */; };
 		02F3C2711ED949D300037962 /* libEPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2701ED949D300037962 /* libEPlayerSDK.a */; };
-		02F3C2781ED949E400037962 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2721ED949E400037962 /* libavcodec.a */; };
-		02F3C2791ED949E400037962 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2731ED949E400037962 /* libavformat.a */; };
-		02F3C27A1ED949E400037962 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2741ED949E400037962 /* libavutil.a */; };
-		02F3C27B1ED949E400037962 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2751ED949E400037962 /* libSDL2.a */; };
-		02F3C27D1ED949E400037962 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2771ED949E400037962 /* libswscale.a */; };
-		02F3C27E1ED94A1600037962 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2761ED949E400037962 /* libswresample.a */; };
 		02F3C2801ED94A5700037962 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C27F1ED94A5700037962 /* libiconv.tbd */; };
 		02F3C2821ED94A6000037962 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2811ED94A6000037962 /* libbz2.tbd */; };
 		02F3C2841ED94A7000037962 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2831ED94A7000037962 /* libz.tbd */; };
+		909DEBCC1ED9F81800513666 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C26C1ED949AA00037962 /* Cocoa.framework */; };
+		909DEBCD1ED9F82300513666 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C26E1ED949B700037962 /* IOKit.framework */; };
+		909DEBCE1ED9F86700513666 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2641ED9498700037962 /* AudioToolbox.framework */; };
+		909DEBCF1ED9F87700513666 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2681ED9499800037962 /* CoreAudio.framework */; };
+		909DEBD11ED9F8D200513666 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F3C2661ED9498E00037962 /* CoreVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,12 +43,6 @@
 		02F3C26C1ED949AA00037962 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		02F3C26E1ED949B700037962 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		02F3C2701ED949D300037962 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = demoPlayer/EPlayerSDK/static/libEPlayerSDK.a; sourceTree = "<group>"; };
-		02F3C2721ED949E400037962 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = demoPlayer/EPlayerSDK/thirdparty/libavcodec.a; sourceTree = "<group>"; };
-		02F3C2731ED949E400037962 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = demoPlayer/EPlayerSDK/thirdparty/libavformat.a; sourceTree = "<group>"; };
-		02F3C2741ED949E400037962 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = demoPlayer/EPlayerSDK/thirdparty/libavutil.a; sourceTree = "<group>"; };
-		02F3C2751ED949E400037962 /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = demoPlayer/EPlayerSDK/thirdparty/libSDL2.a; sourceTree = "<group>"; };
-		02F3C2761ED949E400037962 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = demoPlayer/EPlayerSDK/thirdparty/libswresample.a; sourceTree = "<group>"; };
-		02F3C2771ED949E400037962 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = demoPlayer/EPlayerSDK/thirdparty/libswscale.a; sourceTree = "<group>"; };
 		02F3C27F1ED94A5700037962 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		02F3C2811ED94A6000037962 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		02F3C2831ED94A7000037962 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -68,19 +56,13 @@
 				02F3C2841ED94A7000037962 /* libz.tbd in Frameworks */,
 				02F3C2821ED94A6000037962 /* libbz2.tbd in Frameworks */,
 				02F3C2801ED94A5700037962 /* libiconv.tbd in Frameworks */,
-				02F3C27B1ED949E400037962 /* libSDL2.a in Frameworks */,
-				02F3C27A1ED949E400037962 /* libavutil.a in Frameworks */,
-				02F3C27D1ED949E400037962 /* libswscale.a in Frameworks */,
-				02F3C2781ED949E400037962 /* libavcodec.a in Frameworks */,
-				02F3C2791ED949E400037962 /* libavformat.a in Frameworks */,
-				02F3C27E1ED94A1600037962 /* libswresample.a in Frameworks */,
 				02F3C2711ED949D300037962 /* libEPlayerSDK.a in Frameworks */,
-				02F3C26F1ED949B700037962 /* IOKit.framework in Frameworks */,
-				02F3C26D1ED949AA00037962 /* Cocoa.framework in Frameworks */,
+				909DEBCD1ED9F82300513666 /* IOKit.framework in Frameworks */,
+				909DEBCC1ED9F81800513666 /* Cocoa.framework in Frameworks */,
 				02F3C26B1ED949A000037962 /* Carbon.framework in Frameworks */,
-				02F3C2691ED9499800037962 /* CoreAudio.framework in Frameworks */,
-				02F3C2671ED9498F00037962 /* CoreVideo.framework in Frameworks */,
-				02F3C2651ED9498700037962 /* AudioToolbox.framework in Frameworks */,
+				909DEBCF1ED9F87700513666 /* CoreAudio.framework in Frameworks */,
+				909DEBD11ED9F8D200513666 /* CoreVideo.framework in Frameworks */,
+				909DEBCE1ED9F86700513666 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,12 +109,6 @@
 				02F3C2831ED94A7000037962 /* libz.tbd */,
 				02F3C2811ED94A6000037962 /* libbz2.tbd */,
 				02F3C27F1ED94A5700037962 /* libiconv.tbd */,
-				02F3C2721ED949E400037962 /* libavcodec.a */,
-				02F3C2731ED949E400037962 /* libavformat.a */,
-				02F3C2741ED949E400037962 /* libavutil.a */,
-				02F3C2751ED949E400037962 /* libSDL2.a */,
-				02F3C2761ED949E400037962 /* libswresample.a */,
-				02F3C2771ED949E400037962 /* libswscale.a */,
 				02F3C2701ED949D300037962 /* libEPlayerSDK.a */,
 				02F3C26E1ED949B700037962 /* IOKit.framework */,
 				02F3C26C1ED949AA00037962 /* Cocoa.framework */,

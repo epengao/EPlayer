@@ -8,28 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		025CE0661EC9B23D00DD46B4 /* MediaCtrlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 025CE0651EC9B23D00DD46B4 /* MediaCtrlView.m */; };
+		90409D041ED9F73B00AEF5EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384C31EC7620300240A6C /* Carbon.framework */; };
 		904384BB1EC7605400240A6C /* libEPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384BA1EC7605400240A6C /* libEPlayerSDK.a */; };
-		904384BE1EC761E400240A6C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384BD1EC761E400240A6C /* AudioToolbox.framework */; };
-		904384C01EC761ED00240A6C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384BF1EC761ED00240A6C /* CoreVideo.framework */; };
-		904384C21EC761FB00240A6C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384C11EC761FB00240A6C /* CoreAudio.framework */; };
-		904384C41EC7620300240A6C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384C31EC7620300240A6C /* Carbon.framework */; };
 		904384C61EC7620B00240A6C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384C51EC7620B00240A6C /* Cocoa.framework */; };
-		904384C81EC7621300240A6C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384C71EC7621300240A6C /* IOKit.framework */; };
-		904384CF1EC7622A00240A6C /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384C91EC7622A00240A6C /* libavcodec.a */; };
-		904384D01EC7622A00240A6C /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384CA1EC7622A00240A6C /* libavformat.a */; };
-		904384D11EC7622A00240A6C /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384CB1EC7622A00240A6C /* libavutil.a */; };
-		904384D21EC7622A00240A6C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384CC1EC7622A00240A6C /* libSDL2.a */; };
-		904384D31EC7622A00240A6C /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384CD1EC7622A00240A6C /* libswresample.a */; };
-		904384D41EC7622B00240A6C /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384CE1EC7622A00240A6C /* libswscale.a */; };
 		904384D61EC7624600240A6C /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384D51EC7624600240A6C /* libiconv.tbd */; };
-		904384D81EC7624D00240A6C /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384D71EC7624D00240A6C /* libbz2.tbd */; };
-		904384DA1EC7625300240A6C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384D91EC7625300240A6C /* libz.tbd */; };
 		904384E21EC807B600240A6C /* WinTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 904384E11EC807B600240A6C /* WinTitleView.m */; };
 		904C890B1ECA0E0900AA3CC5 /* LADSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C89081ECA0E0900AA3CC5 /* LADSlider.m */; };
 		904C890C1ECA0E0900AA3CC5 /* LADSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C890A1ECA0E0900AA3CC5 /* LADSliderCell.m */; };
 		9060BA211ED4917F009EF05B /* HelpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060BA1F1ED4917F009EF05B /* HelpWindowController.m */; };
 		9060BA221ED4917F009EF05B /* HelpWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9060BA201ED4917F009EF05B /* HelpWindowController.xib */; };
 		90699C4C1ECC926D00F77B43 /* MediaCtrlViewShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 90699C4B1ECC926D00F77B43 /* MediaCtrlViewShadow.m */; };
+		90ADA8451ED9FBE000A574E4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384D91EC7625300240A6C /* libz.tbd */; };
+		90ADA8461ED9FBEF00A574E4 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 904384D71EC7624D00240A6C /* libbz2.tbd */; };
 		90B315ED1EC8C5D900D2B78A /* ISSoundAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B315EC1EC8C5D900D2B78A /* ISSoundAdditions.m */; };
 		90D2282E1EC75F0E00EDCEB0 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90D2282D1EC75F0E00EDCEB0 /* AppDelegate.mm */; };
 		90D228311EC75F0E00EDCEB0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D228301EC75F0E00EDCEB0 /* main.m */; };
@@ -84,22 +74,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				904384DA1EC7625300240A6C /* libz.tbd in Frameworks */,
-				904384D81EC7624D00240A6C /* libbz2.tbd in Frameworks */,
+				90ADA8451ED9FBE000A574E4 /* libz.tbd in Frameworks */,
+				90ADA8461ED9FBEF00A574E4 /* libbz2.tbd in Frameworks */,
 				904384D61EC7624600240A6C /* libiconv.tbd in Frameworks */,
-				904384D21EC7622A00240A6C /* libSDL2.a in Frameworks */,
-				904384D11EC7622A00240A6C /* libavutil.a in Frameworks */,
-				904384D41EC7622B00240A6C /* libswscale.a in Frameworks */,
-				904384CF1EC7622A00240A6C /* libavcodec.a in Frameworks */,
-				904384D01EC7622A00240A6C /* libavformat.a in Frameworks */,
-				904384D31EC7622A00240A6C /* libswresample.a in Frameworks */,
 				904384BB1EC7605400240A6C /* libEPlayerSDK.a in Frameworks */,
-				904384C81EC7621300240A6C /* IOKit.framework in Frameworks */,
 				904384C61EC7620B00240A6C /* Cocoa.framework in Frameworks */,
-				904384C41EC7620300240A6C /* Carbon.framework in Frameworks */,
-				904384C21EC761FB00240A6C /* CoreAudio.framework in Frameworks */,
-				904384C01EC761ED00240A6C /* CoreVideo.framework in Frameworks */,
-				904384BE1EC761E400240A6C /* AudioToolbox.framework in Frameworks */,
+				90409D041ED9F73B00AEF5EF /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
