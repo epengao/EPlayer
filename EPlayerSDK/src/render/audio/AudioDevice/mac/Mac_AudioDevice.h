@@ -29,9 +29,9 @@
 #define MAC_AUDIO_DEVICE_H
 
 #define MAX_BUFFER_SIZE     352800
-#define MUTE_SOUND_SIZE       4096
-#define QUEUE_BUFFER_COUNT       4
-#define WAIT_BUF_SOUND_SIZE  88200
+#define MUTE_SOUND_SIZE        128
+#define QUEUE_BUFFER_COUNT       2
+#define WAIT_BUF_SOUND_SIZE     64
 
 #include "AudioDeviceI.h"
 #include <AudioToolbox/AudioToolbox.h>

@@ -216,9 +216,9 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
         }
         if(m_nStatus == MediaCtrlStatus_Play)
         {
-            m_pSrc->Run();
-            m_pClk->Run();
             if(m_HasA && m_pARnd) m_pARnd->Run();
+            m_pClk->Run();
+            m_pSrc->Run();
             if(m_HasV && m_pVRnd) m_pVRnd->Run();
         }
     }

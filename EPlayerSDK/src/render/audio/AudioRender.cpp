@@ -120,7 +120,7 @@ void AudioRender::Seek(EC_U32 nPos, bool fastSeek)
         }
         else
         {
-            checkAgain = (audioFram.nTimestamp < nPos);
+            checkAgain = (audioFram.nTimestamp < nPos - 400);
         }
     } while (nMaxTry > 0 && checkAgain);
 

@@ -176,33 +176,37 @@ void VideoRender::DoRunning()
             bool renderFrame = true;
             TimeStamp nClockTime = m_pMedaiClock->GetClockTime();
             int nForwardTime = int(m_VFrame.nTimestamp - nClockTime);
+            if(nForwardTime > 0)
             {
-                if(nForwardTime > 0)
+                EC_U32 nWaitTime = 35;
+                if (nForwardTime >= V_RND_FORWARD_TIME)
                 {
-                    if (nForwardTime > V_RND_FORWARD_TIME)
+                    nWaitTime = nForwardTime - V_RND_FORWARD_TIME;
+                    if(nWaitTime > 100)
                     {
-                        EC_U32 nWaitTime = nForwardTime - V_RND_FORWARD_TIME;
-                        if (nWaitTime < 1000)
-                            ECSleep(nWaitTime);
-                        else
-							ECSleep(1000);
+                        nWaitTime = 100;
+                    }
+                    if (nWaitTime >= 500)
+                    {
+                        renderFrame = false;
                     }
                 }
-                else if(0 - nForwardTime > DROP_FRAM_WAIT_TIME)
-                {
-                    renderFrame = false;
-                }
+                ECSleep(nWaitTime);
+            }
+            else if(0 - nForwardTime > DROP_FRAM_WAIT_TIME)
+            {
+                renderFrame = false;
+            }
 
-                if(renderFrame)
-                {
-                    ECAutoLock Lock(&m_mtxVideoDev);
-                    m_pVideoDevice->DrawFrame(&m_VFrame);
-                }
-                else
-                {
-                    //ecLogW("Drop Frame,timstamp:%d, currPlayTime:%d, timeAfter:%d\n", (int)m_VFrame.nTimestamp, (int)nClockTime, nForwardTime);
-                    return;
-                }
+            if(renderFrame)
+            {
+                ECAutoLock Lock(&m_mtxVideoDev);
+                m_pVideoDevice->DrawFrame(&m_VFrame);
+            }
+            else
+            {
+                //ecLogW("Drop Frame,timstamp:%d, currPlayTime:%d, timeAfter:%d\n", (int)m_VFrame.nTimestamp, (int)nClockTime, nForwardTime);
+                return;
             }
         }
     }
