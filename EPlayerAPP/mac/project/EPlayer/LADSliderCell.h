@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface LADSliderCell : NSSliderCell
-
 /**
     knobImage - image of the knob
     depends on slider control size it should have the next size:
@@ -36,5 +35,10 @@
     the method will return nil
  */
 - (id)initWithKnobImage:(NSImage *)knob minimumValueImage:(NSImage *)minImage maximumValueImage:(NSImage *)maxImage;
+/* slider action trace callback */
+@property (nonatomic) id actionTarget;
+@property (nonatomic) SEL startDragAction;
+@property (nonatomic) SEL doDraggingAction;
+@property (nonatomic) SEL stopDragAction;
 
 @end

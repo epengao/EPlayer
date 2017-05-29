@@ -18,6 +18,7 @@
 @property BOOL needUpdatePlaytime;
 @property MediaCtrlViewShadow* shadowView;
 @property NSTimer* progressBarTimer;
+@property BOOL needRestorePlay;
 @property (weak) IBOutlet LADSlider *progressBar;
 @property (weak) IBOutlet NSButton *playStopButton;
 @property (weak) IBOutlet NSButton *playPauseButton;
@@ -35,6 +36,7 @@
     {
         self.mainCtrl = nil;
         self.playerSDK = nil;
+        self.needRestorePlay = NO;
         self.needUpdatePlaytime = NO;
     }
     return self;
@@ -121,6 +123,7 @@
 
     [_progressBar setTarget:self];
     [_progressBar setAction:@selector(progressBarAction:)];
+    [_progressBar setTracingAction:nil doDragging:nil stopDrag:@selector(sliderFinishedDragAction) target:self];
 
     [_playTimeDurationTextLable setHidden:YES];
 }
@@ -148,6 +151,15 @@
 }
 
 #pragma mark - progress bar control
+-(void)sliderFinishedDragAction
+{
+    if([_playerSDK hasMediaActived] && _needRestorePlay)
+    {
+        [_playerSDK play];
+    }
+    _needRestorePlay = NO;
+}
+
 - (void)updateProgressBarValue
 {
     float value = 0.0;
@@ -167,7 +179,36 @@
 {
     if(_playerSDK != nil && [_playerSDK hasMediaActived])
     {
-        [_playerSDK seek:sender.doubleValue];
+        //NSEvent *event = [[NSApplication sharedApplication] currentEvent];
+        NSEvent *event = [[sender window] currentEvent];
+        BOOL startingDrag = event.type == NSEventTypeLeftMouseDown;
+        BOOL dragging = event.type == NSEventTypeLeftMouseDragged;
+        BOOL endingDrag = event.type == NSEventTypeLeftMouseUp;
+
+        if (startingDrag)
+        {
+            if([_playerSDK getPlayerStatus] == EPlayerStatus_Playing)
+            {
+                _needRestorePlay = YES;
+            }
+            else
+            {
+                _needRestorePlay = NO;
+            }
+            [_playerSDK pause];
+            [_playerSDK seek:sender.doubleValue];
+        }
+        else if (dragging)
+        {
+            [_playerSDK seek:sender.doubleValue];
+        }
+        else if (endingDrag)
+        {
+            /* Here is sometimes not call into
+             * So we added sliderFinishedDragAction and snd to LADSliderCell for drag
+             * finished callback to restore the player status
+             */
+        }
     }
     else
     {

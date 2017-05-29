@@ -12,6 +12,7 @@
 
 - (id)initWithKnobImage:(NSImage *)knob;
 - (id)initWithKnobImage:(NSImage *)knob minimumValueImage:(NSImage *)minImage maximumValueImage:(NSImage *)maxImage;
+- (void)setTracingAction:(SEL)startDrag doDragging:(SEL)doDragging stopDrag:(SEL)stopDrag target:(id)target;
 
 @property (nonatomic) IBInspectable NSImage *knobImage;
 @property (nonatomic) IBInspectable NSImage *minimumValueImage;

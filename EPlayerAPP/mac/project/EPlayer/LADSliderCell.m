@@ -16,6 +16,8 @@
 
 @implementation LADSliderCell
 
+@synthesize actionTarget, stopDragAction;
+
 - (id)initWithKnobImage:(NSImage *)knob {
     self = [self init];
     if (self) {
@@ -36,12 +38,6 @@
     }
 
     return self;
-}
-
-- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView {
-    BOOL val = [super startTrackingAt:startPoint inView:controlView];
-    [self drawInteriorWithFrame:controlView.bounds inView:controlView];
-    return val;
 }
 
 - (void)drawKnob:(NSRect)knobRect {
@@ -103,6 +99,34 @@
     return afterKnobRect;
 }
 
+- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView {
+    BOOL val = [super startTrackingAt:startPoint inView:controlView];
+    [self drawInteriorWithFrame:controlView.bounds inView:controlView];
+    if(self.startDragAction != nil)
+    {
+        [self performSelector:self.startDragAction withObject:nil afterDelay:0.0];
+    }
+    return val;
+}
+
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint inView:(NSView *)controlView
+{
+    BOOL val = [super continueTracking:lastPoint at:currentPoint inView:controlView];
+    if(self.doDraggingAction != nil)
+    {
+        [self performSelector:self.doDraggingAction withObject:nil afterDelay:0.0];
+    }
+    return val;
+}
+
+- (void)stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
+{
+    [super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
+    if(self.stopDragAction != nil)
+    {
+        [self.actionTarget performSelector:self.stopDragAction withObject:nil afterDelay:0.0];
+    }
+}
 @end
 
 

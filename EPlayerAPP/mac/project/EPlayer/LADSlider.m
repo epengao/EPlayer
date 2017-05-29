@@ -26,7 +26,11 @@
     [super awakeFromNib];
     
     if(![self.cell isKindOfClass:[LADSliderCell class]]) {
-        self.cell = [[LADSliderCell alloc] init];
+        LADSliderCell* myCell = [[LADSliderCell alloc] init];
+        myCell.startDragAction = nil;
+        myCell.doDraggingAction = nil;
+        myCell.stopDragAction = nil;
+        self.cell = myCell;
     }
 }
 
@@ -96,6 +100,26 @@
 	self.sliderCell.maximumValueImage = maximumValueImage;
 }
 
+- (void)setTracingAction:(SEL)startDrag doDragging:(SEL)doDragging stopDrag:(SEL)stopDrag target:(id)target
+{
+    LADSliderCell *myCell = [self sliderCell];
+    myCell.actionTarget = target;
+    myCell.startDragAction = startDrag;
+    myCell.doDraggingAction = doDragging;
+    myCell.stopDragAction = stopDrag;
+}
+
+//- (void)mouseDown:(NSEvent *)theEvent
+//{
+//    [super mouseDown: theEvent];
+//    NSLog(@"slider mouse down");
+//}
+//
+//- (void)mouseUp: (NSEvent *)theEvent
+//{
+//    [super mouseUp: theEvent];
+//    NSLog(@"slider mouse up");
+//}
 @end
 
 @implementation NSImage (Rotated)
