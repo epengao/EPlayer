@@ -168,7 +168,7 @@ void SDL_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
 void SDL_VideoDevice::SetEqualScaling(SDL_Rect *pRect)
 {
     if (pRect == NULL) return;
-    
+
     EC_U32 nTmpWidth = m_nUserWndWidth;
     EC_U32 nTmpHeight = m_nVideoHeight * nTmpWidth / m_nVideoWidth;
     pRect->x = 0;
@@ -194,40 +194,10 @@ void SDL_VideoDevice::SetEqualScaling(SDL_Rect *pRect)
 
 void SDL_VideoDevice::EraseVideoRim()
 {
-    SDL_Rect clipRect;
-    clipRect.x = 0;
-    clipRect.y = 0;
-    if (m_sSDLRect.w == m_nUserWndWidth)
-    {
-        clipRect.w = m_sSDLRect.w;
-        clipRect.h = m_sSDLRect.y;
-        SDL_FillRect(m_pSDLSurface, &clipRect, 0x0);
-        clipRect.y = m_nUserWndHeight - m_sSDLRect.y;
-        SDL_FillRect(m_pSDLSurface, &clipRect, 0x0);
-    }
-    else
-    {
-        clipRect.w = m_sSDLRect.x;
-        clipRect.h = m_sSDLRect.h;
-        SDL_FillRect(m_pSDLSurface, &clipRect, 0x0);
-        clipRect.x = m_nUserWndWidth - m_sSDLRect.x;
-        SDL_FillRect(m_pSDLSurface, &clipRect, 0x0);
-    }
-
-    if (m_nDeviceScreenWidth > m_nUserWndWidth)
-    {
-        clipRect.y = 0;
-        clipRect.x = m_nUserWndWidth;
-        clipRect.w = m_nDeviceScreenWidth - m_nUserWndWidth;
-        clipRect.h = m_nUserWndHeight;
-        SDL_FillRect(m_pSDLSurface, &clipRect, 0x0);
-    }
-    if (m_nVideoHeight > m_nUserWndHeight)
-    {
-        clipRect.x = 0;
-        clipRect.y = m_nUserWndHeight;
-        clipRect.w = m_nUserWndWidth;
-        clipRect.h = m_nVideoHeight - m_nUserWndHeight;
-        SDL_FillRect(m_pSDLSurface, &clipRect, 0x0);
-    }
+    SDL_Rect clipRectd;
+    clipRectd.x = 0;
+    clipRectd.y = 0;
+    clipRectd.w = m_nUserWndWidth;
+    clipRectd.h = m_nUserWndHeight;
+    SDL_FillRect(m_pSDLSurface, &clipRectd, 0x0);
 }

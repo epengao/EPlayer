@@ -167,49 +167,47 @@ void VideoRender::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
 
 void VideoRender::DoRunning()
 {
-    EC_U32 nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
-    if(nRet == Video_Render_Err_None)
+    EC_U32 nWaitTime = 35;
+    bool renderWait = false;
+    EC_U32 nRet = Video_Render_Err_None;
     {
-        if(m_pMedaiClock)
+        ECAutoLock Lock(&m_mtxVideoDev);
+        nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
+        if (nRet == Video_Render_Err_None)
         {
-            bool renderFrame = true;
-            TimeStamp nClockTime = m_pMedaiClock->GetClockTime();
-            int nForwardTime = int(m_VFrame.nTimestamp - nClockTime);
-            if(nForwardTime > 0)
+            if (m_pMedaiClock)
             {
-                EC_U32 nWaitTime = 35;
-                if (nForwardTime >= V_RND_FORWARD_TIME)
+                bool renderFrame = true;
+                TimeStamp nClockTime = m_pMedaiClock->GetClockTime();
+                int nForwardTime = int(m_VFrame.nTimestamp - nClockTime);
+                if (nForwardTime > 0)
                 {
-                    nWaitTime = nForwardTime - V_RND_FORWARD_TIME;
-                    if(nWaitTime > 100)
+                    if (nForwardTime > V_RND_FORWARD_TIME)
                     {
-                        nWaitTime = 100;
-                    }
-                    if (nWaitTime >= 500)
-                    {
-                        renderFrame = false;
+                        nWaitTime = nForwardTime - V_RND_FORWARD_TIME;
+                        if (nWaitTime > 100)
+                        {
+                            nWaitTime = 100;
+                        }
+                        if (nWaitTime >= 500)
+                        {
+                            renderFrame = false;
+                        }
+                        renderWait = true;
                     }
                 }
-                ECSleep(nWaitTime);
-            }
-            else if(0 - nForwardTime > DROP_FRAM_WAIT_TIME)
-            {
-                renderFrame = false;
-            }
-
-            if(renderFrame)
-            {
-                ECAutoLock Lock(&m_mtxVideoDev);
-                m_pVideoDevice->DrawFrame(&m_VFrame);
-            }
-            else
-            {
-                //ecLogW("Drop Frame,timstamp:%d, currPlayTime:%d, timeAfter:%d\n", (int)m_VFrame.nTimestamp, (int)nClockTime, nForwardTime);
-                return;
+                else if (0 - nForwardTime > DROP_FRAM_WAIT_TIME)
+                {
+                    renderFrame = false;
+                }
+                if (renderFrame)
+                {
+                    m_pVideoDevice->DrawFrame(&m_VFrame);
+                }
             }
         }
     }
-    else if(Source_Err_ReadEOS == nRet)
+    if(Source_Err_ReadEOS == nRet)
     {
         if(!m_bEOS)
         {
@@ -222,8 +220,13 @@ void VideoRender::DoRunning()
             ECSleep(V_RND_RETRY_WAIT);
         }
     }
-    else
+    else if (nRet != Video_Render_Err_None)
     {
         ECSleep(V_RND_RETRY_WAIT);
+    }
+
+    if (renderWait)
+    {
+        ECSleep(nWaitTime);
     }
 }
