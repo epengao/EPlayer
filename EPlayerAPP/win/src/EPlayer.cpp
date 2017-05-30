@@ -632,8 +632,16 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
     {
         case WM_LBUTTONDOWN:
         {
+            if (g_pMediaEng && g_pMediaEng->HasPlayMedia())
+            {
+                if (g_pMediaEng->IsPlaying())
+                {
+                    g_pMediaEng->Pause();
+                    g_bNeedRestorePlay = true;
+                }
+                g_bTrackMouseDrag = true;
+            }
             g_bIsSeeking = true;
-            g_bTrackMouseDown = TRUE;
             DWORD CurrentPos, ClickPos;
             CurrentPos = GetProgress(g_hWndProgress);
             RECT rc;
@@ -642,14 +650,34 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             SendMessage(g_hWndProgress, TBM_SETPAGESIZE, 0, abs(int(ClickPos - CurrentPos)));
             break;
         }
+        case WM_MOUSEMOVE:
+        {
+            if (g_bTrackMouseDrag)
+            {
+                int nPos;
+                nPos = GetProgress(g_hWndProgress);
+                double ratio = (double)nPos / MAX_PROGRESS;
+                unsigned int seekPos = mediaContentDuration*ratio;
+                Seek(seekPos);
+            }
+            break;
+        }
         case WM_LBUTTONUP:
         {
             int nPos;
             nPos = GetProgress(g_hWndProgress);
             double ratio = (double)nPos / MAX_PROGRESS;
             unsigned int seekPos = mediaContentDuration*ratio;
-            Seek(seekPos);
-            g_bTrackMouseDown = FALSE;
+            if (g_pMediaEng && g_pMediaEng->HasPlayMedia())
+            {
+                Seek(seekPos);
+                if (g_bNeedRestorePlay)
+                {
+                    g_pMediaEng->Play();
+                }
+            }
+            g_bTrackMouseDrag = false;
+            g_bNeedRestorePlay = false;
             break;
         }
         case WM_PAINT:
@@ -958,11 +986,11 @@ bool PlayFile(const TCHAR* pszFileName)
 
     ShowWindow(g_hWndVideoScreen, SW_HIDE);
     g_pMediaEng->GetMediaInfo(&g_MediaInfo);
-	if (g_MediaInfo.hasVideo)
-	{
-		UpdateMainWindow(g_MediaInfo.nVideoWidth, g_MediaInfo.nVideoHeight, 1.0);
-		ShowWindow(g_hWndVideoScreen, SW_SHOW);
-	}
+    if (g_MediaInfo.hasVideo)
+    {
+        UpdateMainWindow(g_MediaInfo.nVideoWidth, g_MediaInfo.nVideoHeight, 1.0);
+        ShowWindow(g_hWndVideoScreen, SW_SHOW);
+    }
 
     TCHAR szTitle[100] = {0};
     SplitFileName(pszFileName, 1, szTitle);
@@ -1229,7 +1257,7 @@ void Seek(unsigned int seekPos)
     if (g_pMediaEng && g_pMediaEng->HasPlayMedia())
     {
         g_pMediaEng->Seek(seekPos);
-		g_bIsSeeking = false;
+        g_bIsSeeking = false;
     }
 }
 
