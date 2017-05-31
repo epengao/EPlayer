@@ -124,10 +124,10 @@ void AudioRender::Seek(EC_U32 nPos, bool fastSeek)
         }
     } while (nMaxTry > 0 && checkAgain);
 
-    if(nRet == Audio_Dec_Err_None)
-    {
-        m_pMedaiClock->SetMediaTime(audioFram.nTimestamp);
-    }
+//    if(nRet == Audio_Dec_Err_None)
+//    {
+//        m_pMedaiClock->SetMediaTime(audioFram.nTimestamp);
+//    }
 }
 
 EC_U32 AudioRender::OpenDevice(MediaContext* pMediaContext,

@@ -102,7 +102,7 @@ void SDL2_VideoDevice::Uninit()
     SDL_DestroyRenderer(m_pSDLRenderer);
     SDL_DestroyTexture(m_pSDLTexture);
     SDL_DestroyWindow(m_pSDLWindow);
-    SDL_Quit();
+    // SDL_Quit();
 }
 
 void SDL2_VideoDevice::Flush()
