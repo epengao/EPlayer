@@ -162,7 +162,7 @@ void VideoRender::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
 {
     ECAutoLock Lock(&m_mtxVideoDev);
     m_pVideoDevice->UpdateVideoWindow(pWindow, nWidth, nHeight);
-	m_pVideoDevice->DrawFrame(&m_VFrame);
+    m_pVideoDevice->DrawFrame(&m_VFrame);
 }
 
 void VideoRender::DoRunning()

@@ -36,4 +36,5 @@ void ECThreadWorkerI::DoIdle()
 }
 
 void ECThreadWorkerI::DoExit()
-{}
+{
+}

@@ -78,7 +78,6 @@ int main(int argc, const char * argv[]) {
             }
             else if(i == 15)
             {
-                
             }
             else if(i == 20)
             {

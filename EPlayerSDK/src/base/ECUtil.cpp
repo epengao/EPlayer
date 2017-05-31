@@ -34,7 +34,7 @@
 #include <windows.h>
 #elif defined EC_OS_Linux
 #include <unistd.h>
-#include <sysconf.h> 
+#include <sysconf.h>
 #elif defined EC_OS_MacOS
 #include <unistd.h>
 #elif defined EC_OS_iOS

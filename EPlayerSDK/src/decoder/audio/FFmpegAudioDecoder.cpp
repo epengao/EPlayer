@@ -127,10 +127,10 @@ EC_U32 FFmpegAudioDecoder::SetInputPacket(SourcePacket* pInputPacket)
 EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame, bool rawData)
 {
     int ret = avcodec_receive_frame(m_pCodecCtx, m_pPCM);
-	if (ret == AVERROR(EAGAIN))
-		return Audio_Dec_Err_NeedNewPkt;
+    if (ret == AVERROR(EAGAIN))
+        return Audio_Dec_Err_NeedNewPkt;
 
-	if (ret == Audio_Dec_Err_None)
+    if (ret == Audio_Dec_Err_None)
     {
         int i, j;
         int nChannels = m_pCodecParam->channels;

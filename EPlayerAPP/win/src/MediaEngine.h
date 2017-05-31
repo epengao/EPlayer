@@ -32,9 +32,9 @@
 
 typedef struct
 {
-	void* pVideoWnd;
-	unsigned int nWndWidth;
-	unsigned int nWndHeight;
+    void* pVideoWnd;
+    unsigned int nWndWidth;
+    unsigned int nWndHeight;
 }VideoOutput;
 
 class MediaEngine
@@ -53,7 +53,7 @@ public:
     bool IsPlaying();
     bool HasPlayMedia();
     void GetMediaInfo(MediaInfo *pMediaInfo);
-	void SetMediaNotify(MediaNotifier *pNotify);
+    void SetMediaNotify(MediaNotifier *pNotify);
     unsigned int GetPlayPosition();
     unsigned int GetMediaDuration();
     void UpdateVideoScreen(void *pVideoWnd, unsigned int nVideoWndWidth, unsigned int nVideoWndHeight);
@@ -61,8 +61,8 @@ public:
 private:
     void VideoScreenSizeAlign();
 private:
-	EPlayerAPI    m_sMediaAPI;
-	MediaInfo     m_sMediaInfo;
+    EPlayerAPI    m_sMediaAPI;
+    MediaInfo     m_sMediaInfo;
     VideoOutput   m_sVideoOutput;
 };
 

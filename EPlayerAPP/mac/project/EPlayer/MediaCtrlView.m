@@ -49,15 +49,15 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
-    
+
     NSRect renderRect = NSMakeRect(0, 0, dirtyRect.size.width, dirtyRect.size.height);
 
     NSRect topHalf, bottomHalf;
     NSDivideRect(renderRect, &topHalf, &bottomHalf, floor(renderRect.size.height), NSMaxYEdge);
-    
+
     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:4.0 yRadius:4.0];
     [[NSBezierPath bezierPathWithRect:renderRect] addClip];
-    
+
     NSGradient * gradient1 = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.10 alpha:1] endingColor:[NSColor colorWithCalibratedWhite:0.10 alpha:1]];
     //NSGradient * gradient2 = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1] endingColor:[NSColor colorWithCalibratedWhite:0.05 alpha:1]];
     [path addClip];

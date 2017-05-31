@@ -172,7 +172,7 @@ void MediaCtrl::CloseMedia()
 void MediaCtrl::Play(unsigned int nStartPos)
 {
     m_pSrc->Run();
-	m_pClk->Run();
+    m_pClk->Run();
     if(nStartPos > 0)
     {
         m_pSrc->Seek(nStartPos);

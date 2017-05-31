@@ -74,7 +74,7 @@ public:
 
 private:
     bool          m_bEOS;
-	bool          m_bRawPCM;
+    bool          m_bRawPCM;
     bool          m_bBufing;
     bool          m_bRunning;
     EC_U32        m_nLastRndTime;

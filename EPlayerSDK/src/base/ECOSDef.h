@@ -31,13 +31,20 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
-#define EC_OS_MacOS
+
+/*
+ * You can define OS platfrom here, or
+ * define these macros in your porject, in
+ * VistualStudio, XCode and on.
+ */
+
+/* Before compiling, please define your platform */
+//#define EC_OS_MacOS
 //#define EC_OS_Win32
 //#define EC_OS_Linux
 //#define EC_OS_iOS
 //#define EC_OS_Android
-    
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

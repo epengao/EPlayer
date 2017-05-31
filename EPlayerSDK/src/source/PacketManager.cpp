@@ -30,13 +30,13 @@
 
 PacketManager::PacketManager()
 {
-	EC_U32 aPktQSize = A_PACKET_QUEUE_MAX_SIZE;
-	EC_U32 vPktQSize = V_PACKET_QUEUE_MAX_SIZE;
+    EC_U32 aPktQSize = A_PACKET_QUEUE_MAX_SIZE;
+    EC_U32 vPktQSize = V_PACKET_QUEUE_MAX_SIZE;
     m_pAudioDataPacketQueue = new ECRingQueue<SourcePacket*>(aPktQSize);
-	m_pVideoDataPacketQueue = new ECRingQueue<SourcePacket*>(vPktQSize);
-	m_pEmptyDataPacketQueue = new ECRingQueue<SourcePacket*>(aPktQSize + vPktQSize);
+    m_pVideoDataPacketQueue = new ECRingQueue<SourcePacket*>(vPktQSize);
+    m_pEmptyDataPacketQueue = new ECRingQueue<SourcePacket*>(aPktQSize + vPktQSize);
 
-	for (EC_U32 i = 0; i < aPktQSize + vPktQSize; i++)
+    for (EC_U32 i = 0; i < aPktQSize + vPktQSize; i++)
     {
         m_pEmptyDataPacketQueue->Push(FFmpegReader::AllocPacket());
     }

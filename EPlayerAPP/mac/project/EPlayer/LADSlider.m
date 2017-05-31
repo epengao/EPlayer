@@ -24,7 +24,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
+
     if(![self.cell isKindOfClass:[LADSliderCell class]]) {
         LADSliderCell* myCell = [[LADSliderCell alloc] init];
         myCell.startDragAction = nil;
@@ -55,7 +55,7 @@
 }
 
 - (LADSliderCell *)sliderCell {
-	return self.cell;
+    return self.cell;
 }
 
 - (NSImage *)knobImage {
@@ -79,8 +79,8 @@
         } else {
             minimumValueImage.capInsets = NSEdgeInsetsMake(0, inset, 0, 0);
         }
-	}
-	self.sliderCell.minimumValueImage = minimumValueImage;
+    }
+    self.sliderCell.minimumValueImage = minimumValueImage;
 }
 
 - (NSImage *)maximumValueImage {
@@ -96,8 +96,8 @@
         } else {
             maximumValueImage.capInsets = NSEdgeInsetsMake(0, 0, 0, inset);
         }
-	}
-	self.sliderCell.maximumValueImage = maximumValueImage;
+    }
+    self.sliderCell.maximumValueImage = maximumValueImage;
 }
 
 - (void)setTracingAction:(SEL)startDrag doDragging:(SEL)doDragging stopDrag:(SEL)stopDrag target:(id)target

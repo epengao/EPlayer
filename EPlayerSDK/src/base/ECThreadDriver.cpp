@@ -60,7 +60,7 @@ void ECThreadDriver::Pause()
     if(ECThreadDriverStatus_Running == m_nStatus)
     {
         m_nStatus = ECThreadDriverStatus_Idle;
-		m_ProvokeSig.Send();
+        m_ProvokeSig.Send();
         m_PauseSig.Wait();
     }
 }

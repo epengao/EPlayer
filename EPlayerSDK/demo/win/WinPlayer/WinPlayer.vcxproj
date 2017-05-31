@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;EC_OS_Win32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../src/base;../../../src/clock;../../../src/source;../../../src/decoder/audio;../../../src/decoder/video;../../../src/render/audio;../../../src/render/video;../../../src/render/audio/AudioDevice;../../../src/render/audio/AudioDevice/common;../../../src/render/audio/AudioDevice/win;../../../src/render/video/VideoDeivce;../../../src/render/video/VideoDevice/common;../../../src/render/video/VideoDevice/win;../../../src/framework;../../../src/player;../../../src/exAPI/C_C++;../../../thirdparty/ffmpeg/export/include;../../../thirdparty/sdl/export/include;../../../thirdparty/pthread/export/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -79,7 +79,7 @@ copy "$(SolutionDir)..\..\..\thirdparty\ffmpeg\export\bin\win\swscale-4.dll" "$(
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;EC_OS_Win32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

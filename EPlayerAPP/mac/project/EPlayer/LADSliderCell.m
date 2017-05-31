@@ -45,12 +45,12 @@
         [super drawKnob:knobRect];
         return;
     }
-    
+
     CGFloat dx = (knobRect.size.width - _knobImage.size.width) / 2.0;
     CGFloat dy = (knobRect.size.height - _knobImage.size.height) / 2.0;
     _currentKnobRect = CGRectInset(knobRect, dx, dy);
-	
-	[_knobImage drawInRect:_currentKnobRect];
+
+    [_knobImage drawInRect:_currentKnobRect];
 }
 
 - (void)drawBarInside:(NSRect)cellFrame flipped:(BOOL)flipped {
@@ -58,9 +58,9 @@
         [super drawBarInside:cellFrame flipped:flipped];
         return;
     }
-    
-	[_minimumValueImage drawInRect:[self beforeKnobRect:cellFrame]];
-	[_maximumValueImage drawInRect:[self afterKnobRect:cellFrame]];
+
+    [_minimumValueImage drawInRect:[self beforeKnobRect:cellFrame]];
+    [_maximumValueImage drawInRect:[self afterKnobRect:cellFrame]];
 }
 
 - (NSRect)beforeKnobRect:(NSRect)barRect {
@@ -76,14 +76,14 @@
         beforeKnobRect.size.width = CGRectGetMidX(_currentKnobRect) - barRect.origin.x;
         beforeKnobRect.size.height = minValueImageSize.height;
     }
-    
+
     return beforeKnobRect;
 }
 
 - (NSRect)afterKnobRect:(NSRect)barRect {
     NSRect afterKnobRect = barRect;
     NSSize maxValueImageSize = _maximumValueImage.size;
-    
+
     if (self.vertical) {
         afterKnobRect.origin.x += (barRect.size.width - maxValueImageSize.width) / 2.0;
         afterKnobRect.origin.y = CGRectGetMidY(_currentKnobRect);
@@ -95,7 +95,7 @@
         afterKnobRect.size.width -= CGRectGetMidX(_currentKnobRect);
         afterKnobRect.size.height = maxValueImageSize.height;
     }
-        
+
     return afterKnobRect;
 }
 
@@ -128,5 +128,3 @@
     }
 }
 @end
-
-

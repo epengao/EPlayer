@@ -153,7 +153,7 @@ void AudioRender::GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSa
     if (ppOutBuf && pOutSize)
     {
         EC_U32 nRet;
-		m_bRawPCM = rawData;
+        m_bRawPCM = rawData;
         EC_U32 nTryTimes = 0;
         AudioFrame audioFram;
         do

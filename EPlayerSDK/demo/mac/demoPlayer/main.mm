@@ -32,7 +32,7 @@ static void print_media_time(int time_ms)
     int hh = toal_s / 3600;
     int mm = (toal_s % 3600) / 60;
     int ss = toal_s % 60;
-    
+
     printf("[%d:%d:%d]\n", hh, mm, ss);
 }
 

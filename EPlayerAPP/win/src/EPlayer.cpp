@@ -1272,7 +1272,7 @@ void MediaoNotifyHandler(void* pUserData, unsigned int nMsg)
     {
         case EPlayer_Msg_PlayStart:
         {
-            DebugPrintf("======Play start===========\n");
+            //DebugPrintf("======Play start===========\n");
             break;
         }
         case EPlayer_Msg_PlayStop:

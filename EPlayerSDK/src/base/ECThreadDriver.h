@@ -56,7 +56,7 @@ public:
     void Run();
     void Pause();
     void Exit();
-    
+
     void RunSteps(EC_U32 nSteps);
 
 private:

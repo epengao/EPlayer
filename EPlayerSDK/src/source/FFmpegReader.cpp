@@ -45,7 +45,6 @@ FFmpegReader::FFmpegReader()
 
 FFmpegReader::~FFmpegReader()
 {
-
 }
 
 EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
@@ -146,7 +145,7 @@ EC_U32 FFmpegReader::SetPlaybackPos(EC_U32 nPos)
     EC_U32 nRet = Source_Err_None;
     int64_t timestamp = (int64_t)nPos * 1000;
     avformat_flush(m_MediaContext.pFormatCtx);
-	int ret = av_seek_frame(m_MediaContext.pFormatCtx, -1, timestamp, AVSEEK_FLAG_BACKWARD);
+    int ret = av_seek_frame(m_MediaContext.pFormatCtx, -1, timestamp, AVSEEK_FLAG_BACKWARD);
     if (ret < 0)
     {
         nRet = Source_Err_SetPosFaild;

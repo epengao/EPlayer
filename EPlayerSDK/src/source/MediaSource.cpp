@@ -107,16 +107,16 @@ void MediaSource::Pause()
 
 EC_U32 MediaSource::Seek(EC_U32 nPos)
 {
-	EC_U32 nRet;
-	m_bEOS = false;
-	m_bRunning = true;
-	m_nSeekPos = nPos;
-	{
-		ECAutoLock lock(&m_mtxFFmpeg);
+    EC_U32 nRet;
+    m_bEOS = false;
+    m_bRunning = true;
+    m_nSeekPos = nPos;
+    {
+        ECAutoLock lock(&m_mtxFFmpeg);
         nRet = DoSeek();
-	}
-	m_nSeekPos = -1;
-	return nRet;
+    }
+    m_nSeekPos = -1;
+    return nRet;
 }
 
 EC_U32 MediaSource::GetDuration()
@@ -147,7 +147,7 @@ SourceVideoPort* MediaSource::GetMediaSourceVideoPort()
 /* Private Methods */
 void MediaSource::DoPlay()
 {
-	ECAutoLock lock(&m_mtxFFmpeg);
+    ECAutoLock lock(&m_mtxFFmpeg);
     if(m_pPacketManager->IsPacketQueueFull())
     {
         ECSleep(SRC_WAIT_TIME);
@@ -162,7 +162,7 @@ void MediaSource::DoPlay()
         EC_U32 nRet = m_pFFmpegReader->ReadPacket(pPkt);
         if (nRet == Source_Err_ReadAudioPkt)
         {
-			m_pPacketManager->PushAudioDataPacket(pPkt);
+            m_pPacketManager->PushAudioDataPacket(pPkt);
         }
         else if (nRet == Source_Err_ReadVideoPkt)
         {
@@ -187,8 +187,8 @@ void MediaSource::DoPlay()
 
 EC_U32 MediaSource::DoSeek()
 {
-	m_pPacketManager->ClearAll();
-	EC_U32 nRet = m_pFFmpegReader->SetPlaybackPos(m_nSeekPos);
+    m_pPacketManager->ClearAll();
+    EC_U32 nRet = m_pFFmpegReader->SetPlaybackPos(m_nSeekPos);
     if (nRet != Source_Err_None)
     {
         return nRet;
@@ -227,16 +227,16 @@ EC_U32 MediaSource::DoSeek()
 
 void MediaSource::DoRunning()
 {
-	if (m_bRunning)
-	{
-		DoPlay();
-	}
-	else
-	{
-		ECSleep(SRC_WAIT_TIME);
-	}
-	if (m_bEOS)
-	{
-		m_bRunning = false;
-	}
+    if (m_bRunning)
+    {
+        DoPlay();
+    }
+    else
+    {
+        ECSleep(SRC_WAIT_TIME);
+    }
+    if (m_bEOS)
+    {
+        m_bRunning = false;
+    }
 }

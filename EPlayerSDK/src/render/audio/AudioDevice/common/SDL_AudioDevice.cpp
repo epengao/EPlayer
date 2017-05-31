@@ -102,7 +102,6 @@ int SDL_AudioDevice::SampleFmtSwitch(AudioSampleFormat nFmtIn)
 
 void SDL_AudioDevice::PlaySoundCallback(void* pUserData, Uint8* pStream, int nLen)
 {
-
     SDL_AudioDevice *pSelf = (SDL_AudioDevice*)pUserData;
 
     if (pSelf->m_PCMBufStream.DataSize() >= nLen)

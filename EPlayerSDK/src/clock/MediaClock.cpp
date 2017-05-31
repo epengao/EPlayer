@@ -32,10 +32,12 @@ MediaClock::MediaClock()
 :m_nTime(0)
 ,m_nLastUpdate(0)
 ,m_nStatu(MediaClock_Status_Stoped)
-{}
+{
+}
 
 MediaClock::~MediaClock()
-{}
+{
+}
 
 void MediaClock::Run()
 {

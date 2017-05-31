@@ -95,7 +95,7 @@ EC_U32 AudioDecoder::GetAudioFrame(AudioFrame* pFrameOut, bool rawData)
 {
     ECAutoLock lock(&m_mtxDec);
     EC_U32 nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut, rawData);
-	if (nRet!= EC_Err_None && pFrameOut)
+    if (nRet!= EC_Err_None && pFrameOut)
     {
         if (m_pCurrPacket == NULL)
         {
