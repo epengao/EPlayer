@@ -81,10 +81,12 @@ EC_U32 FFmpegAudioDecoder::OpenDecoder(MediaContext* pMediaContext)
 
 void FFmpegAudioDecoder::CloseDecoder()
 {
-    av_free(m_pPCM);
+    if(m_pPCM)
+    {
+        av_free(m_pPCM);
+        m_pPCM = NULL;
+    }
     avcodec_close(m_pCodecCtx);
-    m_pCodecCtx = NULL;
-
     m_AudioFrameBuf.nSamples = 0;
     m_AudioFrameBuf.nDataSize = 0;
     m_AudioFrameBuf.nTimestamp = 0;

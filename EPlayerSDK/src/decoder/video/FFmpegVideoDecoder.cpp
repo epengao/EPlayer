@@ -75,9 +75,12 @@ EC_U32 FFmpegVideoDecoder::OpenDecoder(MediaContext* pMediaContext)
 
 void FFmpegVideoDecoder::CloseDecoder()
 {
-    av_free(m_pFrame);
+    if(m_pFrame)
+    {
+        av_free(m_pFrame);
+        m_pFrame = NULL;
+    }
     avcodec_close(m_pCodecCtx);
-    m_pCodecCtx = NULL;
 }
 
 void FFmpegVideoDecoder::FlushDecoder()

@@ -231,9 +231,10 @@ void FFmpegReader::CloseMedia()
 {
     m_nAudioIndex = -1;
     m_nVideoIndex = -1;
-    avcodec_close(m_MediaContext.pAudioCodecCtx);
-    avcodec_close(m_MediaContext.pVideoCodecCtx);
+    
     avformat_close_input(&m_MediaContext.pFormatCtx);
+    avcodec_free_context(&m_MediaContext.pAudioCodecCtx);
+    avcodec_free_context(&m_MediaContext.pVideoCodecCtx);
     avformat_free_context(m_MediaContext.pFormatCtx);
     ECMemSet(&m_MediaContext, 0, sizeof(MediaContext));
 }

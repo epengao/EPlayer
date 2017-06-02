@@ -96,11 +96,11 @@ int MediaCtrl::OpenMedia(const char* pMeidaPath,
         {
             /* No Audio */
             m_HasA = false;
-            if(m_pADec)
-            {
-                delete m_pADec;
-                m_pADec = new AudioDecoder();
-            }
+            //if(m_pADec)
+            //{
+            //    delete m_pADec;
+            //    m_pADec = new AudioDecoder();
+            //}
         }
         if(ret)
         {
@@ -145,11 +145,11 @@ int MediaCtrl::OpenMedia(const char* pMeidaPath,
         else
         {
             m_HasV = false;
-            if(m_pVDec)
-            {
-                delete m_pVDec;
-                m_pVDec = new VideoDecoder();
-            }
+            //if(m_pVDec)
+            //{
+            //    delete m_pVDec;
+            //    m_pVDec = new VideoDecoder();
+            //}
         }
         if(ret)
         {
