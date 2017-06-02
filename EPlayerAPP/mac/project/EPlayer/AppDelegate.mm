@@ -289,11 +289,15 @@
 
 -(void)setAudioMenuItems:(BOOL)enable
 {
+    /*
+     * Just keep the menu status sync with vluem icon
+     * not set the status
     if(!enable)
     {
         [NSSound applyMute:NO];
         [_audioMute setState:NSOffState];
     }
+    */
 
     [self setMenuStatus:_audioMute status:enable action:@selector(menuAudioMute:)];
     [self setMenuStatus:_audioIncreaseVolume status:enable action:@selector(menuAudioIncreaseVolume:)];
