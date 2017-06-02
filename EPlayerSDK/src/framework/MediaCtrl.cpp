@@ -92,6 +92,16 @@ int MediaCtrl::OpenMedia(const char* pMeidaPath,
                 ECLogW("AudioDecoder::OpenDecoder() failed...!");
             }
         }
+        else
+        {
+            /* No Audio */
+            m_HasA = false;
+            if(m_pADec)
+            {
+                delete m_pADec;
+                m_pADec = new AudioDecoder();
+            }
+        }
         if(ret)
         {
             m_pSrc->CloseMedia();
@@ -130,6 +140,15 @@ int MediaCtrl::OpenMedia(const char* pMeidaPath,
             {
                 ret = Video_Render_Err_DeviceErr;
                 ECLogW("VideoRender::OpenDevice() failed...Bad Screem Param!");
+            }
+        }
+        else
+        {
+            m_HasV = false;
+            if(m_pVDec)
+            {
+                delete m_pVDec;
+                m_pVDec = new VideoDecoder();
             }
         }
         if(ret)
