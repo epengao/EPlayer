@@ -34,6 +34,7 @@ FFmpegAudioDecoder::FFmpegAudioDecoder()
 :m_pPCM(NULL)
 ,m_TimeBase(0)
 ,m_pCodecCtx(NULL)
+,m_PlanarPCM(false)
 ,m_pCodecParam(NULL)
 ,m_nMaxPCMBufSize(0)
 {
@@ -55,10 +56,10 @@ EC_U32 FFmpegAudioDecoder::OpenDecoder(MediaContext* pMediaContext)
 
     m_pCodecCtx = pMediaContext->pAudioCodecCtx;
     m_pCodecParam = pMediaContext->pAudioDecParam;
+    m_PlanarPCM = av_sample_fmt_is_planar((AVSampleFormat)pMediaContext->nSampleFormat);
     AVStream* pStream = pMediaContext->pFormatCtx->streams[pMediaContext->nAudioIndex];
 
     m_TimeBase = av_q2d(pStream->time_base);
-
     AVCodec* pCodec = avcodec_find_decoder(m_pCodecCtx->codec_id);
     av_codec_set_pkt_timebase(m_pCodecCtx, m_pCodecCtx->time_base);
 
@@ -86,6 +87,7 @@ void FFmpegAudioDecoder::CloseDecoder()
         av_free(m_pPCM);
         m_pPCM = NULL;
     }
+    m_PlanarPCM = false;
     avcodec_close(m_pCodecCtx);
     m_AudioFrameBuf.nSamples = 0;
     m_AudioFrameBuf.nDataSize = 0;
@@ -126,7 +128,7 @@ EC_U32 FFmpegAudioDecoder::SetInputPacket(SourcePacket* pInputPacket)
         return Audio_Dec_Err_SkipPkt;
 }
 
-EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame, bool rawData)
+EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame)
 {
     int ret = avcodec_receive_frame(m_pCodecCtx, m_pPCM);
     if (ret == AVERROR(EAGAIN))
@@ -144,19 +146,21 @@ EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame, bool ra
         }
         int nFrameSize = nChannels * nSamples * nSampleSize;
 
-        if (rawData)
+        if (!m_PlanarPCM)
         {
+            /* Packet PCM data, set buffer addr directly */
             if (m_AudioFrameBuf.nBufSize && m_AudioFrameBuf.pPCMBuf)
             {
                 m_AudioFrameBuf.nBufSize = 0;
                 ECMemFree(m_AudioFrameBuf.pPCMBuf);
                 m_AudioFrameBuf.pPCMBuf = NULL;
             }
-            m_AudioFrameBuf.pPCMBuf = (char*)m_pPCM->data;
-            m_AudioFrameBuf.nDataSize = m_AudioFrameBuf.nDataSize + nFrameSize;
+            m_AudioFrameBuf.pPCMBuf = (char*)m_pPCM->data[0];
+            m_AudioFrameBuf.nDataSize = m_pPCM->linesize[0];
         }
         else
         {
+            /* Planar PCM data, copy to Packet format */
             int nFreeSize = m_AudioFrameBuf.nBufSize - m_AudioFrameBuf.nDataSize;
             if (nFreeSize < nFrameSize)
             {

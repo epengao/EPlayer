@@ -53,7 +53,6 @@
 
 AudioRender::AudioRender(MediaClock* pClock)
 :m_bEOS(false)
-,m_bRawPCM(false)
 ,m_bBufing(false)
 ,m_bRunning(false)
 ,m_nLastRndTime(0)
@@ -113,7 +112,7 @@ void AudioRender::Seek(EC_U32 nPos, bool fastSeek)
         audioFram.nDataSize = 0;
         audioFram.nTimestamp = 0;
         audioFram.pPCMData = NULL;
-        nRet = m_pDecoderPort->GetAudioFrame(&audioFram, m_bRawPCM);
+        nRet = m_pDecoderPort->GetAudioFrame(&audioFram);
         if(fastSeek)
         {
             checkAgain = (nRet != Audio_Dec_Err_None);
@@ -148,12 +147,11 @@ void AudioRender::CloseDevice()
     m_pAudioDevice->Uninit();
 }
 
-void AudioRender::GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSamples, bool rawData)
+void AudioRender::GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSamples)
 {
     if (ppOutBuf && pOutSize)
     {
         EC_U32 nRet;
-        m_bRawPCM = rawData;
         EC_U32 nTryTimes = 0;
         AudioFrame audioFram;
         do
@@ -163,7 +161,7 @@ void AudioRender::GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSa
             audioFram.nTimestamp = 0;
             audioFram.pPCMData = NULL;
 
-            nRet = m_pDecoderPort->GetAudioFrame(&audioFram, rawData);
+            nRet = m_pDecoderPort->GetAudioFrame(&audioFram);
             if(Audio_Dec_Err_None == nRet)
             {
                 (*ppOutBuf) = audioFram.pPCMData;

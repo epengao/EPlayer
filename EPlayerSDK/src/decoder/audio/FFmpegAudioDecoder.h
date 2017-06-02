@@ -47,10 +47,11 @@ public:
     void CloseDecoder();
     void FlushDecoder();
     EC_U32 SetInputPacket(SourcePacket* pInputPacket);
-    EC_U32 GetOutputFrame(AudioFrame* pOutputAudioFrame, bool rawData = false);
+    EC_U32 GetOutputFrame(AudioFrame* pOutputAudioFrame);
 
 private:
     AVFrame*           m_pPCM;
+    bool               m_PlanarPCM;
     AVCodecContext*    m_pCodecCtx;
     AVCodecParameters* m_pCodecParam;
     double             m_TimeBase;

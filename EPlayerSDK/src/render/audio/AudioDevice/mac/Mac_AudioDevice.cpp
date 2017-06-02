@@ -117,25 +117,31 @@ UInt32 Mac_AudioDevice::SmpleBitSwitch(AudioSampleFormat nFmtIn)
 
 UInt32 Mac_AudioDevice::SampleFmtSwitch(AudioSampleFormat nFmtIn)
 {
+    UInt32 nFormat;
     switch (nFmtIn)
     {
         case AudioSampleFormat_U8:
         case AudioSampleFormat_U8P:
-            return kAppleLosslessFormatFlag_16BitSourceData | kAudioFormatFlagIsPacked;
+            nFormat =  kAppleLosslessFormatFlag_16BitSourceData;
+            break;
         case AudioSampleFormat_S16:
         case AudioSampleFormat_S16P:
-            return kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+            nFormat =  kLinearPCMFormatFlagIsSignedInteger;
+            break;
         case AudioSampleFormat_S32:
         case AudioSampleFormat_S32P:
-            return kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+            nFormat = kLinearPCMFormatFlagIsSignedInteger;
+            break;
         case AudioSampleFormat_Float:
         case AudioSampleFormat_FloatP:
         case AudioSampleFormat_Double:
         case AudioSampleFormat_DoubleP:
-            return kLinearPCMFormatFlagIsFloat | kAudioFormatFlagIsPacked;
+            nFormat = kLinearPCMFormatFlagIsFloat;
+            break;
         default:
-            return kLinearPCMFormatFlagIsFloat | kAudioFormatFlagIsPacked;
+            nFormat = kLinearPCMFormatFlagIsFloat;
     }
+    return nFormat | kAudioFormatFlagIsPacked;
 }
 
 void Mac_AudioDevice::PlaySoundCallback(void* pUserData, AudioQueueRef inQueue, AudioQueueBufferRef outQueueBuf)

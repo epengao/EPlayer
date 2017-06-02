@@ -91,10 +91,10 @@ void AudioDecoder::Flush()
     m_pFFmpegDecoder->FlushDecoder();
 }
 
-EC_U32 AudioDecoder::GetAudioFrame(AudioFrame* pFrameOut, bool rawData)
+EC_U32 AudioDecoder::GetAudioFrame(AudioFrame* pFrameOut)
 {
     ECAutoLock lock(&m_mtxDec);
-    EC_U32 nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut, rawData);
+    EC_U32 nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut);
     if (nRet!= EC_Err_None && pFrameOut)
     {
         if (m_pCurrPacket == NULL)
@@ -109,7 +109,7 @@ EC_U32 AudioDecoder::GetAudioFrame(AudioFrame* pFrameOut, bool rawData)
                 m_pSourcePort->ReturnAudioEmptyPacket(m_pCurrPacket);
                 m_pCurrPacket = NULL;
             }
-            nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut, rawData);
+            nRet = m_pFFmpegDecoder->GetOutputFrame(pFrameOut);
         }
     }
     return nRet;
