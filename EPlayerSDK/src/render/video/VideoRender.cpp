@@ -124,9 +124,9 @@ void VideoRender::Seek(EC_U32 nPos, bool fastSeek)
 
     if (nRet == Video_Render_Err_None)
     {
-        //m_pThreadDriver->RunSteps(1);
         ECAutoLock Lock(&m_mtxVideoDev);
         m_pVideoDevice->DrawFrame(&m_VFrame);
+        m_pMedaiClock->SyncMediaSeekTime(MediaTimeType_Video, m_VFrame.nTimestamp);
     }
 }
 

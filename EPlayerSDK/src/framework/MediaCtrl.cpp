@@ -218,6 +218,7 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
     if(m_HasV && m_pVRnd) m_pVRnd->Pause();
     if(m_pSrc)  m_pSrc->Pause();
     /* Do seek action */
+    m_pClk->ResetMediaSeekTime();
     m_pClk->SetMediaTime(nSeekPos);
     int ret = m_pSrc->Seek(nSeekPos);
     if(Source_Err_None == ret)
@@ -232,6 +233,20 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
         {
             if(m_pVDec) m_pVDec->Flush();
             if(m_pVRnd) m_pVRnd->Seek(nSeekPos, fastSeek);
+        }
+        /* Adjust Seek time offset (over 100)*/
+        if(m_HasA && m_HasV)
+        {
+            TimeStamp timePos = 0;
+            MediaTimeType timeType = MediaTimeType_UnDefine;
+            m_pClk->GetMediaSeekAdjustTime(&timeType, &timePos);
+            if(timePos > 100)
+            {
+                if(timeType == MediaTimeType_Audio)
+                    m_pARnd->Seek((EC_U32)timePos, false);/* accurate seek */
+                else if(timeType == MediaTimeType_Video)
+                    m_pVRnd->Seek((EC_U32)timePos, false); /* accurate seek */
+            }
         }
         if(m_nStatus == MediaCtrlStatus_Play)
         {

@@ -35,6 +35,14 @@
 
 typedef enum
 {
+    MediaTimeType_Audio,
+    MediaTimeType_Video,
+    MediaTimeType_Subtitle,
+    MediaTimeType_UnDefine,
+} MediaTimeType;
+
+typedef enum
+{
     MediaClock_Status_Running,
     MediaClock_Status_Pause,
     MediaClock_Status_Stoped,
@@ -52,11 +60,19 @@ public:
     void SetMediaTime(TimeStamp nTime);
     void UpdateClockTime(TimeStamp nTime);
     void ClockTimeGoForward(TimeStamp nTime);
+    /* Seek time sync ctrl */
+    void ResetMediaSeekTime();
+    void SyncMediaSeekTime(MediaTimeType timeType, TimeStamp timeValue);
+    void GetMediaSeekAdjustTime(MediaTimeType* timeTypeOut, TimeStamp* timeValueOut);
 
 private:
     TimeStamp         m_nTime;
     TimeStamp         m_nLastUpdate;
     MediaClock_Status m_nStatu;
+    /* Seek time sync ctrl */
+    bool              m_bSeekAdjust;
+    TimeStamp         m_nSeekAdjustTime;
+    MediaTimeType     m_nSeekAdjustTimeType;
 };
 
 #endif /* MEDIA_CLOCK_H */

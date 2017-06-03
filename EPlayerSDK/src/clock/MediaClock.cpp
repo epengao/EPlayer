@@ -25,13 +25,17 @@
  * ****************************************************************
  */
 
+#include "ECLog.h"
 #include "ECUtil.h"
 #include "MediaClock.h"
 
 MediaClock::MediaClock()
 :m_nTime(0)
 ,m_nLastUpdate(0)
+,m_bSeekAdjust(false)
+,m_nSeekAdjustTime(0)
 ,m_nStatu(MediaClock_Status_Stoped)
+,m_nSeekAdjustTimeType(MediaTimeType_UnDefine)
 {
 }
 
@@ -56,6 +60,7 @@ void MediaClock::Reset()
     m_nTime = 0;
     m_nLastUpdate = 0;
     m_nStatu = MediaClock_Status_Stoped;
+    ResetMediaSeekTime();
 }
 
 TimeStamp MediaClock::GetClockTime()
@@ -88,4 +93,48 @@ void MediaClock::UpdateClockTime(TimeStamp nTime)
 void MediaClock::ClockTimeGoForward(TimeStamp nTime)
 {
     m_nTime = m_nTime + nTime;
+}
+
+void MediaClock::ResetMediaSeekTime()
+{
+    m_bSeekAdjust = false;
+    m_nSeekAdjustTime = 0;
+    m_nSeekAdjustTimeType = MediaTimeType_UnDefine;
+}
+
+void MediaClock::SyncMediaSeekTime(MediaTimeType timeType, TimeStamp timeValue)
+{
+    if(m_nSeekAdjustTime == 0)
+    {
+        /* Just save seek time */
+        m_nSeekAdjustTime = timeValue;
+        m_nSeekAdjustTimeType = timeType;
+    }
+    else
+    {
+        if(timeValue < m_nSeekAdjustTime)
+        {
+            m_bSeekAdjust = true;
+            m_nSeekAdjustTimeType = timeType;
+        }
+        else if(timeValue > m_nSeekAdjustTime)
+        {
+            m_bSeekAdjust = true;
+            m_nSeekAdjustTime = timeValue;
+        }
+        else
+        {
+            ResetMediaSeekTime();
+        }
+    }
+}
+
+void MediaClock::GetMediaSeekAdjustTime(MediaTimeType* timeTypeOut, TimeStamp* timeValueOut)
+{
+    if(m_bSeekAdjust && timeTypeOut && timeValueOut)
+    {
+        *timeValueOut = m_nSeekAdjustTime;
+        *timeTypeOut = m_nSeekAdjustTimeType;
+    }
+    ResetMediaSeekTime();
 }
