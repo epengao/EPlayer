@@ -47,7 +47,7 @@ public:
     void CloseDecoder();
     void FlushDecoder();
     EC_U32 SetInputPacket(SourcePacket* pInputPacket);
-    EC_U32 GetOutputFrame(AudioFrame* pOutputAudioFrame);
+    EC_U32 GetOutputFrame(AudioFrame* pOutputAudioFrame, bool rawFFPCMBuf = false);
 
 private:
     AVFrame*           m_pPCM;

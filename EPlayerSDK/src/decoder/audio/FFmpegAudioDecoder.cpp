@@ -128,7 +128,7 @@ EC_U32 FFmpegAudioDecoder::SetInputPacket(SourcePacket* pInputPacket)
         return Audio_Dec_Err_SkipPkt;
 }
 
-EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame)
+EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame, bool rawFFPCMBuf)
 {
     int ret = avcodec_receive_frame(m_pCodecCtx, m_pPCM);
     if (ret == AVERROR(EAGAIN))
@@ -146,46 +146,61 @@ EC_U32 FFmpegAudioDecoder::GetOutputFrame(AudioFrame* pOutputAudioFrame)
         }
         int nFrameSize = nChannels * nSamples * nSampleSize;
 
-        if (!m_PlanarPCM)
+        if (rawFFPCMBuf)
         {
-            /* Packet PCM data, set buffer addr directly */
+            /* raw ffmpeg PCM data, set data buf directly */
             if (m_AudioFrameBuf.nBufSize && m_AudioFrameBuf.pPCMBuf)
             {
                 m_AudioFrameBuf.nBufSize = 0;
                 ECMemFree(m_AudioFrameBuf.pPCMBuf);
                 m_AudioFrameBuf.pPCMBuf = NULL;
             }
-            m_AudioFrameBuf.pPCMBuf = (char*)m_pPCM->data[0];
-            m_AudioFrameBuf.nDataSize = m_pPCM->linesize[0];
+            m_AudioFrameBuf.nDataSize = nFrameSize;
+            m_AudioFrameBuf.pPCMBuf = (char*)m_pPCM->data;
         }
         else
         {
-            /* Planar PCM data, copy to Packet format */
-            int nFreeSize = m_AudioFrameBuf.nBufSize - m_AudioFrameBuf.nDataSize;
-            if (nFreeSize < nFrameSize)
+            if (!m_PlanarPCM)
             {
-                EC_U32 nNewBufSize = m_AudioFrameBuf.nDataSize + (nFrameSize * 2);
-                char* pNewBuf = (char*)ECMemAlloc(nNewBufSize);
-
-                if (m_AudioFrameBuf.nDataSize > 0)
+                /* Packet PCM data, set buffer addr directly */
+                if (m_AudioFrameBuf.nBufSize && m_AudioFrameBuf.pPCMBuf)
                 {
-                    ECMemCopy(pNewBuf, m_AudioFrameBuf.pPCMBuf, m_AudioFrameBuf.nDataSize);
+                    m_AudioFrameBuf.nBufSize = 0;
                     ECMemFree(m_AudioFrameBuf.pPCMBuf);
+                    m_AudioFrameBuf.pPCMBuf = NULL;
                 }
-                m_AudioFrameBuf.pPCMBuf = pNewBuf;
-                m_AudioFrameBuf.nBufSize = nNewBufSize;
-                m_AudioFrameBuf.nDataSize = m_AudioFrameBuf.nDataSize;
+                m_AudioFrameBuf.pPCMBuf = (char*)m_pPCM->data[0];
+                m_AudioFrameBuf.nDataSize = m_pPCM->linesize[0];
             }
-            /* Copy PCM data */
-            for (i = 0; i < nSamples; i++)
+            else
             {
-                for (j = 0; j < nChannels; j++)
+                /* Planar PCM data, copy to Packet format */
+                int nFreeSize = m_AudioFrameBuf.nBufSize - m_AudioFrameBuf.nDataSize;
+                if (nFreeSize < nFrameSize)
                 {
-                    uint8_t *dataPtr = m_pPCM->data[j] + nSampleSize * i;
-                    uint8_t *buffPtr = (uint8_t*)m_AudioFrameBuf.pPCMBuf + m_AudioFrameBuf.nDataSize;
+                    EC_U32 nNewBufSize = m_AudioFrameBuf.nDataSize + (nFrameSize * 2);
+                    char* pNewBuf = (char*)ECMemAlloc(nNewBufSize);
 
-                    ECMemCopy(buffPtr, dataPtr, nSampleSize);
-                    m_AudioFrameBuf.nDataSize = m_AudioFrameBuf.nDataSize + nSampleSize;
+                    if (m_AudioFrameBuf.nDataSize > 0)
+                    {
+                        ECMemCopy(pNewBuf, m_AudioFrameBuf.pPCMBuf, m_AudioFrameBuf.nDataSize);
+                        ECMemFree(m_AudioFrameBuf.pPCMBuf);
+                    }
+                    m_AudioFrameBuf.pPCMBuf = pNewBuf;
+                    m_AudioFrameBuf.nBufSize = nNewBufSize;
+                    m_AudioFrameBuf.nDataSize = m_AudioFrameBuf.nDataSize;
+                }
+                /* Copy PCM data */
+                for (i = 0; i < nSamples; i++)
+                {
+                    for (j = 0; j < nChannels; j++)
+                    {
+                        uint8_t *dataPtr = m_pPCM->data[j] + nSampleSize * i;
+                        uint8_t *buffPtr = (uint8_t*)m_AudioFrameBuf.pPCMBuf + m_AudioFrameBuf.nDataSize;
+
+                        ECMemCopy(buffPtr, dataPtr, nSampleSize);
+                        m_AudioFrameBuf.nDataSize = m_AudioFrameBuf.nDataSize + nSampleSize;
+                    }
                 }
             }
         }

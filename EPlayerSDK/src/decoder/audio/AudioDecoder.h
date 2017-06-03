@@ -73,7 +73,7 @@ public:
                        SourceAudioPort* pSourcePort);
     void CloseDecoder();
     void Flush();
-    EC_U32 GetAudioFrame(AudioFrame* pFrameOut);
+    EC_U32 GetAudioFrame(AudioFrame* pFrameOut, bool rawFFPCMBuf = false);
     AudioDecPort* GetAudioDecPort() { return m_pPort; };
 
 private:

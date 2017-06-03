@@ -69,13 +69,14 @@ public:
     EC_U32 OpenDevice(MediaContext* pMediaContext,
                       AudioDecPort* pAudioDecPort);
     void CloseDevice();
-    void GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSamples);
+    void GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSamples, bool rawFFPCMBuf = false);
     AudioSampleFormat SampleFmtSwitch(int nFmtIn);
 
 private:
     bool          m_bEOS;
     bool          m_bBufing;
     bool          m_bRunning;
+    bool          m_bRawFFPcm;
     EC_U32        m_nLastRndTime;
     MediaClock*   m_pMedaiClock;
     AudioDeviceI* m_pAudioDevice;

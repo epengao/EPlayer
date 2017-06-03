@@ -37,7 +37,7 @@ AudioDecPort::~AudioDecPort()
 {
 }
 
-EC_U32 AudioDecPort::GetAudioFrame(AudioFrame* pFrameOut)
+EC_U32 AudioDecPort::GetAudioFrame(AudioFrame* pFrameOut, bool rawFFPCMBuf)
 {
-    return m_pOwner->GetAudioFrame(pFrameOut);
+    return m_pOwner->GetAudioFrame(pFrameOut, rawFFPCMBuf);
 }

@@ -36,7 +36,7 @@ class AudioDecPort
 public:
     AudioDecPort(AudioDecoder *pDecoder);
     ~AudioDecPort();
-    EC_U32 GetAudioFrame(AudioFrame* pFrameOut);
+    EC_U32 GetAudioFrame(AudioFrame* pFrameOut, bool rawFFPCMBuf = false);
 
 private:
     AudioDecoder*    m_pOwner;
