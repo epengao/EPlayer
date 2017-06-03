@@ -123,18 +123,21 @@ void SDL_VideoDevice::Flush()
 
 void SDL_VideoDevice::DrawFrame(VideoFrame *pFrame)
 {
-    AVFrame* pOutFrame = NULL;
-    m_pVideoFrameScale->DoScalingFrame(pFrame->pAVFrame, &pOutFrame);
-
-    if (pOutFrame != NULL)
+    if (pFrame)
     {
-        m_pSDLOverlay->pixels[0] = pOutFrame->data[0];
-        m_pSDLOverlay->pixels[1] = pOutFrame->data[1];
-        m_pSDLOverlay->pixels[2] = pOutFrame->data[2];
-        m_pSDLOverlay->pitches[0] = pOutFrame->linesize[0];
-        m_pSDLOverlay->pitches[1] = pOutFrame->linesize[1];
-        m_pSDLOverlay->pitches[2] = pOutFrame->linesize[2];
-        SDL_DisplayYUVOverlay(m_pSDLOverlay, &m_sSDLRect);
+        AVFrame* pOutFrame = NULL;
+        m_pVideoFrameScale->DoScalingFrame(pFrame->pAVFrame, &pOutFrame);
+
+        if (pOutFrame != NULL)
+        {
+            m_pSDLOverlay->pixels[0] = pOutFrame->data[0];
+            m_pSDLOverlay->pixels[1] = pOutFrame->data[1];
+            m_pSDLOverlay->pixels[2] = pOutFrame->data[2];
+            m_pSDLOverlay->pitches[0] = pOutFrame->linesize[0];
+            m_pSDLOverlay->pitches[1] = pOutFrame->linesize[1];
+            m_pSDLOverlay->pitches[2] = pOutFrame->linesize[2];
+            SDL_DisplayYUVOverlay(m_pSDLOverlay, &m_sSDLRect);
+        }
     }
 }
 

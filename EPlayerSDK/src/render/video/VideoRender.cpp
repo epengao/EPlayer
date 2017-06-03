@@ -101,33 +101,33 @@ void VideoRender::Flush()
     m_VFrame.nTimestamp = 0;
 }
 
-void VideoRender::Seek(EC_U32 nPos, bool fastSeek)
+EC_U32 VideoRender::Seek(EC_U32 nTargetPos, bool fastSeek)
 {
     Flush();
 
-    EC_U32 nRet = 0;
+    EC_U32 nRetCheck = 0;
     bool checkAgain = false;
     EC_U32 nMaxTry = V_RND_SEEK_MAX_TRY;
     do
     {
         nMaxTry--;
-        nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
+        nRetCheck = m_pDecoderPort->GetVideoFrame(&m_VFrame);
         if(fastSeek)
         {
-            checkAgain = (nRet != EC_Err_None);
+            checkAgain = (nRetCheck != EC_Err_None);
         }
         else
         {
-            checkAgain = (m_VFrame.nTimestamp < (nPos - 500));
+            checkAgain = (m_VFrame.nTimestamp < (nTargetPos - 100));
         }
     } while (nMaxTry > 0 && checkAgain);
 
-    if (nRet == Video_Render_Err_None)
+    if (nRetCheck == Video_Render_Err_None)
     {
         ECAutoLock Lock(&m_mtxVideoDev);
         m_pVideoDevice->DrawFrame(&m_VFrame);
-        m_pMedaiClock->SyncMediaSeekTime(MediaTimeType_Video, m_VFrame.nTimestamp);
     }
+    return m_VFrame.nTimestamp;
 }
 
 EC_U32 VideoRender::OpenDevice(void* pVideoWindow,
@@ -153,9 +153,9 @@ void VideoRender::CloseDevice()
     {
         ECAutoLock Lock(&m_mtxVideoDev);
         m_pVideoDevice->Uninit();
+        m_VFrame.nTimestamp = 0;
+        m_VFrame.pAVFrame = NULL;
     }
-    m_VFrame.nTimestamp = 0;
-    m_VFrame.pAVFrame = NULL;
 }
 
 void VideoRender::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
@@ -175,7 +175,7 @@ void VideoRender::DoRunning()
         nRet = m_pDecoderPort->GetVideoFrame(&m_VFrame);
         if (nRet == Video_Render_Err_None)
         {
-            if (m_pMedaiClock)
+            if (m_VFrame.pAVFrame)
             {
                 bool renderFrame = true;
                 TimeStamp nClockTime = m_pMedaiClock->GetClockTime();

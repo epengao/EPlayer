@@ -45,7 +45,7 @@ public:
     void Run();
     void Pause();
     void Flush();
-    void Seek(EC_U32 nPos, bool fastSeek = false);
+    EC_U32 Seek(EC_U32 nTargetPos, bool fastSeek = false);
     EC_U32 OpenDevice(void* pVideoWindow,
                       int nWindowWidth,
                       int nWindowHeight,

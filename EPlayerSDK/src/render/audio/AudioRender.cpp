@@ -98,11 +98,11 @@ void AudioRender::Flush()
     m_pAudioDevice->Flush();
 }
 
-void AudioRender::Seek(EC_U32 nPos, bool fastSeek)
+EC_U32 AudioRender::Seek(EC_U32 nTargetPos, bool fastSeek)
 {
     Flush();
 
-    EC_U32 nRet = 0;
+    EC_U32 nRetCheck = 0;
     AudioFrame audioFram;
     bool checkAgain = false;
     EC_U32 nMaxTry = A_RND_SEEK_MAX_TRY;
@@ -113,21 +113,18 @@ void AudioRender::Seek(EC_U32 nPos, bool fastSeek)
         audioFram.nDataSize = 0;
         audioFram.nTimestamp = 0;
         audioFram.pPCMData = NULL;
-        nRet = m_pDecoderPort->GetAudioFrame(&audioFram, m_bRawFFPcm);
+        nRetCheck = m_pDecoderPort->GetAudioFrame(&audioFram, m_bRawFFPcm);
         if(fastSeek)
         {
-            checkAgain = (nRet != Audio_Dec_Err_None);
+            checkAgain = (nRetCheck != Audio_Dec_Err_None);
         }
         else
         {
-            checkAgain = (audioFram.nTimestamp < nPos - 100);
+            checkAgain = (audioFram.nTimestamp < nTargetPos - 100);
         }
     } while (nMaxTry > 0 && checkAgain);
 
-    if(nRet == Audio_Dec_Err_None)
-    {
-        m_pMedaiClock->SyncMediaSeekTime(MediaTimeType_Audio, audioFram.nTimestamp);
-    }
+    return audioFram.nTimestamp;
 }
 
 EC_U32 AudioRender::OpenDevice(MediaContext* pMediaContext,

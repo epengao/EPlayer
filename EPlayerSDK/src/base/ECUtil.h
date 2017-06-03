@@ -30,6 +30,12 @@
 
 #include "ECType.h"
 
+template <class T>
+inline const T& ECMax(const T& a, const T& b)
+{
+    return a > b ? a : b;
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif

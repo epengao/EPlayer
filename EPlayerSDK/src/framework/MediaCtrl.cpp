@@ -26,6 +26,7 @@
  */
 
 #include "ECLog.h"
+#include "ECUtil.h"
 #include "MediaCtrl.h"
 
 MediaCtrl::MediaCtrl()
@@ -218,43 +219,42 @@ int MediaCtrl::Seek(EC_U32 nSeekPos)
     if(m_HasV && m_pVRnd) m_pVRnd->Pause();
     if(m_pSrc)  m_pSrc->Pause();
     /* Do seek action */
-    m_pClk->ResetMediaSeekTime();
     m_pClk->SetMediaTime(nSeekPos);
     int ret = m_pSrc->Seek(nSeekPos);
     if(Source_Err_None == ret)
     {
         bool fastSeek = true;
+        EC_U32 nRealAudioPos = 0;
+        EC_U32 nRealVideoPos = 0;
+        EC_U32 nTargetPos = nSeekPos;
         if(m_HasA)
         {
             if(m_pADec) m_pADec->Flush();
-            if(m_pARnd) m_pARnd->Seek(nSeekPos, fastSeek);
+            if (m_pARnd) nRealAudioPos = m_pARnd->Seek(nTargetPos, fastSeek);
         }
         if(m_HasV)
         {
             if(m_pVDec) m_pVDec->Flush();
-            if(m_pVRnd) m_pVRnd->Seek(nSeekPos, fastSeek);
+            if (m_pVRnd) nRealVideoPos = m_pVRnd->Seek(nTargetPos, fastSeek);
         }
         /* Adjust Seek time offset (over 100)*/
-        if(m_HasA && m_HasV)
+        if(m_HasA && (nRealAudioPos < nRealVideoPos))
         {
-            TimeStamp timePos = 0;
-            MediaTimeType timeType = MediaTimeType_UnDefine;
-            m_pClk->GetMediaSeekAdjustTime(&timeType, &timePos);
-            if(timePos > 100)
-            {
-                if(timeType == MediaTimeType_Audio)
-                    m_pARnd->Seek((EC_U32)timePos, false);/* accurate seek */
-                else if(timeType == MediaTimeType_Video)
-                    m_pVRnd->Seek((EC_U32)timePos, false); /* accurate seek */
-            }
+            nRealAudioPos = m_pARnd->Seek(nRealVideoPos, false);/* accurate seek */
         }
-        if(m_nStatus == MediaCtrlStatus_Play)
+        else if(m_HasV && (nRealVideoPos < nRealAudioPos))
         {
-            if(m_HasA && m_pARnd) m_pARnd->Run();
-            m_pClk->Run();
-            m_pSrc->Run();
-            if(m_HasV && m_pVRnd) m_pVRnd->Run();
+            nRealVideoPos = m_pVRnd->Seek(nRealAudioPos, false); /* accurate seek */
         }
+        m_pClk->SetNextRunBaseTime(ECMax(nRealAudioPos, nRealVideoPos));
+    }
+    /* If previous is playing, resote status */
+    if (m_nStatus == MediaCtrlStatus_Play)
+    {
+        if (m_HasA && m_pARnd) m_pARnd->Run();
+        m_pClk->Run();
+        m_pSrc->Run();
+        if (m_HasV && m_pVRnd) m_pVRnd->Run();
     }
     return ret;
 }
