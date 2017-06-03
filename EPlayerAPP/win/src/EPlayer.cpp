@@ -1288,6 +1288,7 @@ void VideoEntryFullScreen()
 {
     if (g_bVideoFullScreen) return;
     if (g_pMediaEng &&
+        g_pMediaEng->HasVideo() &&
         g_pMediaEng->HasPlayMedia())
     {
         SetParent(g_hWndVideoScreen, GetDesktopWindow());
