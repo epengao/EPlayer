@@ -521,6 +521,7 @@
     if(ret == EPlayer_Err_None)
     {
         _mediaInfo = [_playerSDK getMeidaInfo];
+        _MediaCtrPanel.mediaInfo = _mediaInfo;
         if(_mediaInfo.hasAudio)
         {
             [self setAudioMenuItems:YES];
@@ -533,7 +534,10 @@
         [self setMenuStatus:_closeMediaMenu status:YES action:@selector(menuCloseMedia:)];
         float duration = _mediaInfo.duration;
         [_MediaCtrPanel updatePlayPauseUI:YES];
-        [_MediaCtrPanel updateProgressBarInfo:0.0 max:duration currValue:0.0 runing:YES];
+        if(_mediaInfo.seekable)
+        {
+            [_MediaCtrPanel updateProgressBarInfo:0.0 max:duration currValue:0.0 runing:YES];
+        }
         //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
         [_playerSDK play];
         if(!self.window.isFullScreen && _mediaInfo.hasVideo)

@@ -78,6 +78,7 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
  * NOTE: duration use ms
  */
 @interface MediaInfo : NSObject
+  @property (nonatomic, assign) BOOL seekable;
   @property (nonatomic, assign) BOOL hasAudio;
   @property (nonatomic, assign) BOOL hasVideo;
   @property (nonatomic, assign) NSUInteger duration;

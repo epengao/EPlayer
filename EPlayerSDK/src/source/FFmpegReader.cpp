@@ -133,6 +133,14 @@ EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
     {
         m_MediaContext.nDuration = (EC_U32)(m_MediaContext.pFormatCtx->duration / TIME_UNIT);
     }
+    if(m_MediaContext.nDuration > 0)
+    {
+        m_MediaContext.seekable = true;
+    }
+    else
+    {
+        m_MediaContext.seekable = false;
+    }
 
     return Source_Err_None;
 }

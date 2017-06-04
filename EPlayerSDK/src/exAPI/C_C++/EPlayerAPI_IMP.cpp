@@ -94,6 +94,7 @@ void GetMeidaInfo(MediaInfo* pMediaInfo)
         const MediaContext *pCtx = gPlayer->GetMeidaContext();
         if (pCtx != NULL)
         {
+            pMediaInfo->seekable = pCtx->seekable;
             pMediaInfo->hasAudio = pCtx->hasAudio;
             pMediaInfo->hasVideo = pCtx->hasVideo;
             pMediaInfo->nDuration = pCtx->nDuration;

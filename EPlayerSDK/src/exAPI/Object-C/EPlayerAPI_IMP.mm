@@ -142,6 +142,7 @@ void NotifyHandler(void* pUserData, unsigned int msg);
             if(ctx != NULL)
             {
                 mediaInfo = [[MediaInfo alloc] init];
+                mediaInfo.seekable = ctx->seekable;
                 mediaInfo.hasAudio = ctx->hasAudio;
                 mediaInfo.hasVideo = ctx->hasVideo;
                 mediaInfo.duration = ctx->nDuration;

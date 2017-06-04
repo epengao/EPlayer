@@ -42,6 +42,7 @@ extern "C"
 typedef AVPacket SourcePacket;
 typedef struct __MediaContext
 {
+    bool   seekable;
     bool   hasVideo;
     bool   hasAudio;
     EC_U32 nChannels;

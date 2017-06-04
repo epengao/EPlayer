@@ -36,6 +36,7 @@
     {
         self.mainCtrl = nil;
         self.playerSDK = nil;
+        self.mediaInfo = nil;
         self.needRestorePlay = NO;
         self.needUpdatePlaytime = NO;
     }
@@ -177,7 +178,7 @@
 }
 - (IBAction)progressBarAction:(LADSlider *)sender
 {
-    if(_playerSDK != nil && [_playerSDK hasMediaActived])
+    if(_playerSDK != nil && [_playerSDK hasMediaActived] && _mediaInfo.seekable)
     {
         //NSEvent *event = [[NSApplication sharedApplication] currentEvent];
         NSEvent *event = [[sender window] currentEvent];

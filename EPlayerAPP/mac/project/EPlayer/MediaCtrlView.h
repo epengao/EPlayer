@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 
 @interface MediaCtrlView : NSView
+@property MediaInfo* mediaInfo;
 @property AppDelegate* mainCtrl;
 @property EPlayerAPI* playerSDK;
 - (void)initShadowView;

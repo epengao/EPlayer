@@ -84,6 +84,7 @@ typedef enum
  */
 typedef struct
 {
+    bool seekable;
     bool hasAudio;
     bool hasVideo;
     unsigned int nDuration;
