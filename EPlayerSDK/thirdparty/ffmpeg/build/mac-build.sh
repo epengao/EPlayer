@@ -34,7 +34,7 @@ function do_build_out_copy
 function do_build_post_clean
 {
     echo "clean all the build temp files."
-    if [ -d "${HEADERS_OUT}" ]; then
+    if [ -d "${SRC_DIR}" ]; then
         cd ${SRC_DIR}
         make clean
     fi
@@ -59,7 +59,6 @@ echo "now doing configure before build ffmpeg ..."
     --disable-ffmpeg \
     --disable-symver \
     --disable-shared \
-    --disable-logging \
     --disable-ffprobe \
     --disable-ffserver \
     --disable-avdevice \
