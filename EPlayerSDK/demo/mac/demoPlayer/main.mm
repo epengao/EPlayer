@@ -13,7 +13,7 @@
 #define W_WIDTH  907
 #define W_HEIGHT 617
 
-NSWindow* creat_window(int w, int h)
+VideoWindow* creat_window(int w, int h)
 {
     [NSApplication sharedApplication];
     NSRect windowRect = NSMakeRect(100, 100, w, h);
@@ -23,7 +23,7 @@ NSWindow* creat_window(int w, int h)
                                                       backing:NSBackingStoreBuffered
                                                         defer:NO];
     [window orderFrontRegardless];
-    return window;
+    return [VideoWindow createVideoWindowFrom:window];
 }
 
 static void print_media_time(int time_ms)
@@ -42,10 +42,10 @@ int main(int argc, const char * argv[])
 {
     playerAPI = [EPlayerAPI sharedEPlayerAPI];
     NSString* mediaPath = @"/User/EPlayer/mediaTest.mkv";
-    NSWindow *videoScreen = creat_window(W_WIDTH , W_HEIGHT);
+    VideoWindow *videoScreen = creat_window(W_WIDTH , W_HEIGHT);
 
     NSInteger nRet = [playerAPI openMediaPath:mediaPath
-                                  videoWindow:(__bridge void*)videoScreen
+                                  videoWindow:videoScreen
                                   windowWidth:W_WIDTH
                                  windowHeight:W_HEIGHT];
     if(nRet == EPlayer_Err_None)

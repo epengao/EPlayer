@@ -58,7 +58,6 @@
 		0200ADB21EB89ECE00A3B1CC /* AudioRender.h in Headers */ = {isa = PBXBuildFile; fileRef = 0200AD5E1EB89ECE00A3B1CC /* AudioRender.h */; };
 		0200ADB31EB89ECE00A3B1CC /* FrameScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0200AD621EB89ECE00A3B1CC /* FrameScale.cpp */; };
 		0200ADB41EB89ECE00A3B1CC /* FrameScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 0200AD631EB89ECE00A3B1CC /* FrameScale.h */; };
-		0200ADB71EB89ECE00A3B1CC /* Mac_VideoDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0200AD671EB89ECE00A3B1CC /* Mac_VideoDevice.cpp */; };
 		0200ADB81EB89ECE00A3B1CC /* Mac_VideoDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 0200AD681EB89ECE00A3B1CC /* Mac_VideoDevice.h */; };
 		0200ADBB1EB89ECE00A3B1CC /* VideoDeviceI.h in Headers */ = {isa = PBXBuildFile; fileRef = 0200AD6C1EB89ECE00A3B1CC /* VideoDeviceI.h */; };
 		0200ADBC1EB89ECE00A3B1CC /* VideoRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0200AD6D1EB89ECE00A3B1CC /* VideoRender.cpp */; };
@@ -73,6 +72,7 @@
 		0200ADC51EB89ECE00A3B1CC /* SourceAudioPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 0200AD771EB89ECE00A3B1CC /* SourceAudioPort.h */; };
 		0200ADC61EB89ECE00A3B1CC /* SourceVideoPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0200AD781EB89ECE00A3B1CC /* SourceVideoPort.cpp */; };
 		0200ADC71EB89ECE00A3B1CC /* SourceVideoPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 0200AD791EB89ECE00A3B1CC /* SourceVideoPort.h */; };
+		021161C21EE6A3B10090FA94 /* Mac_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161C11EE6A3B10090FA94 /* Mac_VideoDevice.mm */; };
 		02BA0E7F1ECD5319008D136E /* EPlayerAPI_IMP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02BA0E7D1ECD5319008D136E /* EPlayerAPI_IMP.mm */; };
 		02BA0E801ECD5319008D136E /* EPlayerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BA0E7E1ECD5319008D136E /* EPlayerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02BA0E811ECD76B1008D136E /* EPlayerAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02BA0E7E1ECD5319008D136E /* EPlayerAPI.h */; };
@@ -162,7 +162,6 @@
 		0200AD5E1EB89ECE00A3B1CC /* AudioRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRender.h; sourceTree = "<group>"; };
 		0200AD621EB89ECE00A3B1CC /* FrameScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameScale.cpp; sourceTree = "<group>"; };
 		0200AD631EB89ECE00A3B1CC /* FrameScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameScale.h; sourceTree = "<group>"; };
-		0200AD671EB89ECE00A3B1CC /* Mac_VideoDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mac_VideoDevice.cpp; sourceTree = "<group>"; };
 		0200AD681EB89ECE00A3B1CC /* Mac_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mac_VideoDevice.h; sourceTree = "<group>"; };
 		0200AD6C1EB89ECE00A3B1CC /* VideoDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDeviceI.h; sourceTree = "<group>"; };
 		0200AD6D1EB89ECE00A3B1CC /* VideoRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoRender.cpp; sourceTree = "<group>"; };
@@ -177,6 +176,7 @@
 		0200AD771EB89ECE00A3B1CC /* SourceAudioPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceAudioPort.h; sourceTree = "<group>"; };
 		0200AD781EB89ECE00A3B1CC /* SourceVideoPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SourceVideoPort.cpp; sourceTree = "<group>"; };
 		0200AD791EB89ECE00A3B1CC /* SourceVideoPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceVideoPort.h; sourceTree = "<group>"; };
+		021161C11EE6A3B10090FA94 /* Mac_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Mac_VideoDevice.mm; sourceTree = "<group>"; };
 		024F34D11EB8832300E1DABC /* libEPlayerSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEPlayerSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		02BA0E7D1ECD5319008D136E /* EPlayerAPI_IMP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EPlayerAPI_IMP.mm; path = "Object-C/EPlayerAPI_IMP.mm"; sourceTree = "<group>"; };
 		02BA0E7E1ECD5319008D136E /* EPlayerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EPlayerAPI.h; path = "Object-C/EPlayerAPI.h"; sourceTree = "<group>"; };
@@ -396,7 +396,7 @@
 		0200AD661EB89ECE00A3B1CC /* mac */ = {
 			isa = PBXGroup;
 			children = (
-				0200AD671EB89ECE00A3B1CC /* Mac_VideoDevice.cpp */,
+				021161C11EE6A3B10090FA94 /* Mac_VideoDevice.mm */,
 				0200AD681EB89ECE00A3B1CC /* Mac_VideoDevice.h */,
 			);
 			path = mac;
@@ -603,9 +603,9 @@
 				0200ADB31EB89ECE00A3B1CC /* FrameScale.cpp in Sources */,
 				0200AD8B1EB89ECE00A3B1CC /* ECThreadDriver.cpp in Sources */,
 				0200ADA41EB89ECE00A3B1CC /* MessageHub.cpp in Sources */,
+				021161C21EE6A3B10090FA94 /* Mac_VideoDevice.mm in Sources */,
 				0200ADBC1EB89ECE00A3B1CC /* VideoRender.cpp in Sources */,
 				0200ADC01EB89ECE00A3B1CC /* MediaSource.cpp in Sources */,
-				0200ADB71EB89ECE00A3B1CC /* Mac_VideoDevice.cpp in Sources */,
 				0200AD8D1EB89ECE00A3B1CC /* ECThreadWorker.cpp in Sources */,
 				0200ADAC1EB89ECE00A3B1CC /* Mac_AudioDevice.cpp in Sources */,
 				0200AD9E1EB89ECE00A3B1CC /* VideoDecPort.cpp in Sources */,

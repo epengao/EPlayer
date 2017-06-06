@@ -85,14 +85,15 @@ void NotifyHandler(void* pUserData, unsigned int msg);
 }
 
 - (NSInteger) openMediaPath:(NSString*)path
-                videoWindow:(void*)window
+                videoWindow:(VideoWindow*)window
                 windowWidth:(NSUInteger)width
                windowHeight:(NSUInteger)height
 {
     const char* mediaPath = [path UTF8String];
+    void* videoWnd = (__bridge void*)window;
     unsigned int wndWidth = (unsigned int)width;
     unsigned int wndHeight = (unsigned int)height;
-    return playerSDK->OpenMedia(mediaPath, window, wndWidth, wndHeight);
+    return playerSDK->OpenMedia(mediaPath, videoWnd, wndWidth, wndHeight);
 }
 
 -(NSInteger) closeMedia
@@ -177,7 +178,7 @@ void NotifyHandler(void* pUserData, unsigned int msg);
     }
 }
 
-- (void) updateVideoWindow:(void*)window
+- (void) updateVideoWindow:(VideoWindow*)window
                windowWidth:(NSUInteger)width
               windowHeight:(NSUInteger)height
 {
@@ -186,7 +187,8 @@ void NotifyHandler(void* pUserData, unsigned int msg);
        status == PlayerStatus_Playing||
        status == PlayerStatus_Seeking )
     {
-        playerSDK->UpdateVideoWindow(window, (unsigned int)width, (unsigned int)height);
+        void* videoWnd = (__bridge void*)window;
+        playerSDK->UpdateVideoWindow(videoWnd, (unsigned int)width, (unsigned int)height);
     }
 }
 @end

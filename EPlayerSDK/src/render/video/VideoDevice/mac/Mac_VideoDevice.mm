@@ -25,7 +25,28 @@
  * ****************************************************************
  */
 
-#include "Mac_VideoDevice.h"
+#import "Mac_VideoDevice.h"
+#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+
+@interface VideoWindow : NSObject
++ (VideoWindow*) createVideoWindowFrom: (NSWindow*)window;
+@end
+@interface VideoWindow ()
+@property (nonatomic, assign) NSWindow* _videoWnd;
+@end
+
+@implementation VideoWindow
++ (VideoWindow*) createVideoWindowFrom: (NSWindow*)window
+{
+    VideoWindow* wnd = [[VideoWindow alloc] init];
+    if((wnd != nil) && (window != nil))
+    {
+        wnd._videoWnd = window;
+    }
+    return wnd;
+}
+@end
 
 Mac_VideoDevice::Mac_VideoDevice()
 {
@@ -43,8 +64,9 @@ int Mac_VideoDevice::Init(void* pVideoWindow,
                           MediaContext* pMediaContext)
 {
 
-    return m_pRndDev->Init(pVideoWindow, nWindowWidth,
-                           nWindowHeight, pMediaContext);
+    VideoWindow *pWnd = (__bridge VideoWindow*)pVideoWindow;
+    return m_pRndDev->Init((__bridge void*)pWnd._videoWnd,
+                           nWindowWidth, nWindowHeight, pMediaContext);
 }
 
 void Mac_VideoDevice::Uninit()

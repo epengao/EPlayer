@@ -25,6 +25,7 @@
  * ****************************************************************
  */
 
+#import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
 
 /* Return Err Define */
@@ -73,6 +74,17 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
     EPlayerStatus_Unknown = 0xFF,
 };
 
+#if TARGET_OS_IPHONE
+@interface VideoWindow : UIView
+- (id)initWithFrame:(CGRect)frame
+- (id)initWithCoder:(NSCoder*)aDecoder
+@end
+#elif TARGET_OS_MAC
+@interface VideoWindow : NSObject
++ (VideoWindow*)createVideoWindowFrom:(NSWindow*)window;
+@end
+#endif
+
 /*
  * MeidaInfo
  * NOTE: duration use ms
@@ -109,13 +121,13 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
  * API: openMeida
  * @pMediaPath: Local file/Network URL
  * @videoWindow: Video output Window
-                 Mac with NSWindow, iOS with UIImage
+                 Mac create it with NSWindow, iOS create it with UIView
  * @windowWidth: Video output window width
  * @windowHeight: Video output window height
  * API return: If open a media OK return 0, else return Err value.
  */
 - (NSInteger) openMediaPath:(NSString*)path
-                videoWindow:(void*)window
+                videoWindow:(VideoWindow*)window
                 windowWidth:(NSUInteger)width
                windowHeight:(NSUInteger)height;
 /*
@@ -181,7 +193,7 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
  * @hight: new video output window height
  * This API for video output window changed, from current window to another.
  */
-- (void) updateVideoWindow:(void*)window
+- (void) updateVideoWindow:(VideoWindow*)window
                windowWidth:(NSUInteger)width
               windowHeight:(NSUInteger)height;
 /*
