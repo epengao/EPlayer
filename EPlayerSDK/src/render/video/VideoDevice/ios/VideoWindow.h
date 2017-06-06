@@ -16,8 +16,8 @@
  *
  * Project: EC < Enjoyable Coding >
  *
- * iOS_VideoDevice.h
- * Here we define a class to Package the iOS platform video output.
+ * VideoWindow.h
+ * Here we define a VideoWindow view for output of iOS platform.
  *
  * Eamil:   epengao@126.com
  * Author:  Gao Peng
@@ -25,32 +25,16 @@
  * ****************************************************************
  */
 
-#ifndef IOS_VIDEO_DEVICE_H
-#define IOS_VIDEO_DEVICE_H
+#import <UIKit/UIKit.h>
+#import <OpenGLES/EAGL.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import <QuartzCore/QuartzCore.h>
 
-@class VideoWindow;
-#include "VideoDeviceI.h"
-
-class iOS_VideoDevice : public VideoDeviceI
-{
-public:
-    iOS_VideoDevice();
-    ~iOS_VideoDevice();
-    int Init(void* pVideoWindow,
-             int nWindowWidth,
-             int nWindowHeight,
-             MediaContext* pMediaContext);
-    void Uninit();
-    void Flush();
-    void DrawFrame(VideoFrame *pFrame);
-    void UpdateVideoWindow(void* pWindow, int nWidth, int nHeight);
-
-private:
-    VideoWindow* m_pUserWnd;
-    EC_U32       m_nVideoWidth;
-    EC_U32       m_nVideoHeight;
-    EC_U32       m_nUserWndWidth;
-    EC_U32       m_nUserWndHeight;
-};
-
-#endif /* IOS_VIDEO_DEVICE_H */
+@interface VideoWindow : UIView
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithCoder:(NSCoder*)aDecoder;
+- (void)clearWindow;
+- (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
+- (void)setVidowDrawRect:(GLuint)x :(GLuint)y width:(GLuint)width height:(GLuint)height;
+@end

@@ -25,8 +25,12 @@
  * ****************************************************************
  */
 
-#import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#include <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
 
 /* Return Err Define */
 #define EPlayer_Err_None                 0x00000000
@@ -76,8 +80,8 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
 
 #if TARGET_OS_IPHONE
 @interface VideoWindow : UIView
-- (id)initWithFrame:(CGRect)frame
-- (id)initWithCoder:(NSCoder*)aDecoder
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithCoder:(NSCoder*)aDecoder;
 @end
 #elif TARGET_OS_MAC
 @interface VideoWindow : NSObject

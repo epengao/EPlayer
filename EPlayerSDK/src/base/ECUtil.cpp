@@ -151,7 +151,7 @@ EC_U64  ECTGetSystemTimeU()
     nRet = (ts.tv_sec * 1000 * 1000 + ts.tv_nsec / 1000);
 #elif defined EC_OS_iOS
     timeval curTime;
-    gettimeofday(&curTime, EC_NULL);
+    gettimeofday(&curTime, NULL);
     nRet = (EC_U32)curTime.tv_sec*1000*1000 + (EC_U32)curTime.tv_usec;
 #elif defined EC_OS_Android
     struct timespec ts;

@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021161C51EE6B1AD0090FA94 /* iOS_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */; };
+		021161CB1EE6B6510090FA94 /* VideoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161CA1EE6B6510090FA94 /* VideoWindow.mm */; };
+		021161CE1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021161CC1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp */; };
+		02B383971EE6CCBD00B5DAF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383961EE6CCBD00B5DAF4 /* UIKit.framework */; };
+		02B383A21EE6CCF100B5DAF4 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839C1EE6CCF100B5DAF4 /* libavcodec.a */; };
+		02B383A31EE6CCF100B5DAF4 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839D1EE6CCF100B5DAF4 /* libavfilter.a */; };
+		02B383A41EE6CCF100B5DAF4 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839E1EE6CCF100B5DAF4 /* libavformat.a */; };
+		02B383A51EE6CCF100B5DAF4 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839F1EE6CCF100B5DAF4 /* libavutil.a */; };
+		02B383A61EE6CCF100B5DAF4 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383A01EE6CCF100B5DAF4 /* libswresample.a */; };
+		02B383A71EE6CCF100B5DAF4 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383A11EE6CCF100B5DAF4 /* libswscale.a */; };
+		02B383AB1EE6D1BF00B5DAF4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383AA1EE6D1BF00B5DAF4 /* libz.tbd */; };
+		02B383B11EE6D22900B5DAF4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383B01EE6D22900B5DAF4 /* QuartzCore.framework */; };
+		02B383B21EE6D28500B5DAF4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839A1EE6CCCF00B5DAF4 /* AudioToolbox.framework */; };
+		02B383B31EE6D29900B5DAF4 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383A81EE6CD6200B5DAF4 /* OpenGLES.framework */; };
+		02B383B41EE6D2AE00B5DAF4 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383AC1EE6D1C700B5DAF4 /* libbz2.tbd */; };
 		90F9B78F1EE59B9900C2B5F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B78E1EE59B9900C2B5F4 /* main.m */; };
 		90F9B7921EE59B9900C2B5F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7911EE59B9900C2B5F4 /* AppDelegate.m */; };
 		90F9B7951EE59B9900C2B5F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7941EE59B9900C2B5F4 /* ViewController.m */; };
@@ -34,9 +49,7 @@
 		90F9B8301EE59C0B00C2B5F4 /* MediaCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7DE1EE59C0B00C2B5F4 /* MediaCtrl.cpp */; };
 		90F9B8311EE59C0B00C2B5F4 /* MessageHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7E01EE59C0B00C2B5F4 /* MessageHub.cpp */; };
 		90F9B8321EE59C0B00C2B5F4 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7E31EE59C0B00C2B5F4 /* Player.cpp */; };
-		90F9B8361EE59C0B00C2B5F4 /* iOS_AudioDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7F11EE59C0B00C2B5F4 /* iOS_AudioDevice.mm */; };
 		90F9B8391EE59C0B00C2B5F4 /* AudioRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B7F91EE59C0B00C2B5F4 /* AudioRender.cpp */; };
-		90F9B83D1EE59C0B00C2B5F4 /* iOS_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B8061EE59C0B00C2B5F4 /* iOS_VideoDevice.mm */; };
 		90F9B8401EE59C0B00C2B5F4 /* VideoRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B80E1EE59C0B00C2B5F4 /* VideoRender.cpp */; };
 		90F9B8411EE59C0B00C2B5F4 /* FFmpegReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B8111EE59C0B00C2B5F4 /* FFmpegReader.cpp */; };
 		90F9B8421EE59C0B00C2B5F4 /* MediaSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90F9B8131EE59C0B00C2B5F4 /* MediaSource.cpp */; };
@@ -46,6 +59,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		021161C31EE6B1AD0090FA94 /* iOS_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_VideoDevice.h; path = VideoDevice/ios/iOS_VideoDevice.h; sourceTree = "<group>"; };
+		021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iOS_VideoDevice.mm; path = VideoDevice/ios/iOS_VideoDevice.mm; sourceTree = "<group>"; };
+		021161C91EE6B6510090FA94 /* VideoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoWindow.h; path = VideoDevice/ios/VideoWindow.h; sourceTree = "<group>"; };
+		021161CA1EE6B6510090FA94 /* VideoWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoWindow.mm; path = VideoDevice/ios/VideoWindow.mm; sourceTree = "<group>"; };
+		021161CC1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iOS_AudioDevice.cpp; path = AudioDevice/ios/iOS_AudioDevice.cpp; sourceTree = "<group>"; };
+		021161CD1EE6C6FF0090FA94 /* iOS_AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_AudioDevice.h; path = AudioDevice/ios/iOS_AudioDevice.h; sourceTree = "<group>"; };
+		02B383961EE6CCBD00B5DAF4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		02B383981EE6CCC300B5DAF4 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		02B3839A1EE6CCCF00B5DAF4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		02B3839C1EE6CCF100B5DAF4 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ../../../thirdparty/ffmpeg/export/bin/ios/libavcodec.a; sourceTree = "<group>"; };
+		02B3839D1EE6CCF100B5DAF4 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ../../../thirdparty/ffmpeg/export/bin/ios/libavfilter.a; sourceTree = "<group>"; };
+		02B3839E1EE6CCF100B5DAF4 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ../../../thirdparty/ffmpeg/export/bin/ios/libavformat.a; sourceTree = "<group>"; };
+		02B3839F1EE6CCF100B5DAF4 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ../../../thirdparty/ffmpeg/export/bin/ios/libavutil.a; sourceTree = "<group>"; };
+		02B383A01EE6CCF100B5DAF4 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../../../thirdparty/ffmpeg/export/bin/ios/libswresample.a; sourceTree = "<group>"; };
+		02B383A11EE6CCF100B5DAF4 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../../../thirdparty/ffmpeg/export/bin/ios/libswscale.a; sourceTree = "<group>"; };
+		02B383A81EE6CD6200B5DAF4 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		02B383AA1EE6D1BF00B5DAF4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		02B383AC1EE6D1C700B5DAF4 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		02B383AE1EE6D21300B5DAF4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		02B383B01EE6D22900B5DAF4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		90F9B78A1EE59B9900C2B5F4 /* iosPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F9B78E1EE59B9900C2B5F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90F9B7901EE59B9900C2B5F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -104,13 +137,9 @@
 		90F9B7E11EE59C0B00C2B5F4 /* MessageHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHub.h; sourceTree = "<group>"; };
 		90F9B7E31EE59C0B00C2B5F4 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		90F9B7E41EE59C0B00C2B5F4 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		90F9B7F01EE59C0B00C2B5F4 /* iOS_AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_AudioDevice.h; path = AudioDevice/ios/iOS_AudioDevice.h; sourceTree = "<group>"; };
-		90F9B7F11EE59C0B00C2B5F4 /* iOS_AudioDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iOS_AudioDevice.mm; path = AudioDevice/ios/iOS_AudioDevice.mm; sourceTree = "<group>"; };
 		90F9B7F81EE59C0B00C2B5F4 /* AudioDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDeviceI.h; sourceTree = "<group>"; };
 		90F9B7F91EE59C0B00C2B5F4 /* AudioRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioRender.cpp; sourceTree = "<group>"; };
 		90F9B7FA1EE59C0B00C2B5F4 /* AudioRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRender.h; sourceTree = "<group>"; };
-		90F9B8051EE59C0B00C2B5F4 /* iOS_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_VideoDevice.h; path = VideoDevice/ios/iOS_VideoDevice.h; sourceTree = "<group>"; };
-		90F9B8061EE59C0B00C2B5F4 /* iOS_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iOS_VideoDevice.mm; path = VideoDevice/ios/iOS_VideoDevice.mm; sourceTree = "<group>"; };
 		90F9B80D1EE59C0B00C2B5F4 /* VideoDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDeviceI.h; sourceTree = "<group>"; };
 		90F9B80E1EE59C0B00C2B5F4 /* VideoRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoRender.cpp; sourceTree = "<group>"; };
 		90F9B80F1EE59C0B00C2B5F4 /* VideoRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRender.h; sourceTree = "<group>"; };
@@ -131,18 +160,52 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02B383AB1EE6D1BF00B5DAF4 /* libz.tbd in Frameworks */,
+				02B383B41EE6D2AE00B5DAF4 /* libbz2.tbd in Frameworks */,
+				02B383A51EE6CCF100B5DAF4 /* libavutil.a in Frameworks */,
+				02B383A31EE6CCF100B5DAF4 /* libavfilter.a in Frameworks */,
+				02B383A71EE6CCF100B5DAF4 /* libswscale.a in Frameworks */,
+				02B383A21EE6CCF100B5DAF4 /* libavcodec.a in Frameworks */,
+				02B383A41EE6CCF100B5DAF4 /* libavformat.a in Frameworks */,
+				02B383A61EE6CCF100B5DAF4 /* libswresample.a in Frameworks */,
+				02B383971EE6CCBD00B5DAF4 /* UIKit.framework in Frameworks */,
+				02B383B31EE6D29900B5DAF4 /* OpenGLES.framework in Frameworks */,
+				02B383B11EE6D22900B5DAF4 /* QuartzCore.framework in Frameworks */,
+				02B383B21EE6D28500B5DAF4 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02B383951EE6CCBD00B5DAF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02B383B01EE6D22900B5DAF4 /* QuartzCore.framework */,
+				02B383AE1EE6D21300B5DAF4 /* CoreGraphics.framework */,
+				02B383AC1EE6D1C700B5DAF4 /* libbz2.tbd */,
+				02B383AA1EE6D1BF00B5DAF4 /* libz.tbd */,
+				02B383A81EE6CD6200B5DAF4 /* OpenGLES.framework */,
+				02B3839C1EE6CCF100B5DAF4 /* libavcodec.a */,
+				02B3839D1EE6CCF100B5DAF4 /* libavfilter.a */,
+				02B3839E1EE6CCF100B5DAF4 /* libavformat.a */,
+				02B3839F1EE6CCF100B5DAF4 /* libavutil.a */,
+				02B383A01EE6CCF100B5DAF4 /* libswresample.a */,
+				02B383A11EE6CCF100B5DAF4 /* libswscale.a */,
+				02B3839A1EE6CCCF00B5DAF4 /* AudioToolbox.framework */,
+				02B383981EE6CCC300B5DAF4 /* CoreAudio.framework */,
+				02B383961EE6CCBD00B5DAF4 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		90F9B7811EE59B9900C2B5F4 = {
 			isa = PBXGroup;
 			children = (
 				90F9B78C1EE59B9900C2B5F4 /* iosPlayer */,
 				90F9B7A41EE59BDA00C2B5F4 /* EPlayerSDK */,
 				90F9B78B1EE59B9900C2B5F4 /* Products */,
+				02B383951EE6CCBD00B5DAF4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -318,11 +381,11 @@
 		90F9B7E61EE59C0B00C2B5F4 /* audio */ = {
 			isa = PBXGroup;
 			children = (
-				90F9B7F01EE59C0B00C2B5F4 /* iOS_AudioDevice.h */,
-				90F9B7F11EE59C0B00C2B5F4 /* iOS_AudioDevice.mm */,
-				90F9B7F81EE59C0B00C2B5F4 /* AudioDeviceI.h */,
-				90F9B7F91EE59C0B00C2B5F4 /* AudioRender.cpp */,
 				90F9B7FA1EE59C0B00C2B5F4 /* AudioRender.h */,
+				90F9B7F91EE59C0B00C2B5F4 /* AudioRender.cpp */,
+				90F9B7F81EE59C0B00C2B5F4 /* AudioDeviceI.h */,
+				021161CD1EE6C6FF0090FA94 /* iOS_AudioDevice.h */,
+				021161CC1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp */,
 			);
 			path = audio;
 			sourceTree = "<group>";
@@ -330,11 +393,13 @@
 		90F9B7FB1EE59C0B00C2B5F4 /* video */ = {
 			isa = PBXGroup;
 			children = (
-				90F9B8051EE59C0B00C2B5F4 /* iOS_VideoDevice.h */,
-				90F9B8061EE59C0B00C2B5F4 /* iOS_VideoDevice.mm */,
-				90F9B80D1EE59C0B00C2B5F4 /* VideoDeviceI.h */,
-				90F9B80E1EE59C0B00C2B5F4 /* VideoRender.cpp */,
 				90F9B80F1EE59C0B00C2B5F4 /* VideoRender.h */,
+				90F9B80E1EE59C0B00C2B5F4 /* VideoRender.cpp */,
+				90F9B80D1EE59C0B00C2B5F4 /* VideoDeviceI.h */,
+				021161C31EE6B1AD0090FA94 /* iOS_VideoDevice.h */,
+				021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */,
+				021161C91EE6B6510090FA94 /* VideoWindow.h */,
+				021161CA1EE6B6510090FA94 /* VideoWindow.mm */,
 			);
 			path = video;
 			sourceTree = "<group>";
@@ -438,7 +503,6 @@
 				90F9B8231EE59C0B00C2B5F4 /* ECThreadWorker.cpp in Sources */,
 				90F9B8441EE59C0B00C2B5F4 /* SourceAudioPort.cpp in Sources */,
 				90F9B7951EE59B9900C2B5F4 /* ViewController.m in Sources */,
-				90F9B8361EE59C0B00C2B5F4 /* iOS_AudioDevice.mm in Sources */,
 				90F9B82B1EE59C0B00C2B5F4 /* VideoDecPort.cpp in Sources */,
 				90F9B8271EE59C0B00C2B5F4 /* AudioDecPort.cpp in Sources */,
 				90F9B8321EE59C0B00C2B5F4 /* Player.cpp in Sources */,
@@ -446,11 +510,13 @@
 				90F9B8451EE59C0B00C2B5F4 /* SourceVideoPort.cpp in Sources */,
 				90F9B8241EE59C0B00C2B5F4 /* ECUtil.cpp in Sources */,
 				90F9B8391EE59C0B00C2B5F4 /* AudioRender.cpp in Sources */,
+				021161CB1EE6B6510090FA94 /* VideoWindow.mm in Sources */,
 				90F9B8281EE59C0B00C2B5F4 /* FFmpegAudioDecoder.cpp in Sources */,
 				90F9B81B1EE59C0B00C2B5F4 /* ECAutoLock.cpp in Sources */,
 				90F9B81F1EE59C0B00C2B5F4 /* ECSignal.cpp in Sources */,
+				021161C51EE6B1AD0090FA94 /* iOS_VideoDevice.mm in Sources */,
 				90F9B8411EE59C0B00C2B5F4 /* FFmpegReader.cpp in Sources */,
-				90F9B83D1EE59C0B00C2B5F4 /* iOS_VideoDevice.mm in Sources */,
+				021161CE1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp in Sources */,
 				90F9B81E1EE59C0B00C2B5F4 /* ECMutex.cpp in Sources */,
 				90F9B8401EE59C0B00C2B5F4 /* VideoRender.cpp in Sources */,
 				90F9B8201EE59C0B00C2B5F4 /* ECString.cpp in Sources */,
@@ -525,7 +591,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/bin/ios";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -569,7 +637,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/bin/ios";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -582,6 +652,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N8H8MVYSMF;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = iosPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.iosPlayer;
@@ -594,6 +665,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N8H8MVYSMF;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = iosPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.iosPlayer;
@@ -620,6 +692,7 @@
 				90F9B7A31EE59B9900C2B5F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

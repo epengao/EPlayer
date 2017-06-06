@@ -1,0 +1,170 @@
+/*
+ * ****************************************************************
+ * This software is a media player SDK implementation
+ * GPL:
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Library General Public License for more details. You should
+ * have received a copy of the GNU Library General Public License
+ * along with this library; if not, write to the Free Foundation,
+ * Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Project: EC < Enjoyable Coding >
+ *
+ * iOS_AudioDevice.cpp
+ * This file is iOS_AudioDevice class implementation
+ *
+ * Eamil:   epengao@126.com
+ * Author:  Gao Peng
+ * Version: Intial first version.
+ * ****************************************************************
+ */
+
+#include "ECMemOP.h"
+#include "iOS_AudioDevice.h"
+
+iOS_AudioDevice::iOS_AudioDevice(AudioRender* pAudioRender)
+:AudioDeviceI(pAudioRender)
+,m_Running(false)
+{
+    ECMemSet(&m_sAudioDescription, 0, sizeof(m_sAudioDescription));
+}
+
+int iOS_AudioDevice::Init(MediaContext* pMediaCtx)
+{
+    m_Running = false;
+
+    AudioSampleFormat nSampleFmt = m_pAudioRender->SampleFmtSwitch(pMediaCtx->nSampleFormat);
+    m_sAudioDescription.mFramesPerPacket = 1;
+    m_sAudioDescription.mSampleRate = pMediaCtx->nSampleRate;
+    m_sAudioDescription.mChannelsPerFrame = pMediaCtx->nChannels;
+    m_sAudioDescription.mFormatID = kAudioFormatLinearPCM;
+    m_sAudioDescription.mFormatFlags = SampleFmtSwitch(nSampleFmt);
+    m_sAudioDescription.mBitsPerChannel = SmpleBitSwitch(nSampleFmt);
+    m_sAudioDescription.mBytesPerFrame = m_sAudioDescription.mBitsPerChannel / 8 * m_sAudioDescription.mChannelsPerFrame;
+    m_sAudioDescription.mBytesPerPacket = m_sAudioDescription.mFramesPerPacket * m_sAudioDescription.mBytesPerFrame;
+
+    AudioQueueNewOutput(&m_sAudioDescription, PlaySoundCallback, this, nil, nil, 0, &m_rAudioQueue);
+    for(int i=0;i<QUEUE_BUFFER_COUNT;i++)
+    {
+        AudioQueueAllocateBuffer(m_rAudioQueue, MAX_BUFFER_SIZE, &m_sAudioQueueBuffers[i]);
+    }
+    for(int i = 0; i < QUEUE_BUFFER_COUNT; i++)
+    {
+        AudioQueueBufferRef aRef = m_sAudioQueueBuffers[i];
+        aRef->mAudioDataByteSize = MUTE_SOUND_SIZE;
+        ECMemSet(aRef->mAudioData, 0, MUTE_SOUND_SIZE);
+        AudioQueueEnqueueBuffer(m_rAudioQueue, aRef, 0, NULL);
+    }
+    return Audio_Render_Err_None;
+}
+
+void iOS_AudioDevice::Uninit()
+{
+    m_Running = false;
+    ECMemSet(&m_sAudioDescription, 0, sizeof(m_sAudioDescription));
+    for(int i=0;i<QUEUE_BUFFER_COUNT;i++)
+    {
+        AudioQueueFreeBuffer(m_rAudioQueue, m_sAudioQueueBuffers[i]);
+    }
+}
+
+void iOS_AudioDevice::Run()
+{
+    m_Running = true;
+    AudioQueueStart(m_rAudioQueue, NULL);
+}
+
+void iOS_AudioDevice::Pause()
+{
+    m_Running = false;
+    AudioQueuePause(m_rAudioQueue);
+}
+
+void iOS_AudioDevice::Flush()
+{
+    AudioQueueReset(m_rAudioQueue);
+    for(int i = 0; i < QUEUE_BUFFER_COUNT; i++)
+    {
+        AudioQueueBufferRef aRef = m_sAudioQueueBuffers[i];
+        aRef->mAudioDataByteSize = 1;
+        ECMemSet(aRef->mAudioData, 0, 1);
+        AudioQueueEnqueueBuffer(m_rAudioQueue, aRef, 0, NULL);
+    }
+}
+
+UInt32 iOS_AudioDevice::SmpleBitSwitch(AudioSampleFormat nFmtIn)
+{
+    switch (nFmtIn)
+    {
+        case AudioSampleFormat_U8:
+        case AudioSampleFormat_U8P:    return 8;
+        case AudioSampleFormat_S16:
+        case AudioSampleFormat_S16P:   return 16;
+        case AudioSampleFormat_S32:
+        case AudioSampleFormat_S32P:   return 32;
+        case AudioSampleFormat_Float:
+        case AudioSampleFormat_Double:
+        case AudioSampleFormat_FloatP: return 32;
+        default: return 32;
+    }
+}
+
+UInt32 iOS_AudioDevice::SampleFmtSwitch(AudioSampleFormat nFmtIn)
+{
+    UInt32 nFormat;
+    switch (nFmtIn)
+    {
+        case AudioSampleFormat_U8:
+        case AudioSampleFormat_U8P:
+            nFormat =  kAppleLosslessFormatFlag_16BitSourceData;
+            break;
+        case AudioSampleFormat_S16:
+        case AudioSampleFormat_S16P:
+            nFormat =  kLinearPCMFormatFlagIsSignedInteger;
+            break;
+        case AudioSampleFormat_S32:
+        case AudioSampleFormat_S32P:
+            nFormat = kLinearPCMFormatFlagIsSignedInteger;
+            break;
+        case AudioSampleFormat_Float:
+        case AudioSampleFormat_FloatP:
+        case AudioSampleFormat_Double:
+        case AudioSampleFormat_DoubleP:
+            nFormat = kLinearPCMFormatFlagIsFloat;
+            break;
+        default:
+            nFormat = kLinearPCMFormatFlagIsFloat;
+    }
+    return nFormat | kAudioFormatFlagIsPacked;
+}
+
+void iOS_AudioDevice::PlaySoundCallback(void* pUserData, AudioQueueRef inQueue, AudioQueueBufferRef outQueueBuf)
+{
+    iOS_AudioDevice *pSelf = (iOS_AudioDevice*)pUserData;
+
+    char* pPCM = NULL;
+    unsigned int nOutSize = 0;
+    unsigned int nOutSamples = 0;
+    Byte *pAudioQueueRndBuf = (Byte*)outQueueBuf->mAudioData;
+    if(pSelf->m_Running)
+    {
+        pSelf->m_pAudioRender->GetPCMBuffer(&pPCM, &nOutSize, &nOutSamples);
+        if (pPCM && (nOutSize > 0))
+        {
+            ECMemCopy(pAudioQueueRndBuf, pPCM, nOutSize);
+        }
+    }
+    else
+    {
+        nOutSize = WAIT_BUF_SOUND_SIZE;
+        ECMemSet(pAudioQueueRndBuf, 0, nOutSize);
+    }
+    outQueueBuf->mAudioDataByteSize = nOutSize;
+    AudioQueueEnqueueBuffer(pSelf->m_rAudioQueue, outQueueBuf, 0, NULL);
+}
