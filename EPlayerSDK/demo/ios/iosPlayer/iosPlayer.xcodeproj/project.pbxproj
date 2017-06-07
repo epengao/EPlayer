@@ -453,7 +453,7 @@
 				TargetAttributes = {
 					90F9B7891EE59B9900C2B5F4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = N8H8MVYSMF;
+						DevelopmentTeam = BE5A5MGFP2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -651,11 +651,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = N8H8MVYSMF;
+				DEVELOPMENT_TEAM = BE5A5MGFP2;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = iosPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.iosPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.iosPlayer.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -664,11 +664,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = N8H8MVYSMF;
+				DEVELOPMENT_TEAM = BE5A5MGFP2;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = iosPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.iosPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.iosPlayer.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

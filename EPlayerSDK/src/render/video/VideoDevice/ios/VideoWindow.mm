@@ -320,6 +320,11 @@ enum EGL_Texture
     _drawVideo_h = videoScaleHeight * _viewScale;
 }
 
+/*
+1,1,1, 0, -0.34413,1.772,  1.402,   -0.71414,0 SDTV
+1,1,1, 0, -0.39465,2.03211,1.13983, -0.58060,0
+1,1,1, 0, -0.18732,1.8556, 1.57481, -0.46813,0 HDTV
+*/
 #define FSH @"varying lowp vec2 TexCoordOut;\
 \
 uniform sampler2D SamplerY;\
@@ -335,12 +340,9 @@ yuv.x = texture2D(SamplerY, TexCoordOut).r;\
 yuv.y = texture2D(SamplerU, TexCoordOut).r - 0.5;\
 yuv.z = texture2D(SamplerV, TexCoordOut).r - 0.5;\
 \
-rgb = mat3( 1,       1,         1,\
-0,       -0.39465,  2.03211,\
-1.13983, -0.58060,  0) * yuv;\
+rgb = mat3(1,1,1, 0, -0.18732,1.8556, 1.57481, -0.46813,0) * yuv;\
 \
 gl_FragColor = vec4(rgb, 1);\
-\
 }"
 
 #define VSH @"attribute vec4 position;\
