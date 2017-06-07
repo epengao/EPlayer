@@ -7,8 +7,8 @@ BIN_OUT=$(pwd)/../export/bin/ios
 HEADERS_OUT=$(pwd)/../export/include
 OUT_PREFIX=${SRC_DIR}/build_out/ios
 
-SDKVERSION="10.1"
-ARCHS="armv7 armv7s x86_64"
+DEPLOYMENT_TARGET="10.1"
+ARCHS=("arm64" "x86_64")
 DEVELOPER=`xcode-select -print-path`
 INTERDIR="${OUT_PREFIX}/archs"
 
@@ -77,11 +77,11 @@ function do_ffmpeg_config
         --disable-swscale-alpha \
         --disable-securetransport \
         --target-os=darwin \
-        --extra-cxxflags="$CPPFLAGS" \
-        --sysroot=${SYS_ROOT} \
-        --cc="${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" \
-        --extra-cflags="${EXTRA_CFLAGS} -miphoneos-version-min=${SDKVERSION}" \
-        --extra-ldflags="-arch ${ARCH} ${EXTRA_LDFLAGS} -miphoneos-version-min=${SDKVERSION}" ${EXTRA_CONFIG}
+        --arch=$ARCH \
+        --cc="$CC" \
+        --as="$AS" \
+        --extra-cflags="$CFLAGS" \
+        --extra-ldflags="$LDFLAGS"
 }
 
 function do_ffmpeg_build
@@ -89,20 +89,29 @@ function do_ffmpeg_build
     mkdir -p $INTERDIR
     cd ${SRC_DIR}
 
-    for ARCH in ${ARCHS}
+    for ARCH in ${ARCHS[*]}
     do
-        echo "Start build ${ARCH} ffmpeg."
-        if [ "${ARCH}" == "x86_64" ]; then
+        CFLAGS="-arch $ARCH"
+        if [ $ARCH = "i386" -o $ARCH = "x86_64" ]
+        then
             PLATFORM="iPhoneSimulator"
-            EXTRA_CONFIG="--arch=x86_64 --disable-asm  --cpu=x86_64"
-            EXTRA_CFLAGS="-arch x86_64"
-            SYS_ROOT=$(xcrun --sdk iphonesimulator --show-sdk-path)
+            CFLAGS="$CFLAGS -mios-simulator-version-min=$DEPLOYMENT_TARGET"
         else
             PLATFORM="iPhoneOS"
-            EXTRA_CONFIG="--arch=arm --cpu=cortex-a8 --disable-armv5te"
-            EXTRA_CFLAGS="-w -arch ${ARCH}"
-            SYS_ROOT=$(xcrun --sdk iphoneos --show-sdk-path)
+            CFLAGS="$CFLAGS -mios-version-min=$DEPLOYMENT_TARGET -fembed-bitcode"
+            if [ $ARCH = "arm64" ]
+            then
+                EXPORT="GASPP_FIX_XCODE5=1"
+                # force "configure" to use "gas-preprocessor.pl" (FFmpeg 3.3)
+                AS="gas-preprocessor.pl -arch aarch64 -- $CC"
+            fi
         fi
+        XCRUN_SDK=`echo $PLATFORM | tr '[:upper:]' '[:lower:]'`
+        CC="xcrun -sdk $XCRUN_SDK clang"
+        AS="$CC"
+        CXXFLAGS="$CFLAGS"
+        LDFLAGS="$CFLAGS"
+
         mkdir -p "${INTERDIR}/${ARCH}"
         do_ffmpeg_config
         make -j8 && make install && make clean
@@ -113,18 +122,41 @@ function do_ffmpeg_build
 function create_all_archs_lib
 {
     mkdir -p "${INTERDIR}/universal/lib"
-    cd "${INTERDIR}/armv7/lib"
-    for file in *.a
-    do
-        cd ${INTERDIR}
-        xcrun -sdk iphoneos lipo -output universal/lib/$file  -create -arch armv7 armv7/lib/$file -arch armv7s armv7s/lib/$file -arch x86_64 x86_64/lib/$file
-    done
-    cp -r ${INTERDIR}/armv7/include ${INTERDIR}/universal/
+    archCount=${#ARCHS[*]}
+    if [ ${archCount} -gt 0 ]; then
+        cd "${INTERDIR}/${ARCHS[0]}/lib"
+        for file in *.a
+        do
+            cd ${INTERDIR}
+                PAK_ARCS=""
+                for ARCH in ${ARCHS[*]}
+                do
+                    if [ $ARCH = "armv7" ]
+                    then
+                        PAK_ARCS=${PAK_ARCS}" -create -arch armv7 armv7/lib/"${file}
+                    elif  [ $ARCH = "armv7s" ]
+                    then
+                        PAK_ARCS=${PAK_ARCS}" -create -arch armv7s armv7s/lib/"${file}
+                    elif  [ $ARCH = "arm64" ]
+                    then
+                        PAK_ARCS=${PAK_ARCS}" -create -arch arm64 arm64/lib/"${file}
+                    elif  [ $ARCH = "i386" ]
+                    then
+                        PAK_ARCS=${PAK_ARCS}" -create -arch i386 i386/lib/"${file}
+                    elif  [ $ARCH = "x86_64" ]
+                    then
+                        PAK_ARCS=${PAK_ARCS}" -create -arch x86_64 x86_64/lib/"${file}
+                    fi
+                done
+            echo $PAK_ARCS
+            xcrun -sdk iphoneos lipo -output universal/lib/$file $PAK_ARCS
+        done
+        cp -r ${INTERDIR}/${ARCHS[0]}/include ${INTERDIR}/universal/
 
-    if [ -d "${OUT_PREFIX}" ]; then
-        echo "bbb"
-        cd ${OUT_PREFIX}
-        cp -r ${INTERDIR}/universal/* .
+        if [ -d "${OUT_PREFIX}" ]; then
+            cd ${OUT_PREFIX}
+            cp -r ${INTERDIR}/universal/* .
+        fi
     fi
 }
 
