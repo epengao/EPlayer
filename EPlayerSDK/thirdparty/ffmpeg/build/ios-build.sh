@@ -148,7 +148,6 @@ function create_all_archs_lib
                         PAK_ARCS=${PAK_ARCS}" -create -arch x86_64 x86_64/lib/"${file}
                     fi
                 done
-            echo $PAK_ARCS
             xcrun -sdk iphoneos lipo -output universal/lib/$file $PAK_ARCS
         done
         cp -r ${INTERDIR}/${ARCHS[0]}/include ${INTERDIR}/universal/
