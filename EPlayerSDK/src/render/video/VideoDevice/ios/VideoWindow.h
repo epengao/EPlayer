@@ -35,6 +35,6 @@
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithCoder:(NSCoder*)aDecoder;
 - (void)clearWindow;
+- (void)setVidowSize:(GLuint)width height:(GLuint)height;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
-- (void)setVidowDrawRect:(GLuint)x :(GLuint)y width:(GLuint)width height:(GLuint)height;
 @end

@@ -49,22 +49,25 @@ enum EGL_Texture
     GLuint                  _renderBuffer;
     GLuint                  _program;
     GLuint                  _textureYUV[YUV];
-    GLint                   _drawPosX;
-    GLint                   _drawPosY;
     GLuint                  _videoWidth;
     GLuint                  _videoHeight;
-    GLsizei                 _viewScale;
+    CGFloat                 _viewScale;
+    CGFloat                 _drawVideo_x;
+    CGFloat                 _drawVideo_y;
+    CGFloat                 _drawVideo_w;
+    CGFloat                 _drawVideo_h;
 }
 
 - (void)render;
 - (void)loadShader;
 - (void)clearWindow;
 - (void)setupYUVTexture;
+- (void)ClipDrawVideoRect;
 - (BOOL)createFrameAndRenderBuffer;
 - (void)destoryFrameAndRenderBuffer;
+- (void)setVidowSize:(GLuint)width height:(GLuint)height;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
 - (GLuint)compileShader:(NSString*)shaderCode withType:(GLenum)shaderType;
-- (void)setVidowDrawRect:(GLuint)x :(GLuint)y width:(GLuint)width height:(GLuint)height;
 @end
 
 @implementation VideoWindow
@@ -136,12 +139,15 @@ enum EGL_Texture
     }
 }
 
-- (void)setVidowDrawRect:(GLuint)x :(GLuint)y width:(GLuint)width height:(GLuint)height;
+- (void)setVidowSize:(GLuint)width height:(GLuint)height
 {
-    _drawPosX = x;
-    _drawPosY = y;
     _videoWidth = width;
     _videoHeight = height;
+    if(width != 0 && height != 0 &&
+       self.frame.size.width && self.frame.size.height)
+    {
+        [self ClipDrawVideoRect];
+    }
     GLubyte *blackData = (GLubyte*)malloc(width * height * 1.5);
     if(blackData)
     {
@@ -184,8 +190,7 @@ enum EGL_Texture
 - (void)render
 {
     [EAGLContext setCurrentContext:_glContext];
-    CGSize size = self.bounds.size;
-    glViewport(0, 0, size.width*_viewScale, size.height*_viewScale);
+    glViewport(_drawVideo_x, _drawVideo_y, _drawVideo_w, _drawVideo_h);
     static const GLfloat squareVertices[] =
     {
         -1.0f, -1.0f,
@@ -280,6 +285,39 @@ enum EGL_Texture
     }
     _framebuffer = 0;
     _renderBuffer = 0;
+}
+
+- (void)ClipDrawVideoRect
+{
+    CGFloat videoScaleWidth = 0.0;
+    CGFloat videoScaleHeight = 0.0;
+    CGFloat  viewWidth = self.frame.size.width;
+    CGFloat  viewHeight = self.frame.size.height;
+    GLfloat viewAspectRatio = (GLfloat)viewWidth / (GLfloat)viewHeight;
+    GLfloat videoAspectRatio = (GLfloat)_videoWidth / (GLfloat)_videoHeight;
+    if (viewAspectRatio > videoAspectRatio)
+    {
+        videoScaleHeight = viewHeight;
+        videoScaleWidth = viewHeight * videoAspectRatio;
+        _drawVideo_y = 0;
+        _drawVideo_x = (viewWidth - videoScaleWidth) * 0.5;
+    }
+    else if (viewAspectRatio < viewAspectRatio)
+    {
+        videoScaleWidth = viewWidth;
+        videoScaleHeight = viewWidth / videoAspectRatio;
+        _drawVideo_x = 0;
+        _drawVideo_y = (viewHeight - videoScaleHeight) * 0.5;
+    }
+    else
+    {
+        _drawVideo_x = 0;
+        _drawVideo_y = 0;
+        videoScaleWidth = viewWidth;
+        videoScaleHeight = viewHeight;
+    }
+    _drawVideo_w = videoScaleWidth * _viewScale;
+    _drawVideo_h = videoScaleHeight * _viewScale;
 }
 
 #define FSH @"varying lowp vec2 TexCoordOut;\

@@ -44,7 +44,8 @@ public:
     void Flush();
     void DrawFrame(VideoFrame *pFrame);
     void UpdateVideoWindow(void* pWindow, int nWidth, int nHeight);
-
+private:
+    void ClipVideoDrawRect();
 private:
     VideoWindow* m_pUserWnd;
     EC_U32       m_nVideoWidth;

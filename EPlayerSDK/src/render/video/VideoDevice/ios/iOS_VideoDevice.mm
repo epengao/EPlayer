@@ -51,6 +51,7 @@ int iOS_VideoDevice::Init(void* pVideoWindow,
     m_nVideoWidth = pMediaContext->nVideoWidth;
     m_nVideoHeight = pMediaContext->nVideoHeight;
     m_pUserWnd = (__bridge VideoWindow*)pVideoWindow;
+    [m_pUserWnd setVidowSize:m_nVideoWidth height:m_nVideoHeight];
     return 0;
 }
 
@@ -84,4 +85,5 @@ void iOS_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
     m_nUserWndWidth = nWidth;
     m_nUserWndHeight = nHeight;
     m_pUserWnd = (__bridge VideoWindow*)pWindow;
+    [m_pUserWnd setVidowSize:m_nVideoWidth height:m_nVideoHeight];
 }
