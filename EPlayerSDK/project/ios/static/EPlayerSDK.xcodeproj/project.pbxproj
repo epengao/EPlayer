@@ -1,0 +1,623 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02D123F31EE924C500A8E853 /* ECAutoLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1237C1EE924C400A8E853 /* ECAutoLock.cpp */; };
+		02D123F41EE924C500A8E853 /* ECBufferStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1237E1EE924C400A8E853 /* ECBufferStream.cpp */; };
+		02D123F51EE924C500A8E853 /* ECMemOP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123821EE924C400A8E853 /* ECMemOP.cpp */; };
+		02D123F61EE924C500A8E853 /* ECMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123841EE924C400A8E853 /* ECMutex.cpp */; };
+		02D123F71EE924C500A8E853 /* ECSignal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123891EE924C400A8E853 /* ECSignal.cpp */; };
+		02D123F81EE924C500A8E853 /* ECString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1238B1EE924C400A8E853 /* ECString.cpp */; };
+		02D123F91EE924C500A8E853 /* ECStringOP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1238D1EE924C400A8E853 /* ECStringOP.cpp */; };
+		02D123FA1EE924C500A8E853 /* ECThreadDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1238F1EE924C400A8E853 /* ECThreadDriver.cpp */; };
+		02D123FB1EE924C500A8E853 /* ECThreadWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123911EE924C400A8E853 /* ECThreadWorker.cpp */; };
+		02D123FC1EE924C500A8E853 /* ECUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123941EE924C500A8E853 /* ECUtil.cpp */; };
+		02D123FD1EE924C500A8E853 /* MediaClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123971EE924C500A8E853 /* MediaClock.cpp */; };
+		02D123FE1EE924C500A8E853 /* AudioDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1239B1EE924C500A8E853 /* AudioDecoder.cpp */; };
+		02D123FF1EE924C500A8E853 /* AudioDecPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1239D1EE924C500A8E853 /* AudioDecPort.cpp */; };
+		02D124001EE924C500A8E853 /* FFmpegAudioDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1239F1EE924C500A8E853 /* FFmpegAudioDecoder.cpp */; };
+		02D124011EE924C500A8E853 /* FFmpegVideoDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123A21EE924C500A8E853 /* FFmpegVideoDecoder.cpp */; };
+		02D124021EE924C500A8E853 /* VideoDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123A41EE924C500A8E853 /* VideoDecoder.cpp */; };
+		02D124031EE924C500A8E853 /* VideoDecPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123A61EE924C500A8E853 /* VideoDecPort.cpp */; };
+		02D124051EE924C500A8E853 /* EPlayerAPI_IMP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D123B21EE924C500A8E853 /* EPlayerAPI_IMP.mm */; };
+		02D124061EE924C500A8E853 /* MediaCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123B41EE924C500A8E853 /* MediaCtrl.cpp */; };
+		02D124071EE924C500A8E853 /* MessageHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123B61EE924C500A8E853 /* MessageHub.cpp */; };
+		02D124081EE924C500A8E853 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123B91EE924C500A8E853 /* Player.cpp */; };
+		02D1240C1EE924C500A8E853 /* iOS_AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123C61EE924C500A8E853 /* iOS_AudioDevice.cpp */; };
+		02D1240F1EE924C500A8E853 /* AudioRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123CF1EE924C500A8E853 /* AudioRender.cpp */; };
+		02D124131EE924C500A8E853 /* iOS_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D123DC1EE924C500A8E853 /* iOS_VideoDevice.mm */; };
+		02D124141EE924C500A8E853 /* VideoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D123DE1EE924C500A8E853 /* VideoWindow.mm */; };
+		02D124171EE924C500A8E853 /* VideoRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123E61EE924C500A8E853 /* VideoRender.cpp */; };
+		02D124181EE924C500A8E853 /* FFmpegReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123E91EE924C500A8E853 /* FFmpegReader.cpp */; };
+		02D124191EE924C500A8E853 /* MediaSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123EB1EE924C500A8E853 /* MediaSource.cpp */; };
+		02D1241A1EE924C500A8E853 /* PacketManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123ED1EE924C500A8E853 /* PacketManager.cpp */; };
+		02D1241B1EE924C500A8E853 /* SourceAudioPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123EF1EE924C500A8E853 /* SourceAudioPort.cpp */; };
+		02D1241C1EE924C500A8E853 /* SourceVideoPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123F11EE924C500A8E853 /* SourceVideoPort.cpp */; };
+		02D1241D1EE925BF00A8E853 /* EPlayerAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02D123B11EE924C500A8E853 /* EPlayerAPI.h */; };
+		02DC77EE1EE921D300C1A06B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77ED1EE921D300C1A06B /* AudioToolbox.framework */; };
+		02DC77F01EE921E400C1A06B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77EF1EE921E400C1A06B /* QuartzCore.framework */; };
+		02DC77F21EE921F000C1A06B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F11EE921F000C1A06B /* OpenGLES.framework */; };
+		02DC77F41EE921F800C1A06B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F31EE921F800C1A06B /* UIKit.framework */; };
+		02DC77FB1EE9220C00C1A06B /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F51EE9220C00C1A06B /* libavcodec.a */; };
+		02DC77FC1EE9220C00C1A06B /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F61EE9220C00C1A06B /* libavfilter.a */; };
+		02DC77FD1EE9220C00C1A06B /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F71EE9220C00C1A06B /* libavformat.a */; };
+		02DC77FE1EE9220C00C1A06B /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F81EE9220C00C1A06B /* libavutil.a */; };
+		02DC77FF1EE9220C00C1A06B /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77F91EE9220C00C1A06B /* libswresample.a */; };
+		02DC78001EE9220C00C1A06B /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DC77FA1EE9220C00C1A06B /* libswscale.a */; };
+		02DC78061EE9230B00C1A06B /* libEPlayerSDK.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02DC773E1EE91F3B00C1A06B /* libEPlayerSDK.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		02DC773C1EE91F3B00C1A06B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(PROJECT_DIR)/../../../release/ios/static";
+			dstSubfolderSpec = 0;
+			files = (
+				02D1241D1EE925BF00A8E853 /* EPlayerAPI.h in CopyFiles */,
+				02DC78061EE9230B00C1A06B /* libEPlayerSDK.a in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		02D1237C1EE924C400A8E853 /* ECAutoLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECAutoLock.cpp; sourceTree = "<group>"; };
+		02D1237D1EE924C400A8E853 /* ECAutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECAutoLock.h; sourceTree = "<group>"; };
+		02D1237E1EE924C400A8E853 /* ECBufferStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECBufferStream.cpp; sourceTree = "<group>"; };
+		02D1237F1EE924C400A8E853 /* ECBufferStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECBufferStream.h; sourceTree = "<group>"; };
+		02D123801EE924C400A8E853 /* ECError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECError.h; sourceTree = "<group>"; };
+		02D123811EE924C400A8E853 /* ECLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECLog.h; sourceTree = "<group>"; };
+		02D123821EE924C400A8E853 /* ECMemOP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECMemOP.cpp; sourceTree = "<group>"; };
+		02D123831EE924C400A8E853 /* ECMemOP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECMemOP.h; sourceTree = "<group>"; };
+		02D123841EE924C400A8E853 /* ECMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECMutex.cpp; sourceTree = "<group>"; };
+		02D123851EE924C400A8E853 /* ECMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECMutex.h; sourceTree = "<group>"; };
+		02D123861EE924C400A8E853 /* ECNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECNode.h; sourceTree = "<group>"; };
+		02D123871EE924C400A8E853 /* ECOSDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECOSDef.h; sourceTree = "<group>"; };
+		02D123881EE924C400A8E853 /* ECRingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECRingQueue.h; sourceTree = "<group>"; };
+		02D123891EE924C400A8E853 /* ECSignal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECSignal.cpp; sourceTree = "<group>"; };
+		02D1238A1EE924C400A8E853 /* ECSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSignal.h; sourceTree = "<group>"; };
+		02D1238B1EE924C400A8E853 /* ECString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECString.cpp; sourceTree = "<group>"; };
+		02D1238C1EE924C400A8E853 /* ECString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECString.h; sourceTree = "<group>"; };
+		02D1238D1EE924C400A8E853 /* ECStringOP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECStringOP.cpp; sourceTree = "<group>"; };
+		02D1238E1EE924C400A8E853 /* ECStringOP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECStringOP.h; sourceTree = "<group>"; };
+		02D1238F1EE924C400A8E853 /* ECThreadDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECThreadDriver.cpp; sourceTree = "<group>"; };
+		02D123901EE924C400A8E853 /* ECThreadDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECThreadDriver.h; sourceTree = "<group>"; };
+		02D123911EE924C400A8E853 /* ECThreadWorker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECThreadWorker.cpp; sourceTree = "<group>"; };
+		02D123921EE924C400A8E853 /* ECThreadWorker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECThreadWorker.h; sourceTree = "<group>"; };
+		02D123931EE924C500A8E853 /* ECType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECType.h; sourceTree = "<group>"; };
+		02D123941EE924C500A8E853 /* ECUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECUtil.cpp; sourceTree = "<group>"; };
+		02D123951EE924C500A8E853 /* ECUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECUtil.h; sourceTree = "<group>"; };
+		02D123971EE924C500A8E853 /* MediaClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MediaClock.cpp; sourceTree = "<group>"; };
+		02D123981EE924C500A8E853 /* MediaClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaClock.h; sourceTree = "<group>"; };
+		02D1239B1EE924C500A8E853 /* AudioDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDecoder.cpp; sourceTree = "<group>"; };
+		02D1239C1EE924C500A8E853 /* AudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDecoder.h; sourceTree = "<group>"; };
+		02D1239D1EE924C500A8E853 /* AudioDecPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDecPort.cpp; sourceTree = "<group>"; };
+		02D1239E1EE924C500A8E853 /* AudioDecPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDecPort.h; sourceTree = "<group>"; };
+		02D1239F1EE924C500A8E853 /* FFmpegAudioDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFmpegAudioDecoder.cpp; sourceTree = "<group>"; };
+		02D123A01EE924C500A8E853 /* FFmpegAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFmpegAudioDecoder.h; sourceTree = "<group>"; };
+		02D123A21EE924C500A8E853 /* FFmpegVideoDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFmpegVideoDecoder.cpp; sourceTree = "<group>"; };
+		02D123A31EE924C500A8E853 /* FFmpegVideoDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFmpegVideoDecoder.h; sourceTree = "<group>"; };
+		02D123A41EE924C500A8E853 /* VideoDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoDecoder.cpp; sourceTree = "<group>"; };
+		02D123A51EE924C500A8E853 /* VideoDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDecoder.h; sourceTree = "<group>"; };
+		02D123A61EE924C500A8E853 /* VideoDecPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoDecPort.cpp; sourceTree = "<group>"; };
+		02D123A71EE924C500A8E853 /* VideoDecPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDecPort.h; sourceTree = "<group>"; };
+		02D123B11EE924C500A8E853 /* EPlayerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EPlayerAPI.h; path = "Object-C/EPlayerAPI.h"; sourceTree = "<group>"; };
+		02D123B21EE924C500A8E853 /* EPlayerAPI_IMP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EPlayerAPI_IMP.mm; path = "Object-C/EPlayerAPI_IMP.mm"; sourceTree = "<group>"; };
+		02D123B41EE924C500A8E853 /* MediaCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MediaCtrl.cpp; sourceTree = "<group>"; };
+		02D123B51EE924C500A8E853 /* MediaCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCtrl.h; sourceTree = "<group>"; };
+		02D123B61EE924C500A8E853 /* MessageHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageHub.cpp; sourceTree = "<group>"; };
+		02D123B71EE924C500A8E853 /* MessageHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHub.h; sourceTree = "<group>"; };
+		02D123B91EE924C500A8E853 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		02D123BA1EE924C500A8E853 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		02D123C61EE924C500A8E853 /* iOS_AudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iOS_AudioDevice.cpp; path = AudioDevice/ios/iOS_AudioDevice.cpp; sourceTree = "<group>"; };
+		02D123C71EE924C500A8E853 /* iOS_AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_AudioDevice.h; path = AudioDevice/ios/iOS_AudioDevice.h; sourceTree = "<group>"; };
+		02D123CE1EE924C500A8E853 /* AudioDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDeviceI.h; sourceTree = "<group>"; };
+		02D123CF1EE924C500A8E853 /* AudioRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioRender.cpp; sourceTree = "<group>"; };
+		02D123D01EE924C500A8E853 /* AudioRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRender.h; sourceTree = "<group>"; };
+		02D123DB1EE924C500A8E853 /* iOS_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_VideoDevice.h; path = VideoDevice/ios/iOS_VideoDevice.h; sourceTree = "<group>"; };
+		02D123DC1EE924C500A8E853 /* iOS_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iOS_VideoDevice.mm; path = VideoDevice/ios/iOS_VideoDevice.mm; sourceTree = "<group>"; };
+		02D123DD1EE924C500A8E853 /* VideoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoWindow.h; path = VideoDevice/ios/VideoWindow.h; sourceTree = "<group>"; };
+		02D123DE1EE924C500A8E853 /* VideoWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoWindow.mm; path = VideoDevice/ios/VideoWindow.mm; sourceTree = "<group>"; };
+		02D123E51EE924C500A8E853 /* VideoDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoDeviceI.h; path = /Users/AnthonLiu/Work/data/code/EPlayer/EPlayerSDK/src/render/video/VideoDeviceI.h; sourceTree = "<absolute>"; };
+		02D123E61EE924C500A8E853 /* VideoRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoRender.cpp; sourceTree = "<group>"; };
+		02D123E71EE924C500A8E853 /* VideoRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRender.h; sourceTree = "<group>"; };
+		02D123E91EE924C500A8E853 /* FFmpegReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFmpegReader.cpp; sourceTree = "<group>"; };
+		02D123EA1EE924C500A8E853 /* FFmpegReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFmpegReader.h; sourceTree = "<group>"; };
+		02D123EB1EE924C500A8E853 /* MediaSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MediaSource.cpp; sourceTree = "<group>"; };
+		02D123EC1EE924C500A8E853 /* MediaSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaSource.h; sourceTree = "<group>"; };
+		02D123ED1EE924C500A8E853 /* PacketManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketManager.cpp; sourceTree = "<group>"; };
+		02D123EE1EE924C500A8E853 /* PacketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketManager.h; sourceTree = "<group>"; };
+		02D123EF1EE924C500A8E853 /* SourceAudioPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SourceAudioPort.cpp; sourceTree = "<group>"; };
+		02D123F01EE924C500A8E853 /* SourceAudioPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceAudioPort.h; sourceTree = "<group>"; };
+		02D123F11EE924C500A8E853 /* SourceVideoPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SourceVideoPort.cpp; sourceTree = "<group>"; };
+		02D123F21EE924C500A8E853 /* SourceVideoPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceVideoPort.h; sourceTree = "<group>"; };
+		02DC773E1EE91F3B00C1A06B /* libEPlayerSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEPlayerSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		02DC77ED1EE921D300C1A06B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		02DC77EF1EE921E400C1A06B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		02DC77F11EE921F000C1A06B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		02DC77F31EE921F800C1A06B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		02DC77F51EE9220C00C1A06B /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libavcodec.a; sourceTree = "<group>"; };
+		02DC77F61EE9220C00C1A06B /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libavfilter.a; sourceTree = "<group>"; };
+		02DC77F71EE9220C00C1A06B /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libavformat.a; sourceTree = "<group>"; };
+		02DC77F81EE9220C00C1A06B /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libavutil.a; sourceTree = "<group>"; };
+		02DC77F91EE9220C00C1A06B /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libswresample.a; sourceTree = "<group>"; };
+		02DC77FA1EE9220C00C1A06B /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libswscale.a; sourceTree = "<group>"; };
+		02DC78011EE9222B00C1A06B /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		02DC78031EE9223200C1A06B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		02DC773B1EE91F3B00C1A06B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02DC77FE1EE9220C00C1A06B /* libavutil.a in Frameworks */,
+				02DC77FC1EE9220C00C1A06B /* libavfilter.a in Frameworks */,
+				02DC78001EE9220C00C1A06B /* libswscale.a in Frameworks */,
+				02DC77FB1EE9220C00C1A06B /* libavcodec.a in Frameworks */,
+				02DC77FD1EE9220C00C1A06B /* libavformat.a in Frameworks */,
+				02DC77FF1EE9220C00C1A06B /* libswresample.a in Frameworks */,
+				02DC77F41EE921F800C1A06B /* UIKit.framework in Frameworks */,
+				02DC77F21EE921F000C1A06B /* OpenGLES.framework in Frameworks */,
+				02DC77F01EE921E400C1A06B /* QuartzCore.framework in Frameworks */,
+				02DC77EE1EE921D300C1A06B /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		02D1237A1EE924C400A8E853 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				02D123A81EE924C500A8E853 /* exAPI */,
+				02D123B81EE924C500A8E853 /* player */,
+				02D123B31EE924C500A8E853 /* framework */,
+				02D123E81EE924C500A8E853 /* source */,
+				02D123991EE924C500A8E853 /* decoder */,
+				02D123BB1EE924C500A8E853 /* render */,
+				02D123961EE924C500A8E853 /* clock */,
+				02D1237B1EE924C400A8E853 /* base */,
+			);
+			name = src;
+			path = ../../../src;
+			sourceTree = "<group>";
+		};
+		02D1237B1EE924C400A8E853 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				02D1237C1EE924C400A8E853 /* ECAutoLock.cpp */,
+				02D1237D1EE924C400A8E853 /* ECAutoLock.h */,
+				02D1237E1EE924C400A8E853 /* ECBufferStream.cpp */,
+				02D1237F1EE924C400A8E853 /* ECBufferStream.h */,
+				02D123801EE924C400A8E853 /* ECError.h */,
+				02D123811EE924C400A8E853 /* ECLog.h */,
+				02D123821EE924C400A8E853 /* ECMemOP.cpp */,
+				02D123831EE924C400A8E853 /* ECMemOP.h */,
+				02D123841EE924C400A8E853 /* ECMutex.cpp */,
+				02D123851EE924C400A8E853 /* ECMutex.h */,
+				02D123861EE924C400A8E853 /* ECNode.h */,
+				02D123871EE924C400A8E853 /* ECOSDef.h */,
+				02D123881EE924C400A8E853 /* ECRingQueue.h */,
+				02D123891EE924C400A8E853 /* ECSignal.cpp */,
+				02D1238A1EE924C400A8E853 /* ECSignal.h */,
+				02D1238B1EE924C400A8E853 /* ECString.cpp */,
+				02D1238C1EE924C400A8E853 /* ECString.h */,
+				02D1238D1EE924C400A8E853 /* ECStringOP.cpp */,
+				02D1238E1EE924C400A8E853 /* ECStringOP.h */,
+				02D1238F1EE924C400A8E853 /* ECThreadDriver.cpp */,
+				02D123901EE924C400A8E853 /* ECThreadDriver.h */,
+				02D123911EE924C400A8E853 /* ECThreadWorker.cpp */,
+				02D123921EE924C400A8E853 /* ECThreadWorker.h */,
+				02D123931EE924C500A8E853 /* ECType.h */,
+				02D123941EE924C500A8E853 /* ECUtil.cpp */,
+				02D123951EE924C500A8E853 /* ECUtil.h */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		02D123961EE924C500A8E853 /* clock */ = {
+			isa = PBXGroup;
+			children = (
+				02D123971EE924C500A8E853 /* MediaClock.cpp */,
+				02D123981EE924C500A8E853 /* MediaClock.h */,
+			);
+			path = clock;
+			sourceTree = "<group>";
+		};
+		02D123991EE924C500A8E853 /* decoder */ = {
+			isa = PBXGroup;
+			children = (
+				02D1239A1EE924C500A8E853 /* audio */,
+				02D123A11EE924C500A8E853 /* video */,
+			);
+			path = decoder;
+			sourceTree = "<group>";
+		};
+		02D1239A1EE924C500A8E853 /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				02D1239B1EE924C500A8E853 /* AudioDecoder.cpp */,
+				02D1239C1EE924C500A8E853 /* AudioDecoder.h */,
+				02D1239D1EE924C500A8E853 /* AudioDecPort.cpp */,
+				02D1239E1EE924C500A8E853 /* AudioDecPort.h */,
+				02D1239F1EE924C500A8E853 /* FFmpegAudioDecoder.cpp */,
+				02D123A01EE924C500A8E853 /* FFmpegAudioDecoder.h */,
+			);
+			path = audio;
+			sourceTree = "<group>";
+		};
+		02D123A11EE924C500A8E853 /* video */ = {
+			isa = PBXGroup;
+			children = (
+				02D123A21EE924C500A8E853 /* FFmpegVideoDecoder.cpp */,
+				02D123A31EE924C500A8E853 /* FFmpegVideoDecoder.h */,
+				02D123A41EE924C500A8E853 /* VideoDecoder.cpp */,
+				02D123A51EE924C500A8E853 /* VideoDecoder.h */,
+				02D123A61EE924C500A8E853 /* VideoDecPort.cpp */,
+				02D123A71EE924C500A8E853 /* VideoDecPort.h */,
+			);
+			path = video;
+			sourceTree = "<group>";
+		};
+		02D123A81EE924C500A8E853 /* exAPI */ = {
+			isa = PBXGroup;
+			children = (
+				02D123B11EE924C500A8E853 /* EPlayerAPI.h */,
+				02D123B21EE924C500A8E853 /* EPlayerAPI_IMP.mm */,
+			);
+			path = exAPI;
+			sourceTree = "<group>";
+		};
+		02D123B31EE924C500A8E853 /* framework */ = {
+			isa = PBXGroup;
+			children = (
+				02D123B41EE924C500A8E853 /* MediaCtrl.cpp */,
+				02D123B51EE924C500A8E853 /* MediaCtrl.h */,
+				02D123B61EE924C500A8E853 /* MessageHub.cpp */,
+				02D123B71EE924C500A8E853 /* MessageHub.h */,
+			);
+			path = framework;
+			sourceTree = "<group>";
+		};
+		02D123B81EE924C500A8E853 /* player */ = {
+			isa = PBXGroup;
+			children = (
+				02D123B91EE924C500A8E853 /* Player.cpp */,
+				02D123BA1EE924C500A8E853 /* Player.h */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
+		02D123BB1EE924C500A8E853 /* render */ = {
+			isa = PBXGroup;
+			children = (
+				02D123BC1EE924C500A8E853 /* audio */,
+				02D123D11EE924C500A8E853 /* video */,
+			);
+			path = render;
+			sourceTree = "<group>";
+		};
+		02D123BC1EE924C500A8E853 /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				02D123D01EE924C500A8E853 /* AudioRender.h */,
+				02D123CF1EE924C500A8E853 /* AudioRender.cpp */,
+				02D123CE1EE924C500A8E853 /* AudioDeviceI.h */,
+				02D123C61EE924C500A8E853 /* iOS_AudioDevice.cpp */,
+				02D123C71EE924C500A8E853 /* iOS_AudioDevice.h */,
+			);
+			path = audio;
+			sourceTree = "<group>";
+		};
+		02D123D11EE924C500A8E853 /* video */ = {
+			isa = PBXGroup;
+			children = (
+				02D123E71EE924C500A8E853 /* VideoRender.h */,
+				02D123E61EE924C500A8E853 /* VideoRender.cpp */,
+				02D123E51EE924C500A8E853 /* VideoDeviceI.h */,
+				02D123DB1EE924C500A8E853 /* iOS_VideoDevice.h */,
+				02D123DC1EE924C500A8E853 /* iOS_VideoDevice.mm */,
+				02D123DD1EE924C500A8E853 /* VideoWindow.h */,
+				02D123DE1EE924C500A8E853 /* VideoWindow.mm */,
+			);
+			path = video;
+			sourceTree = "<group>";
+		};
+		02D123E81EE924C500A8E853 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				02D123E91EE924C500A8E853 /* FFmpegReader.cpp */,
+				02D123EA1EE924C500A8E853 /* FFmpegReader.h */,
+				02D123EB1EE924C500A8E853 /* MediaSource.cpp */,
+				02D123EC1EE924C500A8E853 /* MediaSource.h */,
+				02D123ED1EE924C500A8E853 /* PacketManager.cpp */,
+				02D123EE1EE924C500A8E853 /* PacketManager.h */,
+				02D123EF1EE924C500A8E853 /* SourceAudioPort.cpp */,
+				02D123F01EE924C500A8E853 /* SourceAudioPort.h */,
+				02D123F11EE924C500A8E853 /* SourceVideoPort.cpp */,
+				02D123F21EE924C500A8E853 /* SourceVideoPort.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		02DC77351EE91F3B00C1A06B = {
+			isa = PBXGroup;
+			children = (
+				02D1237A1EE924C400A8E853 /* src */,
+				02DC77EC1EE921D300C1A06B /* thirdparty */,
+				02DC773F1EE91F3B00C1A06B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		02DC773F1EE91F3B00C1A06B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				02DC773E1EE91F3B00C1A06B /* libEPlayerSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		02DC77EC1EE921D300C1A06B /* thirdparty */ = {
+			isa = PBXGroup;
+			children = (
+				02DC78031EE9223200C1A06B /* libz.tbd */,
+				02DC78011EE9222B00C1A06B /* libbz2.tbd */,
+				02DC77F81EE9220C00C1A06B /* libavutil.a */,
+				02DC77F61EE9220C00C1A06B /* libavfilter.a */,
+				02DC77FA1EE9220C00C1A06B /* libswscale.a */,
+				02DC77F51EE9220C00C1A06B /* libavcodec.a */,
+				02DC77F71EE9220C00C1A06B /* libavformat.a */,
+				02DC77F91EE9220C00C1A06B /* libswresample.a */,
+				02DC77F31EE921F800C1A06B /* UIKit.framework */,
+				02DC77F11EE921F000C1A06B /* OpenGLES.framework */,
+				02DC77EF1EE921E400C1A06B /* QuartzCore.framework */,
+				02DC77ED1EE921D300C1A06B /* AudioToolbox.framework */,
+			);
+			name = thirdparty;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		02DC773D1EE91F3B00C1A06B /* EPlayerSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02DC77471EE91F3B00C1A06B /* Build configuration list for PBXNativeTarget "EPlayerSDK" */;
+			buildPhases = (
+				02DC773A1EE91F3B00C1A06B /* Sources */,
+				02DC773B1EE91F3B00C1A06B /* Frameworks */,
+				02DC773C1EE91F3B00C1A06B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EPlayerSDK;
+			productName = EPlayerSDK;
+			productReference = 02DC773E1EE91F3B00C1A06B /* libEPlayerSDK.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		02DC77361EE91F3B00C1A06B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = EC;
+				TargetAttributes = {
+					02DC773D1EE91F3B00C1A06B = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = BE5A5MGFP2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 02DC77391EE91F3B00C1A06B /* Build configuration list for PBXProject "EPlayerSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 02DC77351EE91F3B00C1A06B;
+			productRefGroup = 02DC773F1EE91F3B00C1A06B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				02DC773D1EE91F3B00C1A06B /* EPlayerSDK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02DC773A1EE91F3B00C1A06B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02D123F51EE924C500A8E853 /* ECMemOP.cpp in Sources */,
+				02D124181EE924C500A8E853 /* FFmpegReader.cpp in Sources */,
+				02D124031EE924C500A8E853 /* VideoDecPort.cpp in Sources */,
+				02D123FB1EE924C500A8E853 /* ECThreadWorker.cpp in Sources */,
+				02D1240C1EE924C500A8E853 /* iOS_AudioDevice.cpp in Sources */,
+				02D123FF1EE924C500A8E853 /* AudioDecPort.cpp in Sources */,
+				02D123F31EE924C500A8E853 /* ECAutoLock.cpp in Sources */,
+				02D123F81EE924C500A8E853 /* ECString.cpp in Sources */,
+				02D124071EE924C500A8E853 /* MessageHub.cpp in Sources */,
+				02D124011EE924C500A8E853 /* FFmpegVideoDecoder.cpp in Sources */,
+				02D123FD1EE924C500A8E853 /* MediaClock.cpp in Sources */,
+				02D123F41EE924C500A8E853 /* ECBufferStream.cpp in Sources */,
+				02D124141EE924C500A8E853 /* VideoWindow.mm in Sources */,
+				02D123F91EE924C500A8E853 /* ECStringOP.cpp in Sources */,
+				02D1241A1EE924C500A8E853 /* PacketManager.cpp in Sources */,
+				02D124191EE924C500A8E853 /* MediaSource.cpp in Sources */,
+				02D1241C1EE924C500A8E853 /* SourceVideoPort.cpp in Sources */,
+				02D123F61EE924C500A8E853 /* ECMutex.cpp in Sources */,
+				02D124131EE924C500A8E853 /* iOS_VideoDevice.mm in Sources */,
+				02D123F71EE924C500A8E853 /* ECSignal.cpp in Sources */,
+				02D124051EE924C500A8E853 /* EPlayerAPI_IMP.mm in Sources */,
+				02D1240F1EE924C500A8E853 /* AudioRender.cpp in Sources */,
+				02D124001EE924C500A8E853 /* FFmpegAudioDecoder.cpp in Sources */,
+				02D1241B1EE924C500A8E853 /* SourceAudioPort.cpp in Sources */,
+				02D124081EE924C500A8E853 /* Player.cpp in Sources */,
+				02D123FE1EE924C500A8E853 /* AudioDecoder.cpp in Sources */,
+				02D123FA1EE924C500A8E853 /* ECThreadDriver.cpp in Sources */,
+				02D124021EE924C500A8E853 /* VideoDecoder.cpp in Sources */,
+				02D123FC1EE924C500A8E853 /* ECUtil.cpp in Sources */,
+				02D124171EE924C500A8E853 /* VideoRender.cpp in Sources */,
+				02D124061EE924C500A8E853 /* MediaCtrl.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		02DC77451EE91F3B00C1A06B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = EC_OS_iOS;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/bin/ios";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos10.3;
+			};
+			name = Debug;
+		};
+		02DC77461EE91F3B00C1A06B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = EC_OS_iOS;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/bin/ios";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos10.3;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		02DC77481EE91F3B00C1A06B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = BE5A5MGFP2;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		02DC77491EE91F3B00C1A06B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = BE5A5MGFP2;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		02DC77391EE91F3B00C1A06B /* Build configuration list for PBXProject "EPlayerSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02DC77451EE91F3B00C1A06B /* Debug */,
+				02DC77461EE91F3B00C1A06B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		02DC77471EE91F3B00C1A06B /* Build configuration list for PBXNativeTarget "EPlayerSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02DC77481EE91F3B00C1A06B /* Debug */,
+				02DC77491EE91F3B00C1A06B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 02DC77361EE91F3B00C1A06B /* Project object */;
+}
