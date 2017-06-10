@@ -103,8 +103,8 @@
         CGFloat targetPoint = velocity.y < 0 ? kNavigationBarHeight : kNavigationBarHeight + kWMHeaderViewHeight;
         NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
         
-        if (fabs(velocity.y) * 1.0 > fabs(targetPoint - self.viewTop)) {
-            NSLog(@"velocity: %lf", velocity.y);
+        if (fabs(velocity.y) * 1.0 > fabs(targetPoint - self.viewTop))
+        {
             [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 self.viewTop = targetPoint;
             } completion:nil];

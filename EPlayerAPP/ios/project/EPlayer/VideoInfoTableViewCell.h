@@ -9,5 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface VideoInfoTableViewCell : UITableViewCell
+@property (nonatomic, assign) CGFloat fileSize;
+@property (nonatomic, assign) NSString *fileURL;
+@property (nonatomic, assign) NSString *fileName;
+@property (nonatomic, assign) NSString *fileFormat;
+@property (nonatomic, assign) NSString *videoDuration;
+@property (nonatomic, assign) UILabel *fileNameLable;
+@property (nonatomic, assign) UILabel *metadataLable;
+@property (nonatomic, assign) UIView *videoThumbnailView;
 
+- (void)setCellSelected : (BOOL)selected;
+- (void)configuVideoInfoCell;
 @end
