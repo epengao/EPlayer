@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
 		90BB0A321EEC282C00627989 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A311EEC282C00627989 /* main.m */; };
 		90BB0A351EEC282C00627989 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A341EEC282C00627989 /* AppDelegate.m */; };
 		90BB0A3B1EEC282C00627989 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A391EEC282C00627989 /* Main.storyboard */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
+		901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppRootNavigationViewController.m; sourceTree = "<group>"; };
 		90BB0A2D1EEC282C00627989 /* EPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90BB0A311EEC282C00627989 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90BB0A331EEC282C00627989 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -97,6 +100,8 @@
 				90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */,
 				90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */,
 				90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */,
+				901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */,
+				901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */,
 				90BB0A391EEC282C00627989 /* Main.storyboard */,
 				90BB0A3C1EEC282C00627989 /* Assets.xcassets */,
 				90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */,
@@ -243,6 +248,7 @@
 				90BB0A5E1EEC2C6A00627989 /* WMMenuView.m in Sources */,
 				90BB0A5D1EEC2C6A00627989 /* WMMenuItem.m in Sources */,
 				90BB0A501EEC2C5B00627989 /* WMPanGestureRecognizer.m in Sources */,
+				901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */,
 				90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */,
 				90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */,
 				90BB0A5F1EEC2C6A00627989 /* WMProgressView.m in Sources */,
@@ -375,6 +381,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.EPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -387,6 +394,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.EPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

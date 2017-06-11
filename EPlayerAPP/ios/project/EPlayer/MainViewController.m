@@ -254,4 +254,9 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
     }
     return ret;
 }
+
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+
 @end
