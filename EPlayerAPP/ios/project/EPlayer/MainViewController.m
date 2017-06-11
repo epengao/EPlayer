@@ -255,8 +255,13 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
     return ret;
 }
 
-- (BOOL)shouldAutorotate{
-    return NO;
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 @end

@@ -25,7 +25,7 @@
 }
 
 - (BOOL)shouldAutorotate{
-    return YES;
+    return self.topViewController.shouldAutorotate;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations

@@ -287,5 +287,13 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     //    [cell setCellSelected:NO];
     //}
 }
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 @end
