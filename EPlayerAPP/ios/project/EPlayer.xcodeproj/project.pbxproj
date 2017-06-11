@@ -20,8 +20,8 @@
 		90BB0A601EEC2C6A00627989 /* WMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A5A1EEC2C6A00627989 /* WMScrollView.m */; };
 		90BB0A611EEC2C6A00627989 /* WMPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A5C1EEC2C6A00627989 /* WMPageController.m */; };
 		90BB0A641EEC2CE300627989 /* UINavigationBarEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A631EEC2CE300627989 /* UINavigationBarEx.m */; };
-		90BB0A6F1EEC3AAD00627989 /* CameraVideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A6A1EEC3AAD00627989 /* CameraVideoTableViewController.m */; };
 		90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */; };
+		90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,10 +49,10 @@
 		90BB0A5C1EEC2C6A00627989 /* WMPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WMPageController.m; path = EPlayer/WMPageController/WMPageController.m; sourceTree = "<group>"; };
 		90BB0A621EEC2CE300627989 /* UINavigationBarEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UINavigationBarEx.h; path = EPlayer/UINavigationBarEx/UINavigationBarEx.h; sourceTree = "<group>"; };
 		90BB0A631EEC2CE300627989 /* UINavigationBarEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UINavigationBarEx.m; path = EPlayer/UINavigationBarEx/UINavigationBarEx.m; sourceTree = "<group>"; };
-		90BB0A691EEC3AAD00627989 /* CameraVideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraVideoTableViewController.h; path = SubTableViewPages/CameraVideoTableViewController.h; sourceTree = "<group>"; };
-		90BB0A6A1EEC3AAD00627989 /* CameraVideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraVideoTableViewController.m; path = SubTableViewPages/CameraVideoTableViewController.m; sourceTree = "<group>"; };
 		90BB0A781EEC3F5600627989 /* VideoInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInfoTableViewCell.h; sourceTree = "<group>"; };
 		90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInfoTableViewCell.m; sourceTree = "<group>"; };
+		90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoFilesTableViewController.h; path = SubTableViewPages/VideoFilesTableViewController.h; sourceTree = "<group>"; };
+		90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoFilesTableViewController.m; path = SubTableViewPages/VideoFilesTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +95,8 @@
 				90BB0A4C1EEC2C3D00627989 /* MainViewController.m */,
 				90BB0A781EEC3F5600627989 /* VideoInfoTableViewCell.h */,
 				90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */,
-				90BB0A691EEC3AAD00627989 /* CameraVideoTableViewController.h */,
-				90BB0A6A1EEC3AAD00627989 /* CameraVideoTableViewController.m */,
+				90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */,
+				90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */,
 				90BB0A391EEC282C00627989 /* Main.storyboard */,
 				90BB0A3C1EEC282C00627989 /* Assets.xcassets */,
 				90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */,
@@ -244,8 +244,8 @@
 				90BB0A5D1EEC2C6A00627989 /* WMMenuItem.m in Sources */,
 				90BB0A501EEC2C5B00627989 /* WMPanGestureRecognizer.m in Sources */,
 				90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */,
+				90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */,
 				90BB0A5F1EEC2C6A00627989 /* WMProgressView.m in Sources */,
-				90BB0A6F1EEC3AAD00627989 /* CameraVideoTableViewController.m in Sources */,
 				90BB0A321EEC282C00627989 /* main.m in Sources */,
 				90BB0A641EEC2CE300627989 /* UINavigationBarEx.m in Sources */,
 				90BB0A601EEC2C6A00627989 /* WMScrollView.m in Sources */,
@@ -315,7 +315,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -358,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

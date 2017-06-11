@@ -1,13 +1,23 @@
 
 #import "MainViewController.h"
+#import <Photos/PHPhotoLibrary.h>
 #import "WMPanGestureRecognizer.h"
-#import "CameraVideoTableViewController.h"
+#import <AVFoundation/AVMediaFormat.h>
+#import "VideoFilesTableViewController.h"
 
-@interface MainViewController () <UIGestureRecognizerDelegate>
+typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
+{
+    CanAccess     = 0,
+    CanNotAccess  = 1,
+    NeedRequest   = 2,
+};
+
+@interface MainViewController() <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSArray *videoCategories;
 @property (nonatomic, strong) WMPanGestureRecognizer *panGesture;
 @property (nonatomic, assign) CGPoint lastPoint;
 @property (nonatomic, strong) UIView *redView;
+@property (nonatomic, assign) AccessMediaLibraryRight accessMeidaRight;
 @end
 
 @implementation MainViewController
@@ -31,6 +41,7 @@
         self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.videoCategories.count;
         self.menuHeight = 40;
         self.viewTop = kWMHeaderViewHeight;
+        self.accessMeidaRight = NeedRequest;
         self.titleColorSelected = [UIColor colorWithRed:90.0f/256.0f green:53.0f/256.0f blue:200.0f/256.0f alpha:1.0];
         self.titleColorNormal = [UIColor colorWithRed:135.0f/256.0f green:120.0f/256.0f blue:185.0f/256.0f alpha:1.0];
         self.menuBGColor = [UIColor whiteColor];
@@ -159,7 +170,35 @@
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index
 {
-    CameraVideoTableViewController *vc = [[CameraVideoTableViewController alloc] init];
+    VideoFilesTableViewController *vc = [[VideoFilesTableViewController alloc] init];
+    if(index == 0)
+    {
+        NSString *folder = nil;
+        AccessMediaLibraryRight right = [self checkMediaLibraryAccessRight];
+        if(right == NeedRequest)
+        {
+            right = [self acquireMediaLibraryAccessRight];
+        }
+        if(right == CanAccess)
+        {
+            folder = @"CameraLibraryFolder";
+        }
+        [vc setVideoFilesFolder:folder];
+        vc.tableViewType = CameraVideosTableView;
+    }
+    else if (index == 1)
+    {
+        NSArray *patchs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [patchs objectAtIndex:0];
+        NSString *fileDirectory = [documentsDirectory stringByAppendingPathComponent:@""];
+        [vc setVideoFilesFolder:fileDirectory];
+        vc.tableViewType = UploadVideosTableView;
+    }
+    else
+    {
+        [vc setVideoFilesFolder:nil];
+        vc.tableViewType = iTunesVideosTableView;
+    }
     return vc;
 }
 
@@ -168,4 +207,51 @@
     return self.videoCategories[index];
 }
 
+- (AccessMediaLibraryRight)acquireMediaLibraryAccessRight
+{
+    self.accessMeidaRight = NeedRequest;
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            switch (status) {
+                case PHAuthorizationStatusAuthorized:
+                {
+                    self.accessMeidaRight = CanAccess;
+                    break;
+                }
+                default:
+                {
+                    self.accessMeidaRight = CanNotAccess;
+                    break;
+                }
+            }
+        });
+    }];
+    return self.accessMeidaRight;
+}
+
+- (AccessMediaLibraryRight)checkMediaLibraryAccessRight
+{
+    AccessMediaLibraryRight ret = NeedRequest;
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    switch (status)
+    {
+        case PHAuthorizationStatusAuthorized:
+        {
+            ret = CanAccess;
+            break;
+        }
+        case PHAuthorizationStatusRestricted:
+        case PHAuthorizationStatusDenied:
+        {
+            ret = CanNotAccess;
+            break;
+        }
+        case PHAuthorizationStatusNotDetermined:
+        {
+            ret = NeedRequest;
+            break;
+        }
+    }
+    return ret;
+}
 @end

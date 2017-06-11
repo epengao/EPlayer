@@ -7,17 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
+
+typedef NS_ENUM(NSUInteger, VideoCellType)
+{
+    CameraVideoCell     = 0,
+    UploadVideoCell     = 1,
+    iTunesVideoCell     = 2,
+};
 
 @interface VideoInfoTableViewCell : UITableViewCell
 @property (nonatomic, assign) CGFloat fileSize;
 @property (nonatomic, assign) NSString *fileURL;
 @property (nonatomic, assign) NSString *fileName;
-@property (nonatomic, assign) NSString *fileFormat;
+@property (nonatomic, assign) NSString *fileType;
+@property (nonatomic, assign) NSString *updateTime;
 @property (nonatomic, assign) NSString *videoDuration;
-@property (nonatomic, assign) UILabel *fileNameLable;
-@property (nonatomic, assign) UILabel *metadataLable;
-@property (nonatomic, assign) UIView *videoThumbnailView;
-
+@property (nonatomic, assign) AVURLAsset *urlAsset;
+@property (nonatomic, assign) VideoCellType videoCellType;
 - (void)setCellSelected : (BOOL)selected;
 - (void)configuVideoInfoCell;
 @end
