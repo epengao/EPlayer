@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, VideoTableViewType)
     iTunesVideosTableView     = 2,
 };
 
-@interface VideoFilesTableViewController : UITableViewController
+@interface VideoFilesTableViewController : UITableViewController <PHPhotoLibraryChangeObserver>
 @property (nonatomic, assign) VideoTableViewType tableViewType;
 - (void)setVideoFilesFolder :(NSString*)folderPath;
 @end

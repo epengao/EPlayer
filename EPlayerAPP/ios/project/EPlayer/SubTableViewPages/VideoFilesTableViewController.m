@@ -10,6 +10,7 @@
     BOOL loadingVideoInfo;
     NSInteger videoFilesCount;
     /* Camera Video files */
+    PHFetchResult *assetsFetchResults;
     NSMutableArray *cameraVideoInfoList;
     /* Upload Video files */
     NSString* videoFileFolder;
@@ -25,6 +26,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     [super viewDidLoad];
     videoFilesCount = 0;
     self.tableView.dataSource = self;
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     [self.tableView setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:1.0]];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -44,6 +46,11 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 //    {
 //        [self initEmptyTableBackground];
 //    }
+}
+
+- (void)dealloc
+{
+    [PHPhotoLibrary.sharedPhotoLibrary unregisterChangeObserver:self];
 }
 
 - (void)setVideoFilesFolder :(NSString*)folderPath
@@ -117,9 +124,9 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (NSInteger)loadAllMediaLibraryVideos
 {
     cameraVideoInfoList = [[NSMutableArray alloc] init];
-    PHFetchResult *assetsFetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
-                                                                          subtype:PHAssetCollectionSubtypeSmartAlbumVideos
-                                                                          options:nil];
+    assetsFetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                                  subtype:PHAssetCollectionSubtypeSmartAlbumVideos
+                                                                  options:nil];
     for (PHAssetCollection *sub in assetsFetchResults)
     {
         PHFetchResult *assetsInCollection = [PHAsset fetchAssetsInAssetCollection:sub options:nil];
@@ -186,6 +193,10 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         videoInfo.updateTime = [dateFormatter stringFromDate:updateDate];
         videoInfo.fileSize = [[fileAttributes objectForKey:NSFileSize] floatValue] / (1000*1000.0f);
+        
+        NSURL *url = [NSURL fileURLWithPath:fileURL];
+        AVURLAsset *urlAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+        videoInfo.videoDuration = [self convertCMTimeToNSString:urlAsset.duration];
     }
 }
 
@@ -329,4 +340,24 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+/* PHPhotoLibraryChangeObserver delegeate */
+- (void)photoLibraryDidChange:(PHChange *)changeInstance
+{
+    PHFetchResultChangeDetails *collectionChanges = [changeInstance changeDetailsForFetchResult:assetsFetchResults];
+    if (collectionChanges != nil)
+    {
+        if ([collectionChanges hasIncrementalChanges])
+        {
+            PHFetchResult *before = [collectionChanges fetchResultBeforeChanges];
+            PHFetchResult *after = [collectionChanges fetchResultAfterChanges];
+            /* Do diff and update data */
+        }
+    }
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        /* UI reload */
+    });
+}
+
 @end
