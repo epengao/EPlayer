@@ -3,6 +3,15 @@
 #import "VideoInfoTableViewCell.h"
 #import <AVFoundation/AVFoundation.h>
 
+@interface VideoInfo ()
+- (void)PackUpData;
+@end
+
+@implementation VideoInfo
+- (void)PackUpData
+{}
+@end
+
 @interface VideoInfoTableViewCell ()
 @property (nonatomic, weak) UILabel *fileNameLable;
 @property (nonatomic, weak) UILabel *metadataLable;
@@ -61,7 +70,7 @@
 
 - (void)initFileNameLableView
 {
-    if(self.fileName != nil)
+    if(self.data.fileName != nil)
     {
         CGSize cellSize = self.frame.size;
         CGFloat targetWidth = cellSize.width * 0.5 - 8;
@@ -74,7 +83,7 @@
 
         UIColor * color = [UIColor blackColor];
         [fileNameLableView setTag:1001];
-        [fileNameLableView setText:self.fileName];
+        [fileNameLableView setText:self.data.fileName];
         [fileNameLableView setTextColor:color];
         [fileNameLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
         [fileNameLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
@@ -94,7 +103,7 @@
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
     UILabel* metedataLableView = [[UILabel alloc] initWithFrame:targetFrame];
     
-    NSString *metadata = [NSString stringWithFormat:@"%.2fM | %@", _fileSize, _fileType];
+    NSString *metadata = [NSString stringWithFormat:@"%.2fM | %@", self.data.fileSize, self.data.fileType];
     
     UIColor * color = [UIColor colorWithRed:98.0f/256.0f green:98.0f/256.0f blue:98.0f/256.0f alpha:1.0];
     [metedataLableView setTag:1002];
@@ -117,7 +126,7 @@
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
     UILabel* updateTimeLableView = [[UILabel alloc] initWithFrame:targetFrame];
     
-    NSString *updateTime = [NSString stringWithFormat:@"%@", _updateTime];
+    NSString *updateTime = [NSString stringWithFormat:@"%@", self.data.updateTime];
     
     UIColor * color = [UIColor colorWithRed:98.0f/256.0f green:98.0f/256.0f blue:98.0f/256.0f alpha:1.0];
     [updateTimeLableView setTag:1003];
@@ -129,45 +138,19 @@
     [self.contentView addSubview:self.updateTimeLable];
 }
 
-- (UIImage *)getScreenShotImageFromAVURLAsset :(AVURLAsset*)urlAsset
+- (void)initThumbnail
 {
-    if(urlAsset != nil)
+    UIImage *thumbnailImage = nil;
+    if(self.data.videoCellType == CameraVideoCell)
     {
-        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
-        generator.appliesPreferredTrackTransform = YES;
-        generator.maximumSize = CGSizeMake(1920, 1080);
-        NSError *error = nil;
-        CGImageRef img = [generator copyCGImageAtTime:CMTimeMake(0, 10000) actualTime:NULL error:&error];
-        UIImage *image = [UIImage imageWithCGImage: img];
-        return image;
+        thumbnailImage = [self getScreenShotImageFromAVURLAsset:self.data.urlAsset];
     }
-    return nil;
-}
-
-- (UIImage *)getScreenShotImageFromVideoPath:(NSString *)filePath
-{
-    if(filePath != nil)
+    else if (self.data.videoCellType == UploadVideoCell)
     {
-        CGFloat startTime = 0.0;
-        if(self.fileSize > 1.0)
-        {
-            startTime = 1.0f;
-        }
-        UIImage *shotImage = nil;
-        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:fileURL options:nil];
-        AVAssetImageGenerator *gen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-        gen.appliesPreferredTrackTransform = YES;
-        CMTime time = CMTimeMakeWithSeconds(startTime, 600);
-
-        NSError *error = nil;
-        CMTime actualTime;
-        CGImageRef image = [gen copyCGImageAtTime:time actualTime:&actualTime error:&error];
-        shotImage = [[UIImage alloc] initWithCGImage:image];
-        CGImageRelease(image);
-        return shotImage;
+        thumbnailImage = [self getScreenShotImageFromVideoPath:self.data.fileURL];
     }
-    return nil;
+    else{ /* TODO */}
+    [self createVideoThumbnailFromImage:thumbnailImage];
 }
 
 - (void)createVideoThumbnailFromImage :(UIImage*)thumbnailImage
@@ -179,7 +162,7 @@
     CGSize cellSize = self.frame.size;
     CGFloat targetWidth = cellSize.width * 0.5;
     CGFloat targetHeight = cellSize.height;
-    
+
     CGFloat y = 0.0f;
     CGFloat x = 0.0f;
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
@@ -194,21 +177,54 @@
     [self.contentView addSubview:self.videoThumbnailView];
 }
 
-- (void)initThumbnail
+- (UIImage *)getScreenShotImageFromVideoPath: (NSString*)filePath
 {
-    UIImage *thumbnailImage = nil;
-    if(self.videoCellType == CameraVideoCell)
+    UIImage *retImage = nil;
+    if(filePath != nil)
     {
-        thumbnailImage = [self getScreenShotImageFromAVURLAsset:self.urlAsset];
+        CGFloat startTime = 0.0;
+        if(self.data.fileSize > 1.0)
+        {
+            startTime = 1.0f;
+        }
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:fileURL options:nil];
+        CMTime time = CMTimeMakeWithSeconds(startTime, 600);
+        retImage = [self getImageFromAVURLAsset:asset timeSpan:time];
     }
-    else if (self.videoCellType == UploadVideoCell)
-    {
-        thumbnailImage = [self getScreenShotImageFromVideoPath:self.fileURL];
-    }
-    else
-    {
-    }
-    [self createVideoThumbnailFromImage:thumbnailImage];
+    return retImage;
 }
 
+- (UIImage *)getScreenShotImageFromAVURLAsset :(AVURLAsset*)urlAsset
+{
+    UIImage *retImage = nil;
+    if(urlAsset != nil)
+    {
+        CGFloat startTime = 0.0;
+        if(self.data.fileSize > 1.0)
+        {
+            startTime = 1.0f;
+        }
+        CMTime time = CMTimeMakeWithSeconds(startTime, 600);
+        retImage = [self getImageFromAVURLAsset:urlAsset timeSpan:time];
+    }
+    return retImage;
+}
+
+- (UIImage*)getImageFromAVURLAsset :(AVURLAsset*)urlAsset timeSpan:(CMTime)time
+{
+    UIImage *retImage = nil;
+    if(urlAsset != nil)
+    {
+        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+        generator.appliesPreferredTrackTransform = YES;
+        generator.maximumSize = CGSizeMake(1920, 1080);
+
+        CMTime actualTime;
+        NSError *error = nil;
+        CGImageRef img = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
+        retImage = [[UIImage alloc] initWithCGImage: img];
+    }
+    return retImage;
+}
 @end

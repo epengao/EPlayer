@@ -1,16 +1,19 @@
 
 
+#import "MBProgressHUD.h"
 #import <Photos/Photos.h>
 #import "VideoInfoTableViewCell.h"
 #import "VideoFilesTableViewController.h"
 
 @interface VideoFilesTableViewController ()
 {
-    NSString *videoFileFolder;
-    /* Upload Video files */
-    NSArray *uploadVideoFileList;
+    BOOL loadingVideoInfo;
+    NSInteger videoFilesCount;
     /* Camera Video files */
-    NSMutableArray *cameraVideoFileList;
+    NSMutableArray *cameraVideoInfoList;
+    /* Upload Video files */
+    NSString* videoFileFolder;
+    NSArray *uploadVideoInfoList;
 }
 @end
 
@@ -20,17 +23,27 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    videoFilesCount = 0;
     self.tableView.dataSource = self;
     [self.tableView setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:1.0]];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerClass:[VideoInfoTableViewCell class] forCellReuseIdentifier:CameraTablewCellIdentifier];
 
+//    MBProgressHUD *hubAlertView = [[MBProgressHUD alloc] initWithView:self.view];
+//    hubAlertView.removeFromSuperViewOnHide = YES;
+//    hubAlertView.minSize = CGSizeMake(135.f, 135.f);
+//    [self.view addSubview:hubAlertView];
+//    
+//    hubAlertView.labelText = NSLocalizedString(@"正在添加",nil);
+//    [hubAlertView show:YES];
+    loadingVideoInfo = YES;
     [self initAllVideoData];
-    if([self getVideosCount] <= 0)
-    {
-        [self initEmptyTableBackground];
-    }
+    loadingVideoInfo = NO;
+//    if([self getVideosCount] <= 0)
+//    {
+//        [self initEmptyTableBackground];
+//    }
 }
 
 - (void)setVideoFilesFolder :(NSString*)folderPath
@@ -41,17 +54,17 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (NSInteger)getVideosCount
 {
     NSInteger count = 0;
-    if(self.tableViewType == CameraVideosTableView)
+    if(!loadingVideoInfo)
     {
-        count = [cameraVideoFileList count];
-    }
-    else if(self.tableViewType == UploadVideosTableView)
-    {
-        count = [uploadVideoFileList count];
-    }
-    else
-    {
-        /* TODO */
+        if(self.tableViewType == CameraVideosTableView)
+        {
+            count = [cameraVideoInfoList count];
+        }
+        else if(self.tableViewType == UploadVideosTableView)
+        {
+            count = [uploadVideoInfoList count];
+        }
+        else { /* TODO */}
     }
     return count;
 }
@@ -87,10 +100,10 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     NSInteger filesCount = 0;
     if(videoFileFolder != nil)
     {
-        uploadVideoFileList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
-        if(uploadVideoFileList != nil)
+        uploadVideoInfoList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
+        if(uploadVideoInfoList != nil)
         {
-            filesCount = [uploadVideoFileList count];
+            filesCount = [uploadVideoInfoList count];
         }
     }
     return filesCount;
@@ -103,7 +116,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (NSInteger)loadAllMediaLibraryVideos
 {
-    cameraVideoFileList = [[NSMutableArray alloc] init];
+    cameraVideoInfoList = [[NSMutableArray alloc] init];
 
     PHFetchResult *assetsFetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                           subtype:PHAssetCollectionSubtypeSmartAlbumVideos
@@ -122,19 +135,25 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     PHVideoRequestOptions *videoFetchOptions = [PHVideoRequestOptions new];
                     videoFetchOptions.deliveryMode = PHVideoRequestOptionsDeliveryModeHighQualityFormat;
                     videoFetchOptions.networkAccessAllowed = NO;
+                    __block AVURLAsset *urlAsset = nil;
+                    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
                     [[PHImageManager defaultManager] requestAVAssetForVideo:asset
                                                                     options:videoFetchOptions
                                                               resultHandler:^(AVAsset * _Nullable asset, AVAudioMix* _Nullable audioMix, NSDictionary* _Nullable info)
                      {
-                         AVURLAsset *urlAsset = (AVURLAsset *)asset;
-                         [cameraVideoFileList addObject:urlAsset];
-                         [self.tableView reloadData];
+                         urlAsset = (AVURLAsset *)asset;
+                         dispatch_semaphore_signal(semaphore);
                      }];
+                    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                    if(urlAsset != nil)
+                    {
+                        [cameraVideoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset]];
+                    }
                 }
             }
         }
     }
-    return [cameraVideoFileList count];
+    return [cameraVideoInfoList count];
 }
 
 - (void)initEmptyTableBackground
@@ -156,59 +175,60 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     [self.tableView setBackgroundView:bgView];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Config TableView cell
-- (void)configVideoCell :(VideoInfoTableViewCell*)cell byFileURL:(NSString*)fileURL
+#pragma mark - Config VideoInfo data
+- (void)initVideoInfo :(VideoInfo*)videoInfo byFileURL:(NSString*)fileURL
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:cell.fileURL error:nil];
+    NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:videoInfo.fileURL error:nil];
     if (fileAttributes != nil)
     {
         NSDate *updateDate = [fileAttributes objectForKey:NSFileModificationDate];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        cell.updateTime = [dateFormatter stringFromDate:updateDate];
-        cell.fileSize = [[fileAttributes objectForKey:NSFileSize] floatValue] / (1000*1000.0f);
+        videoInfo.updateTime = [dateFormatter stringFromDate:updateDate];
+        videoInfo.fileSize = [[fileAttributes objectForKey:NSFileSize] floatValue] / (1000*1000.0f);
     }
 }
 
-- (void)configCameraVideoCell :(VideoInfoTableViewCell*)cell fileIndex:(NSInteger)index
+- (VideoInfo*)CreateCameraVideoInfoFromAVURLAsset :(AVURLAsset*)urlAsset
 {
-    cell.videoCellType = CameraVideoCell;
-    AVURLAsset *urlAsset = [cameraVideoFileList objectAtIndex:index];
+    VideoInfo *videoInfo = [[VideoInfo alloc] init];
+    videoInfo.videoCellType = CameraVideoCell;
     if(urlAsset != nil)
     {
-        cell.fileURL = [urlAsset.URL absoluteString];
-        cell.fileName = [cell.fileURL lastPathComponent];
-        cell.fileType = [cell.fileURL pathExtension];
+        videoInfo.fileURL = [urlAsset.URL absoluteString];
+        videoInfo.fileName = [videoInfo.fileURL lastPathComponent];
+        videoInfo.fileType = [videoInfo.fileURL pathExtension];
         if(urlAsset.creationDate != nil)
         {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            cell.updateTime = [dateFormatter stringFromDate:urlAsset.creationDate.dateValue];
+            videoInfo.updateTime = [dateFormatter stringFromDate:urlAsset.creationDate.dateValue];
         }
-        cell.fileSize = [[NSData dataWithContentsOfURL:urlAsset.URL] length] / (1000*1000.0f);
+        videoInfo.fileSize = [[NSData dataWithContentsOfURL:urlAsset.URL] length] / (1000*1000.0f);
     }
-    cell.urlAsset = urlAsset;
+    videoInfo.urlAsset = urlAsset;
+    [videoInfo PackUpData];
+
+    return videoInfo;
 }
 
-- (void)configUploadVideCell :(VideoInfoTableViewCell*)cell fileIndex:(NSInteger)index
+- (VideoInfo*)createUploadVideoInfoFromFileURL :(NSString*)url
 {
-    cell.videoCellType = UploadVideoCell;
-    cell.fileName = uploadVideoFileList[index];
-    cell.fileURL = [NSString stringWithFormat:@"%@/%@", videoFileFolder, cell.fileName];
-    cell.fileType = [cell.fileName pathExtension];
-    [self configVideoCell:cell byFileURL:cell.fileURL];
+    VideoInfo *videoInfo = [[VideoInfo alloc]init];
+    videoInfo.videoCellType = UploadVideoCell;
+    videoInfo.fileURL = url;
+    videoInfo.fileName = [url lastPathComponent];
+    videoInfo.fileType = [videoInfo.fileName pathExtension];
+    [self initVideoInfo:videoInfo byFileURL:videoInfo.fileURL];
+    [videoInfo PackUpData];
+
+    return videoInfo;
 }
 
-- (void)configItunesVideoCell :(VideoInfoTableViewCell*)cell
+- (void)initItunesVideoInfo :(VideoInfo*)videoInfo
 {
-    cell.videoCellType = iTunesVideoCell;
+    videoInfo.videoCellType = iTunesVideoCell;
 }
 
 #pragma mark - Table view data source
@@ -230,18 +250,18 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
         cell = [[VideoInfoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                              reuseIdentifier:CameraTablewCellIdentifier];
     }
+    VideoInfo *info = nil;
     if(self.tableViewType == CameraVideosTableView)
     {
-        [self configCameraVideoCell:cell fileIndex:indexPath.row];
+        info = cameraVideoInfoList[indexPath.row];
     }
     else if(self.tableViewType == UploadVideosTableView)
     {
-        [self configUploadVideCell:cell fileIndex:indexPath.row];
+        info = uploadVideoInfoList[indexPath.row];
     }
-    else
-    {
-        [self configItunesVideoCell:cell];
-    }
+    else {/* TODO */}
+
+    cell.data = info;
     [cell setFrame:CGRectMake(0, 0, self.view.frame.size.width - 10, 100)];
     [cell configuVideoInfoCell];
     return cell;

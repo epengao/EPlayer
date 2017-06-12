@@ -26,7 +26,7 @@
     if ([otherGestureRecognizer.view isKindOfClass:NSClassFromString(@"WMScrollView")]) {
         return NO;
     }
-    return YES;
+    return NO;
 }
 
 @end
