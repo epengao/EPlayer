@@ -35,11 +35,11 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
 {
     if (self = [super init])
     {
-        self.titleSizeNormal = 15;
-        self.titleSizeSelected = 15;
+        self.titleSizeNormal = 16;
+        self.titleSizeSelected = 16;
         self.menuViewStyle = WMMenuViewStyleFloodHollow;
         self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.videoCategories.count;
-        self.menuHeight = 40;
+        self.menuHeight = 45;
         self.viewTop = kWMHeaderViewHeight;
         self.accessMeidaRight = NeedRequest;
         self.titleColorSelected = [UIColor colorWithRed:90.0f/256.0f green:53.0f/256.0f blue:200.0f/256.0f alpha:1.0];

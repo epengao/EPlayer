@@ -17,19 +17,20 @@ typedef NS_ENUM(NSUInteger, VideoCellType)
 };
 
 @interface VideoInfo : NSObject
+@property (nonatomic, copy) NSString *fileURL;
+@property (nonatomic, copy) NSString *fileName;
+@property (nonatomic, copy) NSString *fileType;
+@property (nonatomic, copy) NSString *updateTime;
+@property (nonatomic, copy) NSString *videoDuration;
+@property (nonatomic, strong) AVURLAsset *urlAsset;
+@property (nonatomic, strong) UIImage *thumbnailImage;
 @property (nonatomic, assign) CGFloat fileSize;
-@property (nonatomic, assign) NSString *fileURL;
-@property (nonatomic, assign) NSString *fileName;
-@property (nonatomic, assign) NSString *fileType;
-@property (nonatomic, assign) NSString *updateTime;
-@property (nonatomic, assign) NSString *videoDuration;
-@property (nonatomic, retain) AVURLAsset *urlAsset;
 @property (nonatomic, assign) VideoCellType videoCellType;
-- (void)PackUpData;
+- (void)initThumbnailImage;
 @end
 
 @interface VideoInfoTableViewCell : UITableViewCell
-@property (nonatomic, retain) VideoInfo *data;
+- (void)setVideoInfo : (VideoInfo*)info;
 - (void)setCellSelected : (BOOL)selected;
 - (void)configuVideoInfoCell;
 @end

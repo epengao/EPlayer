@@ -4,177 +4,40 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface VideoInfo ()
-- (void)PackUpData;
+- (void)initThumbnailImage;
 @end
 
 @implementation VideoInfo
-- (void)PackUpData
-{}
-@end
-
-@interface VideoInfoTableViewCell ()
-@property (nonatomic, weak) UILabel *fileNameLable;
-@property (nonatomic, weak) UILabel *metadataLable;
-@property (nonatomic, weak) UILabel *updateTimeLable;
-@property (nonatomic, weak) UIView *videoThumbnailView;
-@end
-
-@implementation VideoInfoTableViewCell
-
-- (void)awakeFromNib
+- (id)init
 {
-    [super awakeFromNib];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-}
-
-- (void)setFrame:(CGRect)frame
-{
-    frame.origin.x = 5;
-    frame.size.width -= 2 * frame.origin.x;
-    frame.size.height -= frame.origin.x;
-    self.layer.masksToBounds = YES;
-    self.layer.cornerRadius = 4.0;
-
-    [super setFrame:frame];
-}
-
-- (void)configuVideoInfoCell;
-{
-    [self initThumbnail];
-    [self initFileNameLableView];
-    [self initVideoMetadataLableView];
-    [self initUpdateTimeLableView];
-}
-
-- (void)setCellSelected : (BOOL)selected
-{
-    UIColor *selectedColor = nil;
-    if(selected)
+    self = [super init];
+    if(self)
     {
-        selectedColor = [UIColor colorWithRed:90.0f/256.0f green:53.0f/256.0f blue:200.0f/256.0f alpha:1.0];
+        self.fileURL = nil;
+        self.fileName = nil;
+        self.fileType = nil;
+        self.urlAsset = nil;
+        self.fileSize = 0.0f;
+        self.updateTime = nil;
+        self.videoDuration = nil;
+        self.videoCellType = iTunesVideoCell;
     }
-    else
-    {
-        selectedColor = [UIColor blackColor];
-    }
-    UILabel *lable = [self.contentView viewWithTag:1002];
-    if(lable != nil)
-    {
-        [lable setTextColor:selectedColor];
-    }
+    return self;
 }
 
-- (void)initFileNameLableView
-{
-    if(self.data.fileName != nil)
-    {
-        CGSize cellSize = self.frame.size;
-        CGFloat targetWidth = cellSize.width * 0.5 - 8;
-        CGFloat targetHeight = cellSize.height * 0.3;
-        
-        CGFloat y = 10;
-        CGFloat x = targetWidth + 16;
-        CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-        UILabel* fileNameLableView = [[UILabel alloc] initWithFrame:targetFrame];
-
-        UIColor * color = [UIColor blackColor];
-        [fileNameLableView setTag:1001];
-        [fileNameLableView setText:self.data.fileName];
-        [fileNameLableView setTextColor:color];
-        [fileNameLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
-        [fileNameLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
-        self.fileNameLable = fileNameLableView;
-        [self.contentView addSubview:self.fileNameLable];
-    }
-}
-
-- (void)initVideoMetadataLableView
-{
-    CGSize cellSize = self.frame.size;
-    CGFloat targetWidth = cellSize.width * 0.5 - 8;
-    CGFloat targetHeight = cellSize.height * 0.3;
-    
-    CGFloat y = targetHeight + 10;
-    CGFloat x = targetWidth + 16;
-    CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-    UILabel* metedataLableView = [[UILabel alloc] initWithFrame:targetFrame];
-    
-    NSString *metadata = [NSString stringWithFormat:@"%.2fM | %@", self.data.fileSize, self.data.fileType];
-    
-    UIColor * color = [UIColor colorWithRed:98.0f/256.0f green:98.0f/256.0f blue:98.0f/256.0f alpha:1.0];
-    [metedataLableView setTag:1002];
-    [metedataLableView setText:metadata];
-    [metedataLableView setTextColor:color];
-    [metedataLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    [metedataLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
-    self.metadataLable = metedataLableView;
-    [self.contentView addSubview:self.metadataLable];
-}
-
-- (void)initUpdateTimeLableView
-{
-    CGSize cellSize = self.frame.size;
-    CGFloat targetWidth = cellSize.width * 0.5 - 8;
-    CGFloat targetHeight = cellSize.height * 0.3;
-    
-    CGFloat y = targetHeight * 2 + 10;
-    CGFloat x = targetWidth + 16;
-    CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-    UILabel* updateTimeLableView = [[UILabel alloc] initWithFrame:targetFrame];
-    
-    NSString *updateTime = [NSString stringWithFormat:@"%@", self.data.updateTime];
-    
-    UIColor * color = [UIColor colorWithRed:98.0f/256.0f green:98.0f/256.0f blue:98.0f/256.0f alpha:1.0];
-    [updateTimeLableView setTag:1003];
-    [updateTimeLableView setText:updateTime];
-    [updateTimeLableView setTextColor:color];
-    [updateTimeLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    [updateTimeLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
-    self.updateTimeLable = updateTimeLableView;
-    [self.contentView addSubview:self.updateTimeLable];
-}
-
-- (void)initThumbnail
+- (void)initThumbnailImage
 {
     UIImage *thumbnailImage = nil;
-    if(self.data.videoCellType == CameraVideoCell)
+    if(self.videoCellType == CameraVideoCell)
     {
-        thumbnailImage = [self getScreenShotImageFromAVURLAsset:self.data.urlAsset];
+        thumbnailImage = [self getScreenShotImageFromAVURLAsset:self.urlAsset];
     }
-    else if (self.data.videoCellType == UploadVideoCell)
+    else if (self.videoCellType == UploadVideoCell)
     {
-        thumbnailImage = [self getScreenShotImageFromVideoPath:self.data.fileURL];
+        thumbnailImage = [self getScreenShotImageFromVideoPath:self.fileURL];
     }
     else{ /* TODO */}
-    [self createVideoThumbnailFromImage:thumbnailImage];
-}
-
-- (void)createVideoThumbnailFromImage :(UIImage*)thumbnailImage
-{
-    if(thumbnailImage == nil)
-    {
-        thumbnailImage = [UIImage imageNamed:@"default_video_thumbnail"];
-    }
-    CGSize cellSize = self.frame.size;
-    CGFloat targetWidth = cellSize.width * 0.5;
-    CGFloat targetHeight = cellSize.height;
-
-    CGFloat y = 0.0f;
-    CGFloat x = 0.0f;
-    CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-    UIImageView* thumbnailImageView = [[UIImageView alloc] initWithFrame:targetFrame];
-    thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
-    thumbnailImageView.image = thumbnailImage;
-    
-    UIView *subView = [[UIView alloc]initWithFrame:targetFrame];
-    [subView addSubview:thumbnailImageView];
-    [subView setTag:1000];
-    self.videoThumbnailView = subView;
-    [self.contentView addSubview:self.videoThumbnailView];
+    self.thumbnailImage = thumbnailImage;
 }
 
 - (UIImage *)getScreenShotImageFromVideoPath: (NSString*)filePath
@@ -183,7 +46,7 @@
     if(filePath != nil)
     {
         CGFloat startTime = 0.0;
-        if(self.data.fileSize > 1.0)
+        if(self.fileSize > 1.0)
         {
             startTime = 1.0f;
         }
@@ -201,7 +64,7 @@
     if(urlAsset != nil)
     {
         CGFloat startTime = 0.0;
-        if(self.data.fileSize > 1.0)
+        if(self.fileSize > 1.0)
         {
             startTime = 1.0f;
         }
@@ -226,5 +89,198 @@
         retImage = [[UIImage alloc] initWithCGImage: img];
     }
     return retImage;
+}
+@end
+
+#define ThumbnailView_Tag   1000
+#define FileNameView_Tag    1001
+#define MediaMetadata_Tag   1002
+#define MediaUpdateTime_Tag 1003
+
+@interface VideoInfoTableViewCell ()
+{
+    VideoInfo *data;
+}
+@end
+
+@implementation VideoInfoTableViewCell
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+}
+
+- (void)setVideoInfo : (VideoInfo*)info
+{
+    if(info != nil)
+    {
+        if(data == nil)
+        {
+            data = [[VideoInfo alloc] init];
+        }
+        data.fileURL = info.fileURL;
+        data.urlAsset = info.urlAsset;
+        data.fileSize = info.fileSize;
+        data.fileType = info.fileType;
+        data.fileName = info.fileName;
+        data.updateTime = info.updateTime;
+        data.videoCellType = info.videoCellType;
+        data.videoDuration = info.videoDuration;
+        data.thumbnailImage = info.thumbnailImage;
+    }
+    if(data.thumbnailImage == nil)
+    {
+        [data initThumbnailImage];
+    }
+    info.thumbnailImage = data.thumbnailImage;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    frame.origin.x = 5;
+    frame.size.width -= 2 * frame.origin.x;
+    frame.size.height -= frame.origin.x;
+    self.layer.masksToBounds = YES;
+    self.layer.cornerRadius = 4.0;
+
+    [super setFrame:frame];
+}
+
+- (void)setCellSelected : (BOOL)selected
+{
+    UIColor *selectedColor = nil;
+    if(selected)
+    {
+        selectedColor = [UIColor colorWithRed:90.0f/256.0f green:53.0f/256.0f blue:200.0f/256.0f alpha:1.0];
+    }
+    else
+    {
+        selectedColor = [UIColor blackColor];
+    }
+    UILabel *lable = [self.contentView viewWithTag:1002];
+    if(lable != nil)
+    {
+        [lable setTextColor:selectedColor];
+    }
+}
+
+- (void)configuVideoInfoCell;
+{
+    [self initThumbnail];
+    [self initFileNameLableView];
+    [self initVideoMetadataLableView];
+    [self initUpdateTimeLableView];
+}
+
+- (void)initThumbnail
+{
+    [self createVideoThumbnailFromImage:data.thumbnailImage];
+}
+
+- (void)initFileNameLableView
+{
+    if(data.fileName != nil)
+    {
+        UILabel* fileNameLableView = [self viewWithTag:FileNameView_Tag];
+        if(fileNameLableView == nil)
+        {
+            CGSize cellSize = self.frame.size;
+            CGFloat targetWidth = cellSize.width * 0.5 - 8;
+            CGFloat targetHeight = cellSize.height * 0.3;
+            
+            CGFloat y = 10;
+            CGFloat x = targetWidth + 16;
+            CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
+
+            fileNameLableView = [[UILabel alloc] initWithFrame:targetFrame];
+            UIColor * color = [UIColor blackColor];
+            [fileNameLableView setTag:FileNameView_Tag];
+            [fileNameLableView setTextColor:color];
+            [fileNameLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
+            [fileNameLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
+            [self.contentView addSubview:fileNameLableView];
+        }
+        [fileNameLableView setText:data.fileName];
+    }
+}
+
+- (void)initVideoMetadataLableView
+{
+    UILabel* metedataLableView = [self viewWithTag:MediaMetadata_Tag];
+    if(metedataLableView == nil)
+    {
+        CGSize cellSize = self.frame.size;
+        CGFloat targetWidth = cellSize.width * 0.5 - 8;
+        CGFloat targetHeight = cellSize.height * 0.3;
+
+        CGFloat y = targetHeight + 10;
+        CGFloat x = targetWidth + 16;
+        CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
+        metedataLableView = [[UILabel alloc] initWithFrame:targetFrame];
+
+        UIColor * color = [UIColor colorWithRed:98.0f/256.0f green:98.0f/256.0f blue:98.0f/256.0f alpha:1.0];
+        [metedataLableView setTag:MediaMetadata_Tag];
+
+        [metedataLableView setTextColor:color];
+        [metedataLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        [metedataLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
+        [self.contentView addSubview:metedataLableView];
+    }
+    NSString *metadata = [NSString stringWithFormat:@"%@ | %@", data.videoDuration, data.fileType];
+    [metedataLableView setText:metadata];
+}
+
+- (void)initUpdateTimeLableView
+{
+    UILabel* updateTimeLableView = [self viewWithTag:MediaUpdateTime_Tag];
+    if(updateTimeLableView == nil)
+    {
+        CGSize cellSize = self.frame.size;
+        CGFloat targetWidth = cellSize.width * 0.5 - 8;
+        CGFloat targetHeight = cellSize.height * 0.3;
+
+        CGFloat y = targetHeight * 2 + 10;
+        CGFloat x = targetWidth + 16;
+        CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
+        updateTimeLableView = [[UILabel alloc] initWithFrame:targetFrame];
+
+        UIColor * color = [UIColor colorWithRed:98.0f/256.0f green:98.0f/256.0f blue:98.0f/256.0f alpha:1.0];
+        [updateTimeLableView setTag:MediaUpdateTime_Tag];
+        [updateTimeLableView setTextColor:color];
+        [updateTimeLableView setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        [updateTimeLableView setFont:[UIFont fontWithName:@"Arial" size:14]];
+        [self.contentView addSubview:updateTimeLableView];
+    }
+    NSString *updateTime = [NSString stringWithFormat:@"%@", data.updateTime];
+    [updateTimeLableView setText:updateTime];
+}
+
+- (void)createVideoThumbnailFromImage :(UIImage*)thumbnailImage
+{
+    if(thumbnailImage == nil)
+    {
+        thumbnailImage = [UIImage imageNamed:@"default_video_thumbnail"];
+    }
+    UIImageView *thumbnailImageView = [self viewWithTag:ThumbnailView_Tag];
+    if(thumbnailImageView == nil)
+    {
+        CGSize cellSize = self.frame.size;
+        CGFloat targetWidth = cellSize.width * 0.5;
+        CGFloat targetHeight = cellSize.height;
+
+        CGFloat y = 0.0f;
+        CGFloat x = 0.0f;
+        CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
+        thumbnailImageView = [[UIImageView alloc] initWithFrame:targetFrame];
+        thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
+        thumbnailImageView.image = thumbnailImage;
+        [thumbnailImageView setTag:ThumbnailView_Tag];
+        [self.contentView addSubview:thumbnailImageView];
+    }
+    [thumbnailImageView setImage:thumbnailImage];
 }
 @end

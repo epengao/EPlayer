@@ -117,7 +117,6 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (NSInteger)loadAllMediaLibraryVideos
 {
     cameraVideoInfoList = [[NSMutableArray alloc] init];
-
     PHFetchResult *assetsFetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                           subtype:PHAssetCollectionSubtypeSmartAlbumVideos
                                                                           options:nil];
@@ -147,7 +146,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                     if(urlAsset != nil)
                     {
-                        [cameraVideoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset]];
+                        [cameraVideoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset needInitThumbnail:YES]];
                     }
                 }
             }
@@ -162,7 +161,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     CGSize tableSize = self.tableView.frame.size;
     CGFloat targetWidth = tableSize.width * 0.4;
     CGFloat targetHeight = (targetWidth * image.size.height) / image.size.width;
-    
+
     CGFloat y = 70;
     CGFloat x = (tableSize.width - targetWidth) * 0.5;
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
@@ -190,7 +189,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     }
 }
 
-- (VideoInfo*)CreateCameraVideoInfoFromAVURLAsset :(AVURLAsset*)urlAsset
+- (VideoInfo*)CreateCameraVideoInfoFromAVURLAsset :(AVURLAsset*)urlAsset needInitThumbnail:(BOOL)needInitThumbnail
 {
     VideoInfo *videoInfo = [[VideoInfo alloc] init];
     videoInfo.videoCellType = CameraVideoCell;
@@ -205,10 +204,13 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             videoInfo.updateTime = [dateFormatter stringFromDate:urlAsset.creationDate.dateValue];
         }
-        videoInfo.fileSize = [[NSData dataWithContentsOfURL:urlAsset.URL] length] / (1000*1000.0f);
+        videoInfo.videoDuration = [self convertCMTimeToNSString:urlAsset.duration];
     }
     videoInfo.urlAsset = urlAsset;
-    [videoInfo PackUpData];
+    if(needInitThumbnail)
+    {
+        [videoInfo initThumbnailImage];
+    }
 
     return videoInfo;
 }
@@ -221,7 +223,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     videoInfo.fileName = [url lastPathComponent];
     videoInfo.fileType = [videoInfo.fileName pathExtension];
     [self initVideoInfo:videoInfo byFileURL:videoInfo.fileURL];
-    [videoInfo PackUpData];
+    [videoInfo initThumbnailImage];
 
     return videoInfo;
 }
@@ -229,6 +231,17 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)initItunesVideoInfo :(VideoInfo*)videoInfo
 {
     videoInfo.videoCellType = iTunesVideoCell;
+}
+
+#pragma mark - Util
+- (NSString*)convertCMTimeToNSString :(CMTime)time
+{
+    NSUInteger totalSeconds = CMTimeGetSeconds(time);
+    NSUInteger hours = floor(totalSeconds / 3600);
+    NSUInteger minutes = floor(totalSeconds % 3600 / 60);
+    NSUInteger seconds = floor(totalSeconds % 3600 % 60);
+
+    return [NSString stringWithFormat:@"%lu:%02lu:%02lu",hours, minutes, (unsigned long)seconds];
 }
 
 #pragma mark - Table view data source
@@ -261,7 +274,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     }
     else {/* TODO */}
 
-    cell.data = info;
+    [cell setVideoInfo:info];
     [cell setFrame:CGRectMake(0, 0, self.view.frame.size.width - 10, 100)];
     [cell configuVideoInfoCell];
     return cell;
