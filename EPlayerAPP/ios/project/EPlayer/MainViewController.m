@@ -5,13 +5,6 @@
 #import <AVFoundation/AVMediaFormat.h>
 #import "VideoFilesTableViewController.h"
 
-typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
-{
-    CanAccess     = 0,
-    CanNotAccess  = 1,
-    NeedRequest   = 2,
-};
-
 @interface MainViewController() <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSArray *videoCategories;
 @property (nonatomic, strong) WMPanGestureRecognizer *panGesture;
@@ -177,12 +170,13 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
         AccessMediaLibraryRight right = [self checkMediaLibraryAccessRight];
         if(right == NeedRequest)
         {
-            right = [self acquireMediaLibraryAccessRight];
+            right = [self acquireMediaLibraryAccessRight:vc];
         }
-        if(right == CanAccess)
+        else if(right == CanAccess)
         {
             folder = @"CameraLibraryFolder";
         }
+        vc.accessMeidaRight = right;
         [vc setVideoFilesFolder:folder];
         vc.tableViewType = CameraVideosTableView;
     }
@@ -207,7 +201,7 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
     return self.videoCategories[index];
 }
 
-- (AccessMediaLibraryRight)acquireMediaLibraryAccessRight
+- (AccessMediaLibraryRight)acquireMediaLibraryAccessRight :(VideoFilesTableViewController*)vc
 {
     self.accessMeidaRight = NeedRequest;
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
@@ -216,11 +210,16 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
                 case PHAuthorizationStatusAuthorized:
                 {
                     self.accessMeidaRight = CanAccess;
+                    vc.accessMeidaRight = CanAccess;
+                    [vc setVideoFilesFolder:@"CameraLibraryFolder"];
+                    [vc reloadAllVideosInfo];
                     break;
                 }
                 default:
                 {
                     self.accessMeidaRight = CanNotAccess;
+                    vc.accessMeidaRight = CanNotAccess;
+                    [vc setNoMediaLibraryAuthorization];
                     break;
                 }
             }

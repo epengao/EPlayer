@@ -45,6 +45,12 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     videoFileFolder = folderPath;
 }
 
+- (void)reloadAllVideosInfo
+{
+    NSThread *loadVideoInfoThread = [[NSThread alloc]initWithTarget:self selector:@selector(initAllVideoData) object:nil];
+    [loadVideoInfoThread start];
+}
+
 - (void)reloadTableView
 {
     [self.tableView reloadData];
@@ -53,6 +59,22 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)updateTableViewUIAtMainThread
 {
     [self performSelectorOnMainThread:@selector(reloadTableView) withObject:nil waitUntilDone:YES];
+}
+
+- (void)setNoMediaLibraryAuthorization
+{
+    [cameraVideoInfoList removeAllObjects];
+    [self setEmptyTableBackground];
+    [self addSetMediaAccessAuthoriztionHelpButton];
+    [self updateTableViewUIAtMainThread];
+}
+
+- (void)addSetMediaAccessAuthoriztionHelpButton;
+{
+}
+
+- (void)addUploadVideoFileToPhoneHelpButton;
+{
 }
 
 - (NSInteger)getVideosCount
@@ -98,15 +120,30 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 //    hubAlertView.labelText = NSLocalizedString(@"正在加载",nil);
 //    [hubAlertView show:YES];
 
+    NSInteger videosCount = 0;
     NSString *finishedMsg = nil;
     if(videoFileFolder != nil)
     {
         [self loadAllMediaLibraryVideos];
+        videosCount = [cameraVideoInfoList count];
         finishedMsg = NSLocalizedString(@"加载完毕", nil);
     }
     else
     {
         finishedMsg = NSLocalizedString(@"无相册访问权限", nil);
+    }
+    
+    if(videosCount <= 0)
+    {
+        if(self.accessMeidaRight == CanAccess)
+        {
+            [self setEmptyTableBackground];
+        }
+        else if (self.accessMeidaRight == CanNotAccess)
+        {
+            [self setEmptyTableBackground];
+            [self addSetMediaAccessAuthoriztionHelpButton];
+        }
     }
 
 //    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
@@ -114,7 +151,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 //    hud.labelText = finishedMsg;
 //    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-    return [cameraVideoInfoList count];
+    return videosCount;
 }
 
 - (NSInteger)initUploadVideos
@@ -134,11 +171,17 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
         }
         filesCount = [uploadVideoInfoList count];
     }
+    if(filesCount <= 0)
+    {
+        [self setEmptyTableBackground];
+        [self addUploadVideoFileToPhoneHelpButton];
+    }
     return filesCount;
 }
 
 - (NSInteger)initItunesVideos
 {
+    [self setEmptyTableBackground];
     return 0;
 }
 
@@ -184,7 +227,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     return [cameraVideoInfoList count];
 }
 
-- (void)initEmptyTableBackground
+- (void)setEmptyTableBackground
 {
     UIImage* image = [UIImage imageNamed:@"no_video_bg"];
     CGSize tableSize = self.tableView.frame.size;
@@ -331,7 +374,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 5)];
-    [view setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:1.0]];
+    [view setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:0.0]];
     return view;
 }
 

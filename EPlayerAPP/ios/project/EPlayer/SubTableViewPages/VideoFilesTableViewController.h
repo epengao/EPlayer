@@ -15,7 +15,17 @@ typedef NS_ENUM(NSUInteger, VideoTableViewType)
     iTunesVideosTableView     = 2,
 };
 
+typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
+{
+    CanAccess     = 0,
+    CanNotAccess  = 1,
+    NeedRequest   = 2,
+};
+
 @interface VideoFilesTableViewController : UITableViewController <PHPhotoLibraryChangeObserver>
+@property (nonatomic, assign) AccessMediaLibraryRight accessMeidaRight;
 @property (nonatomic, assign) VideoTableViewType tableViewType;
 - (void)setVideoFilesFolder :(NSString*)folderPath;
+- (void)setNoMediaLibraryAuthorization;
+- (void)reloadAllVideosInfo;
 @end
