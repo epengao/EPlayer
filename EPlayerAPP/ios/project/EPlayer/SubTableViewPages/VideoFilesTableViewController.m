@@ -1,20 +1,19 @@
 
-
-#import "MBProgressHUD.h"
 #import <Photos/Photos.h>
+#import "MBProgressHUD.h"
 #import "VideoInfoTableViewCell.h"
 #import "VideoFilesTableViewController.h"
 
 @interface VideoFilesTableViewController ()
 {
-    BOOL loadingVideoInfo;
     NSInteger videoFilesCount;
     /* Camera Video files */
     PHFetchResult *assetsFetchResults;
     NSMutableArray *cameraVideoInfoList;
     /* Upload Video files */
     NSString* videoFileFolder;
-    NSArray *uploadVideoInfoList;
+    NSArray *uploadVideoFilesList;
+    NSMutableArray *uploadVideoInfoList;
 }
 @end
 
@@ -32,20 +31,8 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerClass:[VideoInfoTableViewCell class] forCellReuseIdentifier:CameraTablewCellIdentifier];
 
-//    MBProgressHUD *hubAlertView = [[MBProgressHUD alloc] initWithView:self.view];
-//    hubAlertView.removeFromSuperViewOnHide = YES;
-//    hubAlertView.minSize = CGSizeMake(135.f, 135.f);
-//    [self.view addSubview:hubAlertView];
-//    
-//    hubAlertView.labelText = NSLocalizedString(@"正在添加",nil);
-//    [hubAlertView show:YES];
-    loadingVideoInfo = YES;
-    [self initAllVideoData];
-    loadingVideoInfo = NO;
-//    if([self getVideosCount] <= 0)
-//    {
-//        [self initEmptyTableBackground];
-//    }
+    NSThread *loadVideoInfoThread = [[NSThread alloc]initWithTarget:self selector:@selector(initAllVideoData) object:nil];
+    [loadVideoInfoThread start];
 }
 
 - (void)dealloc
@@ -58,48 +45,76 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     videoFileFolder = folderPath;
 }
 
+- (void)reloadTableView
+{
+    [self.tableView reloadData];
+}
+
+- (void)updateTableViewUIAtMainThread
+{
+    [self performSelectorOnMainThread:@selector(reloadTableView) withObject:nil waitUntilDone:YES];
+}
+
 - (NSInteger)getVideosCount
 {
     NSInteger count = 0;
-    if(!loadingVideoInfo)
+    if(self.tableViewType == CameraVideosTableView)
     {
-        if(self.tableViewType == CameraVideosTableView)
-        {
-            count = [cameraVideoInfoList count];
-        }
-        else if(self.tableViewType == UploadVideosTableView)
-        {
-            count = [uploadVideoInfoList count];
-        }
-        else { /* TODO */}
+        count = [cameraVideoInfoList count];
     }
+    else if(self.tableViewType == UploadVideosTableView)
+    {
+        count = [uploadVideoInfoList count];
+    }
+    else { /* TODO */}
     return count;
 }
 
 - (NSInteger)initAllVideoData
 {
+    NSInteger ret = 0;
     if(self.tableViewType == CameraVideosTableView)
     {
-        return [self initCameraVideos];
+        ret = [self initCameraVideos];
     }
     else if(self.tableViewType == UploadVideosTableView)
     {
-        return [self initUploadVideos];
+        ret = [self initUploadVideos];
     }
     else
     {
-        return [self initItunesVideos];
+        ret = [self initItunesVideos];
     }
+    [self.tableView reloadData];
+    return ret;
 }
 
 - (NSInteger)initCameraVideos
 {
-    NSInteger filesCount = 0;
+//    MBProgressHUD *hubAlertView = [[MBProgressHUD alloc] initWithView:self.view];
+//    hubAlertView.removeFromSuperViewOnHide = YES;
+//    hubAlertView.minSize = CGSizeMake(60.f, 60.f);
+//    [self.view addSubview:hubAlertView];
+//    hubAlertView.labelText = NSLocalizedString(@"正在加载",nil);
+//    [hubAlertView show:YES];
+
+    NSString *finishedMsg = nil;
     if(videoFileFolder != nil)
     {
         [self loadAllMediaLibraryVideos];
+        finishedMsg = NSLocalizedString(@"加载完毕", nil);
     }
-    return filesCount;
+    else
+    {
+        finishedMsg = NSLocalizedString(@"无相册访问权限", nil);
+    }
+
+//    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+//    hud.mode = MBProgressHUDModeAnnularDeterminate;
+//    hud.labelText = finishedMsg;
+//    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
+    return [cameraVideoInfoList count];
 }
 
 - (NSInteger)initUploadVideos
@@ -107,11 +122,17 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     NSInteger filesCount = 0;
     if(videoFileFolder != nil)
     {
-        uploadVideoInfoList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
-        if(uploadVideoInfoList != nil)
+        uploadVideoFilesList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
+        if(uploadVideoFilesList != nil)
         {
-            filesCount = [uploadVideoInfoList count];
+            uploadVideoInfoList = [NSMutableArray array];
+            for(NSString *fileName in uploadVideoFilesList)
+            {
+                NSString *fileURL = [NSString stringWithFormat:@"%@/%@", videoFileFolder, fileName];
+                [uploadVideoInfoList addObject:[self createUploadVideoInfoFromFileURL:fileURL]];
+            }
         }
+        filesCount = [uploadVideoInfoList count];
     }
     return filesCount;
 }
@@ -155,6 +176,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     {
                         [cameraVideoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset needInitThumbnail:YES]];
                     }
+                    [self updateTableViewUIAtMainThread];
                 }
             }
         }
