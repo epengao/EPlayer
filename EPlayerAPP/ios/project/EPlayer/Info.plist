@@ -20,10 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>mediaLibraryDescription</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photoLibraryDescription</string>
+	<string>用EPlayer来播放相册视频</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

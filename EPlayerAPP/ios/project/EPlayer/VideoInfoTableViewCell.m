@@ -42,21 +42,7 @@
 
 - (UIImage *)getScreenShotImageFromVideoPath: (NSString*)filePath
 {
-//    UIImage *retImage = nil;
-//    if(filePath != nil)
-//    {
-//        CGFloat startTime = 0.0;
-//        if(self.fileSize > 1.0)
-//        {
-//            startTime = 1.0f;
-//        }
-//        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-//        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:fileURL options:nil];
-//        CMTime time = CMTimeMakeWithSeconds(startTime, 600);
-//        retImage = [self getImageFromAVURLAsset:asset timeSpan:time];
-//    }
-//    return retImage;
-
+    UIImage *retImage = nil;
     if(filePath != nil)
     {
         CGFloat startTime = 0.0;
@@ -64,22 +50,12 @@
         {
             startTime = 1.0f;
         }
-        UIImage *shotImage = nil;
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
         AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:fileURL options:nil];
-        AVAssetImageGenerator *gen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-        gen.appliesPreferredTrackTransform = YES;
         CMTime time = CMTimeMakeWithSeconds(startTime, 600);
-        
-        NSError *error = nil;
-        CMTime actualTime;
-        CGImageRef image = [gen copyCGImageAtTime:time actualTime:&actualTime error:&error];
-        shotImage = [[UIImage alloc] initWithCGImage:image];
-        CGImageRelease(image);
-        
-        return shotImage;
+        retImage = [self getImageFromAVURLAsset:asset timeSpan:time];
     }
-    return nil;
+    return retImage;
 }
 
 - (UIImage *)getScreenShotImageFromAVURLAsset :(AVURLAsset*)urlAsset

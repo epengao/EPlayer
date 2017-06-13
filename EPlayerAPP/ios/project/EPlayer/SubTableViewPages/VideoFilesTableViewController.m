@@ -15,6 +15,7 @@
     NSArray *uploadVideoFilesList;
     NSMutableArray *uploadVideoInfoList;
 }
+@property (nonatomic, strong) UIButton *helpButton;
 @end
 
 static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier";
@@ -71,10 +72,52 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (void)addSetMediaAccessAuthoriztionHelpButton;
 {
+    NSString *buttonTitle = NSLocalizedString(@"获取相册权限",nil);
+    [self createHelpButtonWithTitle:buttonTitle];
 }
 
 - (void)addUploadVideoFileToPhoneHelpButton;
 {
+    NSString *buttonTitle = NSLocalizedString(@"从电脑导入视频",nil);
+    [self createHelpButtonWithTitle:buttonTitle];
+}
+
+- (void)createHelpButtonWithTitle: (NSString*)title
+{
+    CGFloat targetWidth = 120;
+    CGFloat targetHeight = 30;
+    CGFloat y = (self.tableView.frame.size.width - targetHeight) *0.5;
+    CGFloat x = (self.tableView.frame.size.width - targetWidth) * 0.5;
+    CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
+    
+    if(_helpButton == nil)
+    {
+        _helpButton = [[UIButton alloc]initWithFrame:targetFrame];
+    }
+    UIColor *normalColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.6];
+    UIColor *highlightedColor = [UIColor colorWithRed:(121.f/256.f) green:(121.f/256.f) blue:(121.f/256.f) alpha:1.0];
+    [_helpButton addTarget:self action:@selector(helpButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [_helpButton setTitleColor:normalColor forState:UIControlStateNormal];
+    [_helpButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
+    
+    NSRange titleRange = {0,[title length]};
+    NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:title];
+    [titleStr addAttribute:NSForegroundColorAttributeName value:normalColor range:titleRange];
+    [titleStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+    [_helpButton setAttributedTitle:titleStr forState:UIControlStateNormal];
+    
+    NSRange titleRange0 = {0,[title length]};
+    NSMutableAttributedString *titleStr0 = [[NSMutableAttributedString alloc] initWithString:title];
+    [titleStr0 addAttribute:NSForegroundColorAttributeName value:highlightedColor range:titleRange0];
+    [titleStr0 addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+    [_helpButton setAttributedTitle:titleStr0 forState:UIControlStateHighlighted];
+    
+    [self.tableView.backgroundView addSubview:_helpButton];
+}
+
+- (void)helpButtonClicked
+{
+    [self showAcquireAuthorizationHelp];
 }
 
 - (NSInteger)getVideosCount
@@ -425,4 +468,13 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     });
 }
 
+#pragma mark - Help Views
+- (void)showAcquireAuthorizationHelp
+{
+    NSLog(@"help 1");
+}
+- (void)showUploadVideoToPhoneHelp
+{
+    NSLog(@"help 2");
+}
 @end

@@ -81,15 +81,23 @@
 			name = UILoading;
 			sourceTree = "<group>";
 		};
+		909085961EF01FED00611831 /* thirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				90BB0A4A1EEC29F800627989 /* WMPageGesture */,
+				90BB0A471EEC294400627989 /* WMPageController */,
+				90BB0A481EEC297E00627989 /* UINavigationBarEx */,
+				024B2B851EEE866400ACDA8E /* UILoading */,
+			);
+			name = thirdParty;
+			sourceTree = "<group>";
+		};
 		90BB0A241EEC282C00627989 = {
 			isa = PBXGroup;
 			children = (
 				90BB0A2F1EEC282C00627989 /* EPlayer */,
 				90BB0A491EEC299F00627989 /* EPlayerSDK */,
-				90BB0A4A1EEC29F800627989 /* WMPageGesture */,
-				90BB0A471EEC294400627989 /* WMPageController */,
-				90BB0A481EEC297E00627989 /* UINavigationBarEx */,
-				024B2B851EEE866400ACDA8E /* UILoading */,
+				909085961EF01FED00611831 /* thirdParty */,
 				90BB0A2E1EEC282C00627989 /* Products */,
 			);
 			sourceTree = "<group>";
