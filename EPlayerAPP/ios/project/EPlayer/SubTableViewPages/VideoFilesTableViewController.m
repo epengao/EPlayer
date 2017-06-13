@@ -84,10 +84,10 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (void)createHelpButtonWithTitle: (NSString*)title
 {
-    CGFloat targetWidth = 120;
-    CGFloat targetHeight = 30;
-    CGFloat y = (self.tableView.frame.size.width - targetHeight) *0.5;
+    CGFloat targetWidth = 130;
+    CGFloat targetHeight = 26;
     CGFloat x = (self.tableView.frame.size.width - targetWidth) * 0.5;
+    CGFloat y = (self.tableView.frame.size.width - targetHeight) *0.5 + 5;
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
     
     if(_helpButton == nil)
