@@ -1,6 +1,8 @@
 
+#import "zoomPopup.h"
 #import <Photos/Photos.h>
 #import "MBProgressHUD.h"
+#import "HelpTableView.h"
 #import "VideoInfoTableViewCell.h"
 #import "VideoFilesTableViewController.h"
 
@@ -117,7 +119,10 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (void)helpButtonClicked
 {
-    [self showAcquireAuthorizationHelp];
+    if(self.tableViewType == CameraVideosTableView)
+        [self showAcquireAuthorizationHelp];
+    else if(self.tableViewType == UploadVideosTableView)
+        [self showUploadVideoToPhoneHelp];
 }
 
 - (NSInteger)getVideosCount
@@ -471,8 +476,14 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 #pragma mark - Help Views
 - (void)showAcquireAuthorizationHelp
 {
-    NSLog(@"help 1");
+    HelpTableView *table = [[HelpTableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-40, self.view.frame.size.height-40)
+                                                          style:UITableViewStyleGrouped];
+    table.type = MediaLibraryHelp;
+    [table InitAllDataAndStyle];
+    [zoomPopup initWithMainview:self.view andStartRect:self.helpButton.frame];
+    [zoomPopup showPopup:table];
 }
+
 - (void)showUploadVideoToPhoneHelp
 {
     NSLog(@"help 2");
