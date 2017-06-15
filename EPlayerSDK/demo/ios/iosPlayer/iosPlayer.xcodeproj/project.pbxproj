@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0201F6751EF27DD500252692 /* PlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F6741EF27DD500252692 /* PlayVideoViewController.m */; };
 		021161C51EE6B1AD0090FA94 /* iOS_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */; };
 		021161CB1EE6B6510090FA94 /* VideoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161CA1EE6B6510090FA94 /* VideoWindow.mm */; };
 		021161CE1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021161CC1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp */; };
@@ -59,6 +60,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0201F6731EF27DD500252692 /* PlayVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayVideoViewController.h; sourceTree = "<group>"; };
+		0201F6741EF27DD500252692 /* PlayVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayVideoViewController.m; sourceTree = "<group>"; };
 		021161C31EE6B1AD0090FA94 /* iOS_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_VideoDevice.h; path = VideoDevice/ios/iOS_VideoDevice.h; sourceTree = "<group>"; };
 		021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iOS_VideoDevice.mm; path = VideoDevice/ios/iOS_VideoDevice.mm; sourceTree = "<group>"; };
 		021161C91EE6B6510090FA94 /* VideoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoWindow.h; path = VideoDevice/ios/VideoWindow.h; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 				90F9B7941EE59B9900C2B5F4 /* ViewController.m */,
 				90F9B7961EE59B9900C2B5F4 /* Main.storyboard */,
 				90F9B7991EE59B9900C2B5F4 /* Assets.xcassets */,
+				0201F6731EF27DD500252692 /* PlayVideoViewController.h */,
+				0201F6741EF27DD500252692 /* PlayVideoViewController.m */,
 				90F9B79B1EE59B9900C2B5F4 /* LaunchScreen.storyboard */,
 				90F9B79E1EE59B9900C2B5F4 /* Info.plist */,
 				90F9B78D1EE59B9900C2B5F4 /* Supporting Files */,
@@ -453,7 +458,7 @@
 				TargetAttributes = {
 					90F9B7891EE59B9900C2B5F4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = BE5A5MGFP2;
+						DevelopmentTeam = N8H8MVYSMF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -520,6 +525,7 @@
 				90F9B81E1EE59C0B00C2B5F4 /* ECMutex.cpp in Sources */,
 				90F9B8401EE59C0B00C2B5F4 /* VideoRender.cpp in Sources */,
 				90F9B8201EE59C0B00C2B5F4 /* ECString.cpp in Sources */,
+				0201F6751EF27DD500252692 /* PlayVideoViewController.m in Sources */,
 				90F9B7921EE59B9900C2B5F4 /* AppDelegate.m in Sources */,
 				90F9B8211EE59C0B00C2B5F4 /* ECStringOP.cpp in Sources */,
 				90F9B8251EE59C0B00C2B5F4 /* MediaClock.cpp in Sources */,
@@ -592,7 +598,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/bin/ios";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -638,7 +644,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../../thirdparty/ffmpeg/export/bin/ios";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -651,7 +657,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BE5A5MGFP2;
+				DEVELOPMENT_TEAM = N8H8MVYSMF;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = iosPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -664,7 +670,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BE5A5MGFP2;
+				DEVELOPMENT_TEAM = N8H8MVYSMF;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = iosPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

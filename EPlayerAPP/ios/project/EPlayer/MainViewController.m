@@ -73,7 +73,8 @@
                               nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     /* 电池栏的字体颜色设置 */
-    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    //self.navigationController.navigationBar.barStyle = (NSUInteger)UIStatusBarStyleLightContent;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
     [self setNeedsStatusBarAppearanceUpdate];
 }
 

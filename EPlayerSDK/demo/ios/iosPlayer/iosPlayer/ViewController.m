@@ -8,13 +8,11 @@
 
 #import "EPlayerAPI.h"
 #import "ViewController.h"
+#import "PlayVideoViewController.h"
 
 @interface ViewController ()
 {
     VideoWindow* videoWnd;
-    EPlayerAPI*  playerAPI;
-    MediaInfo*   medaiInfo;
-
     NSString *videoFilesFolder;
     NSArray *videoFileNameList;
 }
@@ -24,30 +22,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    videoWnd = [[VideoWindow alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width*9/16)];
-    [self.view addSubview:videoWnd];
-    [self getAllVideoFiles];
-    playerAPI = [EPlayerAPI sharedEPlayerAPI];
-    if(playerAPI != nil)
-    {
-        if(videoFilesFolder != nil && [videoFileNameList count] > 0)
-        {
-            NSString* mediaURL = [NSString stringWithFormat:@"%@/%@", videoFilesFolder, videoFileNameList[0]];
-            NSInteger ret = [playerAPI openMediaPath:mediaURL
-                                   videoWindow:videoWnd
-                                   windowWidth:videoWnd.frame.size.width
-                                  windowHeight:videoWnd.frame.size.height];
-            if(ret == EPlayer_Err_None)
-            {
-                [playerAPI play];
-            }
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)playVideoClicked:(id)sender
+{
+    [self getAllVideoFiles];
+    if(videoFilesFolder != nil && [videoFileNameList count] > 0)
+    {
+        NSString* mediaURL = [NSString stringWithFormat:@"%@/%@", videoFilesFolder, videoFileNameList[0]];
+        PlayVideoViewController *playView = [[PlayVideoViewController alloc]init];
+        playView.videoFileURL = mediaURL;
+        [self presentViewController:playView animated:YES completion:nil];
+    }
 }
 
 - (void)getAllVideoFiles
@@ -57,6 +48,16 @@
     NSString *fileDirectory = [documentsDirectory stringByAppendingPathComponent:@""];
     videoFilesFolder = fileDirectory;
     videoFileNameList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:fileDirectory error:nil];
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft| UIInterfaceOrientationMaskLandscapeRight;
 }
 
 @end

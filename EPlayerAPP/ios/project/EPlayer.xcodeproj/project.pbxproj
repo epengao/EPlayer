@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0201F65F1EF258FA00252692 /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F65E1EF258FA00252692 /* DXAlertView.m */; };
-		022C383F1EF14DD800DDA680 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 022C383B1EF14DD800DDA680 /* UIImage+StackBlur.m */; };
-		022C38401EF14DD800DDA680 /* zoomPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 022C383D1EF14DD800DDA680 /* zoomPopup.m */; };
+		0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F6611EF2657200252692 /* PlayVideoViewController.m */; };
+		0201F66E1EF270EE00252692 /* libEPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66D1EF270EE00252692 /* libEPlayerSDK.a */; };
+		0201F6701EF2711500252692 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66F1EF2711500252692 /* libz.tbd */; };
+		0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6711EF2740D00252692 /* libbz2.tbd */; };
 		024B2B881EEE867A00ACDA8E /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */; };
 		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
 		90BB0A321EEC282C00627989 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A311EEC282C00627989 /* main.m */; };
@@ -32,10 +34,13 @@
 /* Begin PBXFileReference section */
 		0201F65D1EF258FA00252692 /* DXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DXAlertView.h; path = DixAlertView/DXAlertView.h; sourceTree = "<group>"; };
 		0201F65E1EF258FA00252692 /* DXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DXAlertView.m; path = DixAlertView/DXAlertView.m; sourceTree = "<group>"; };
-		022C383A1EF14DD800DDA680 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
-		022C383B1EF14DD800DDA680 /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+StackBlur.m"; sourceTree = "<group>"; };
-		022C383C1EF14DD800DDA680 /* zoomPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomPopup.h; sourceTree = "<group>"; };
-		022C383D1EF14DD800DDA680 /* zoomPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomPopup.m; sourceTree = "<group>"; };
+		0201F6601EF2657200252692 /* PlayVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayVideoViewController.h; path = PlaybackView/PlayVideoViewController.h; sourceTree = "<group>"; };
+		0201F6611EF2657200252692 /* PlayVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayVideoViewController.m; path = PlaybackView/PlayVideoViewController.m; sourceTree = "<group>"; };
+		0201F6631EF265E900252692 /* EPlayerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EPlayerAPI.h; path = ../sdk/EPlayerAPI.h; sourceTree = "<group>"; };
+		0201F6651EF2671900252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
+		0201F66D1EF270EE00252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
+		0201F66F1EF2711500252692 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0201F6711EF2740D00252692 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		024B2B861EEE867A00ACDA8E /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = EPlayer/UILoading/MBProgressHUD.h; sourceTree = "<group>"; };
 		024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = EPlayer/UILoading/MBProgressHUD.m; sourceTree = "<group>"; };
 		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
@@ -75,22 +80,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0201F6701EF2711500252692 /* libz.tbd in Frameworks */,
+				0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */,
+				0201F66E1EF270EE00252692 /* libEPlayerSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		022C38391EF14DD800DDA680 /* ZoomPopup */ = {
+		0201F6641EF2671700252692 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				022C383A1EF14DD800DDA680 /* UIImage+StackBlur.h */,
-				022C383B1EF14DD800DDA680 /* UIImage+StackBlur.m */,
-				022C383C1EF14DD800DDA680 /* zoomPopup.h */,
-				022C383D1EF14DD800DDA680 /* zoomPopup.m */,
+				0201F6711EF2740D00252692 /* libbz2.tbd */,
+				0201F66F1EF2711500252692 /* libz.tbd */,
+				0201F6651EF2671900252692 /* libEPlayerSDK.a */,
 			);
-			name = ZoomPopup;
-			path = EPlayer/ZoomPopup;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		024B2B851EEE866400ACDA8E /* UILoading */ = {
@@ -105,7 +111,6 @@
 		909085961EF01FED00611831 /* thirdParty */ = {
 			isa = PBXGroup;
 			children = (
-				022C38391EF14DD800DDA680 /* ZoomPopup */,
 				90BB0A4A1EEC29F800627989 /* WMPageGesture */,
 				90BB0A471EEC294400627989 /* WMPageController */,
 				90BB0A481EEC297E00627989 /* UINavigationBarEx */,
@@ -121,6 +126,7 @@
 				90BB0A491EEC299F00627989 /* EPlayerSDK */,
 				909085961EF01FED00611831 /* thirdParty */,
 				90BB0A2E1EEC282C00627989 /* Products */,
+				0201F6641EF2671700252692 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,6 +151,8 @@
 				90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */,
 				90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */,
 				90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */,
+				0201F6601EF2657200252692 /* PlayVideoViewController.h */,
+				0201F6611EF2657200252692 /* PlayVideoViewController.m */,
 				901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */,
 				901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */,
 				90BB0A391EEC282C00627989 /* Main.storyboard */,
@@ -186,6 +194,8 @@
 		90BB0A491EEC299F00627989 /* EPlayerSDK */ = {
 			isa = PBXGroup;
 			children = (
+				0201F6631EF265E900252692 /* EPlayerAPI.h */,
+				0201F66D1EF270EE00252692 /* libEPlayerSDK.a */,
 			);
 			name = EPlayerSDK;
 			sourceTree = "<group>";
@@ -287,7 +297,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				022C383F1EF14DD800DDA680 /* UIImage+StackBlur.m in Sources */,
 				90BB0A351EEC282C00627989 /* AppDelegate.m in Sources */,
 				90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */,
 				90BB0A611EEC2C6A00627989 /* WMPageController.m in Sources */,
@@ -299,11 +308,11 @@
 				90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */,
 				90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */,
 				90BB0A5F1EEC2C6A00627989 /* WMProgressView.m in Sources */,
+				0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */,
 				90BB0A321EEC282C00627989 /* main.m in Sources */,
 				90BB0A641EEC2CE300627989 /* UINavigationBarEx.m in Sources */,
 				90BB0A601EEC2C6A00627989 /* WMScrollView.m in Sources */,
 				024B2B881EEE867A00ACDA8E /* MBProgressHUD.m in Sources */,
-				022C38401EF14DD800DDA680 /* zoomPopup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +379,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../sdk";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../sdk";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -413,7 +424,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../sdk";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../sdk";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -426,6 +439,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N8H8MVYSMF;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = EPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.EPlayer;
@@ -439,6 +453,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N8H8MVYSMF;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = EPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.eplayer.me.EPlayer;

@@ -3,18 +3,20 @@
 #import <Photos/Photos.h>
 #import "MBProgressHUD.h"
 #import "VideoInfoTableViewCell.h"
+#import "PlayVideoViewController.h"
 #import "VideoFilesTableViewController.h"
 
 @interface VideoFilesTableViewController ()
 {
     NSInteger videoFilesCount;
+    NSMutableArray *videoInfoList;
     /* Camera Video files */
     PHFetchResult *assetsFetchResults;
-    NSMutableArray *cameraVideoInfoList;
+    //NSMutableArray *cameraVideoInfoList;
     /* Upload Video files */
     NSString* videoFileFolder;
     NSArray *uploadVideoFilesList;
-    NSMutableArray *uploadVideoInfoList;
+    //NSMutableArray *uploadVideoInfoList;
 }
 @property (nonatomic, strong) UIButton *helpButton;
 @end
@@ -65,7 +67,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (void)setNoMediaLibraryAuthorization
 {
-    [cameraVideoInfoList removeAllObjects];
+    [videoInfoList removeAllObjects];
     [self setEmptyTableBackground];
     [self addSetMediaAccessAuthoriztionHelpButton];
     [self updateTableViewUIAtMainThread];
@@ -126,17 +128,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (NSInteger)getVideosCount
 {
-    NSInteger count = 0;
-    if(self.tableViewType == CameraVideosTableView)
-    {
-        count = [cameraVideoInfoList count];
-    }
-    else if(self.tableViewType == UploadVideosTableView)
-    {
-        count = [uploadVideoInfoList count];
-    }
-    else { /* TODO */}
-    return count;
+    return [videoInfoList count];
 }
 
 - (NSInteger)initAllVideoData
@@ -172,7 +164,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     if(videoFileFolder != nil)
     {
         [self loadAllMediaLibraryVideos];
-        videosCount = [cameraVideoInfoList count];
+        videosCount = [videoInfoList count];
         finishedMsg = NSLocalizedString(@"加载完毕", nil);
     }
     else
@@ -209,14 +201,14 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
         uploadVideoFilesList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
         if(uploadVideoFilesList != nil)
         {
-            uploadVideoInfoList = [NSMutableArray array];
+            videoInfoList = [NSMutableArray array];
             for(NSString *fileName in uploadVideoFilesList)
             {
                 NSString *fileURL = [NSString stringWithFormat:@"%@/%@", videoFileFolder, fileName];
-                [uploadVideoInfoList addObject:[self createUploadVideoInfoFromFileURL:fileURL]];
+                [videoInfoList addObject:[self createUploadVideoInfoFromFileURL:fileURL]];
             }
         }
-        filesCount = [uploadVideoInfoList count];
+        filesCount = [videoInfoList count];
     }
     if(filesCount <= 0)
     {
@@ -234,7 +226,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (NSInteger)loadAllMediaLibraryVideos
 {
-    cameraVideoInfoList = [[NSMutableArray alloc] init];
+    videoInfoList = [[NSMutableArray alloc] init];
     assetsFetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                   subtype:PHAssetCollectionSubtypeSmartAlbumVideos
                                                                   options:nil];
@@ -264,14 +256,14 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                     if(urlAsset != nil)
                     {
-                        [cameraVideoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset needInitThumbnail:YES]];
+                        [videoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset needInitThumbnail:YES]];
                     }
                     [self updateTableViewUIAtMainThread];
                 }
             }
         }
     }
-    return [cameraVideoInfoList count];
+    return [videoInfoList count];
 }
 
 - (void)setEmptyTableBackground
@@ -334,7 +326,6 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     {
         [videoInfo initThumbnailImage];
     }
-
     return videoInfo;
 }
 
@@ -387,13 +378,10 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                                              reuseIdentifier:CameraTablewCellIdentifier];
     }
     VideoInfo *info = nil;
-    if(self.tableViewType == CameraVideosTableView)
+    if( (self.tableViewType == CameraVideosTableView) ||
+        (self.tableViewType == UploadVideosTableView) )
     {
-        info = cameraVideoInfoList[indexPath.row];
-    }
-    else if(self.tableViewType == UploadVideosTableView)
-    {
-        info = uploadVideoInfoList[indexPath.row];
+        info = videoInfoList[indexPath.row];
     }
     else {/* TODO */}
 
@@ -433,6 +421,19 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     //    [cell setCellSelected:YES];
     //}
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    VideoInfo *info = nil;
+    if( (self.tableViewType == CameraVideosTableView) ||
+       (self.tableViewType == UploadVideosTableView) )
+    {
+        info = videoInfoList[indexPath.row];
+    }
+    else {/* TODO */}
+    PlayVideoViewController *playView = [[PlayVideoViewController alloc]init];
+    if(info != nil)
+    {
+        playView.videoFileURL = info.fileURL;
+        [self presentViewController:playView animated:YES completion:nil];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

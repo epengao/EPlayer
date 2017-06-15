@@ -62,10 +62,11 @@ enum EGL_Texture
 - (void)loadShader;
 - (void)clearWindow;
 - (void)setupYUVTexture;
-- (void)ClipDrawVideoRect;
 - (BOOL)createFrameAndRenderBuffer;
 - (void)destoryFrameAndRenderBuffer;
-- (void)setVidowSize:(GLuint)width height:(GLuint)height;
+- (void)setVideoSize:(GLuint)width height:(GLuint)height;
+- (void)setUserWindowSize:(GLuint)width height:(GLuint)height;
+- (void)ClipDrawVideoRect:(GLuint)userWndWidth :(GLuint)userWndHeight;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
 - (GLuint)compileShader:(NSString*)shaderCode withType:(GLenum)shaderType;
 @end
@@ -139,14 +140,17 @@ enum EGL_Texture
     }
 }
 
-- (void)setVidowSize:(GLuint)width height:(GLuint)height
+- (void)setVideoSize:(GLuint)width height:(GLuint)height
 {
     _videoWidth = width;
     _videoHeight = height;
-    if(width != 0 && height != 0 &&
-       self.frame.size.width && self.frame.size.height)
+}
+
+- (void)setUserWindowSize:(GLuint)width height:(GLuint)height
+{
+    if(width != 0 && height != 0)
     {
-        [self ClipDrawVideoRect];
+        [self ClipDrawVideoRect :width :height];
     }
     GLubyte *blackData = (GLubyte*)malloc(width * height * 1.5);
     if(blackData)
@@ -161,6 +165,42 @@ enum EGL_Texture
     glBindTexture(GL_TEXTURE_2D, _textureYUV[V]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, width/2, height/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + width * height * 5 / 4);
     free(blackData);
+}
+
+- (void)ClipDrawVideoRect :(GLuint)userWndWidth :(GLuint)userWndHeight
+{
+    CGFloat videoScaleWidth = 0.0;
+    CGFloat videoScaleHeight = 0.0;
+    CGFloat viewWidth = userWndWidth;
+    CGFloat viewHeight = userWndHeight;
+    GLfloat viewAspectRatio = (GLfloat)viewWidth / (GLfloat)viewHeight;
+    GLfloat videoAspectRatio = (GLfloat)_videoWidth / (GLfloat)_videoHeight;
+    NSLog(@"update size %f x %f", viewWidth, viewHeight);
+    if (viewAspectRatio > videoAspectRatio)
+    {
+        videoScaleHeight = viewHeight;
+        videoScaleWidth = viewHeight * videoAspectRatio;
+        _drawVideo_y = 0;
+        _drawVideo_x = (viewWidth - videoScaleWidth) * 0.5;
+    }
+    else if (viewAspectRatio < videoAspectRatio)
+    {
+        videoScaleWidth = viewWidth;
+        videoScaleHeight = viewWidth / videoAspectRatio;
+        _drawVideo_x = 0;
+        _drawVideo_y = (viewHeight - videoScaleHeight) * 0.5;
+    }
+    else
+    {
+        _drawVideo_x = 0;
+        _drawVideo_y = 0;
+        videoScaleWidth = viewWidth;
+        videoScaleHeight = viewHeight;
+    }
+    _drawVideo_x = _drawVideo_x * _viewScale;
+    _drawVideo_y = _drawVideo_y * _viewScale;
+    _drawVideo_w = videoScaleWidth * _viewScale;
+    _drawVideo_h = videoScaleHeight * _viewScale;
 }
 
 - (void)clearWindow
@@ -285,39 +325,6 @@ enum EGL_Texture
     }
     _framebuffer = 0;
     _renderBuffer = 0;
-}
-
-- (void)ClipDrawVideoRect
-{
-    CGFloat videoScaleWidth = 0.0;
-    CGFloat videoScaleHeight = 0.0;
-    CGFloat  viewWidth = self.frame.size.width;
-    CGFloat  viewHeight = self.frame.size.height;
-    GLfloat viewAspectRatio = (GLfloat)viewWidth / (GLfloat)viewHeight;
-    GLfloat videoAspectRatio = (GLfloat)_videoWidth / (GLfloat)_videoHeight;
-    if (viewAspectRatio > videoAspectRatio)
-    {
-        videoScaleHeight = viewHeight;
-        videoScaleWidth = viewHeight * videoAspectRatio;
-        _drawVideo_y = 0;
-        _drawVideo_x = (viewWidth - videoScaleWidth) * 0.5;
-    }
-    else if (viewAspectRatio < viewAspectRatio)
-    {
-        videoScaleWidth = viewWidth;
-        videoScaleHeight = viewWidth / videoAspectRatio;
-        _drawVideo_x = 0;
-        _drawVideo_y = (viewHeight - videoScaleHeight) * 0.5;
-    }
-    else
-    {
-        _drawVideo_x = 0;
-        _drawVideo_y = 0;
-        videoScaleWidth = viewWidth;
-        videoScaleHeight = viewHeight;
-    }
-    _drawVideo_w = videoScaleWidth * _viewScale;
-    _drawVideo_h = videoScaleHeight * _viewScale;
 }
 
 /*
