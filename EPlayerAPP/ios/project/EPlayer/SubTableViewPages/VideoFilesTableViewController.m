@@ -1,8 +1,7 @@
 
-#import "zoomPopup.h"
+#import "DXAlertView.h"
 #import <Photos/Photos.h>
 #import "MBProgressHUD.h"
-#import "HelpTableView.h"
 #import "VideoInfoTableViewCell.h"
 #import "VideoFilesTableViewController.h"
 
@@ -476,16 +475,25 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 #pragma mark - Help Views
 - (void)showAcquireAuthorizationHelp
 {
-    HelpTableView *table = [[HelpTableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-40, self.view.frame.size.height-40)
-                                                          style:UITableViewStyleGrouped];
-    table.type = MediaLibraryHelp;
-    [table InitAllDataAndStyle];
-    [zoomPopup initWithMainview:self.view andStartRect:self.helpButton.frame];
-    [zoomPopup showPopup:table];
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"打开相册权限" contentText:@"设置->隐私->照片->EPlayer \n打开访问权限" leftButtonTitle:nil rightButtonTitle:@"确定"];
+    [alert show];
+    alert.rightBlock = ^() {
+        NSLog(@"right button clicked");
+    };
+    alert.dismissBlock = ^() {
+        NSLog(@"Do something interesting after dismiss block");
+    };
 }
 
 - (void)showUploadVideoToPhoneHelp
 {
-    NSLog(@"help 2");
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"视频导入手机" contentText:@"通过手机连接电脑，打开iTunes通过文件共享拷贝到手机" leftButtonTitle:nil rightButtonTitle:@"确定"];
+    [alert show];
+    alert.rightBlock = ^() {
+        NSLog(@"right button clicked");
+    };
+    alert.dismissBlock = ^() {
+        NSLog(@"Do something interesting after dismiss block");
+    };
 }
 @end

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0201F65F1EF258FA00252692 /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F65E1EF258FA00252692 /* DXAlertView.m */; };
 		022C383F1EF14DD800DDA680 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 022C383B1EF14DD800DDA680 /* UIImage+StackBlur.m */; };
 		022C38401EF14DD800DDA680 /* zoomPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 022C383D1EF14DD800DDA680 /* zoomPopup.m */; };
-		022C38441EF14E4F00DDA680 /* HelpTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 022C38431EF14E4F00DDA680 /* HelpTableView.m */; };
 		024B2B881EEE867A00ACDA8E /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */; };
 		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
 		90BB0A321EEC282C00627989 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A311EEC282C00627989 /* main.m */; };
@@ -30,12 +30,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0201F65D1EF258FA00252692 /* DXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DXAlertView.h; path = DixAlertView/DXAlertView.h; sourceTree = "<group>"; };
+		0201F65E1EF258FA00252692 /* DXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DXAlertView.m; path = DixAlertView/DXAlertView.m; sourceTree = "<group>"; };
 		022C383A1EF14DD800DDA680 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
 		022C383B1EF14DD800DDA680 /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+StackBlur.m"; sourceTree = "<group>"; };
 		022C383C1EF14DD800DDA680 /* zoomPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomPopup.h; sourceTree = "<group>"; };
 		022C383D1EF14DD800DDA680 /* zoomPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomPopup.m; sourceTree = "<group>"; };
-		022C38421EF14E4F00DDA680 /* HelpTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpTableView.h; sourceTree = "<group>"; };
-		022C38431EF14E4F00DDA680 /* HelpTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpTableView.m; sourceTree = "<group>"; };
 		024B2B861EEE867A00ACDA8E /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = EPlayer/UILoading/MBProgressHUD.h; sourceTree = "<group>"; };
 		024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = EPlayer/UILoading/MBProgressHUD.m; sourceTree = "<group>"; };
 		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
@@ -135,6 +135,8 @@
 		90BB0A2F1EEC282C00627989 /* EPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				0201F65D1EF258FA00252692 /* DXAlertView.h */,
+				0201F65E1EF258FA00252692 /* DXAlertView.m */,
 				90BB0A331EEC282C00627989 /* AppDelegate.h */,
 				90BB0A341EEC282C00627989 /* AppDelegate.m */,
 				90BB0A4B1EEC2C3D00627989 /* MainViewController.h */,
@@ -143,8 +145,6 @@
 				90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */,
 				90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */,
 				90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */,
-				022C38421EF14E4F00DDA680 /* HelpTableView.h */,
-				022C38431EF14E4F00DDA680 /* HelpTableView.m */,
 				901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */,
 				901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */,
 				90BB0A391EEC282C00627989 /* Main.storyboard */,
@@ -288,11 +288,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				022C383F1EF14DD800DDA680 /* UIImage+StackBlur.m in Sources */,
-				022C38441EF14E4F00DDA680 /* HelpTableView.m in Sources */,
 				90BB0A351EEC282C00627989 /* AppDelegate.m in Sources */,
 				90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */,
 				90BB0A611EEC2C6A00627989 /* WMPageController.m in Sources */,
 				90BB0A5E1EEC2C6A00627989 /* WMMenuView.m in Sources */,
+				0201F65F1EF258FA00252692 /* DXAlertView.m in Sources */,
 				90BB0A5D1EEC2C6A00627989 /* WMMenuItem.m in Sources */,
 				90BB0A501EEC2C5B00627989 /* WMPanGestureRecognizer.m in Sources */,
 				901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */,
