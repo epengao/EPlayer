@@ -64,9 +64,9 @@ enum EGL_Texture
 - (void)setupYUVTexture;
 - (BOOL)createFrameAndRenderBuffer;
 - (void)destoryFrameAndRenderBuffer;
-- (void)setVideoSize:(GLuint)width height:(GLuint)height;
-- (void)setUserWindowSize:(GLuint)width height:(GLuint)height;
-- (void)ClipDrawVideoRect:(GLuint)userWndWidth :(GLuint)userWndHeight;
+- (void)setVideoSize:(CGFloat)width height:(CGFloat)height;
+- (void)setUserWindowSize:(CGFloat)width height:(CGFloat)height;
+- (void)ClipDrawVideoRect:(CGFloat)wndWidth height:(CGFloat)wndHeight;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
 - (GLuint)compileShader:(NSString*)shaderCode withType:(GLenum)shaderType;
 @end
@@ -140,42 +140,40 @@ enum EGL_Texture
     }
 }
 
-- (void)setVideoSize:(GLuint)width height:(GLuint)height
+- (void)setRenderParam:(CGFloat)videoWidth videoHeight:(CGFloat)videoHeight
+       userWindowWidth:(CGFloat)userWndWidth userWindowHeight:(CGFloat)userWndHeight
 {
-    _videoWidth = width;
-    _videoHeight = height;
-}
-
-- (void)setUserWindowSize:(GLuint)width height:(GLuint)height
-{
-    if(width != 0 && height != 0)
+    _videoWidth = videoWidth;
+    _videoHeight = videoHeight;
+    if(userWndWidth != 0 && userWndHeight != 0)
     {
-        [self ClipDrawVideoRect :width :height];
+        [self ClipDrawVideoRect:userWndWidth height:userWndHeight];
     }
-    GLubyte *blackData = (GLubyte*)malloc(width * height * 1.5);
+    GLuint renderDataSize = _videoWidth * _videoHeight;
+    GLubyte *blackData = (GLubyte*)malloc(renderDataSize * 1.5);
     if(blackData)
     {
-        memset(blackData, 0x0, width * height * 1.5);
+        memset(blackData, 0x0, renderDataSize * 1.5);
     }
     [EAGLContext setCurrentContext:_glContext];
     glBindTexture(GL_TEXTURE_2D, _textureYUV[Y]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, width, height, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, _videoWidth, _videoHeight, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData);
     glBindTexture(GL_TEXTURE_2D, _textureYUV[U]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, width/2, height/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + width * height);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, _videoWidth/2, _videoHeight/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + renderDataSize);
     glBindTexture(GL_TEXTURE_2D, _textureYUV[V]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, width/2, height/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + width * height * 5 / 4);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, _videoWidth/2, _videoHeight/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + renderDataSize * 5 / 4);
     free(blackData);
 }
 
-- (void)ClipDrawVideoRect :(GLuint)userWndWidth :(GLuint)userWndHeight
+- (void)ClipDrawVideoRect:(CGFloat)wndWidth height:(CGFloat)wndHeight
 {
     CGFloat videoScaleWidth = 0.0;
     CGFloat videoScaleHeight = 0.0;
-    CGFloat viewWidth = userWndWidth;
-    CGFloat viewHeight = userWndHeight;
+    CGFloat viewWidth = wndWidth;
+    CGFloat viewHeight = wndHeight;
     GLfloat viewAspectRatio = (GLfloat)viewWidth / (GLfloat)viewHeight;
     GLfloat videoAspectRatio = (GLfloat)_videoWidth / (GLfloat)_videoHeight;
-    NSLog(@"update size %f x %f", viewWidth, viewHeight);
+
     if (viewAspectRatio > videoAspectRatio)
     {
         videoScaleHeight = viewHeight;

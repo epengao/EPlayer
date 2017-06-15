@@ -124,7 +124,6 @@
 		02D123DC1EE924C500A8E853 /* iOS_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iOS_VideoDevice.mm; path = VideoDevice/ios/iOS_VideoDevice.mm; sourceTree = "<group>"; };
 		02D123DD1EE924C500A8E853 /* VideoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoWindow.h; path = VideoDevice/ios/VideoWindow.h; sourceTree = "<group>"; };
 		02D123DE1EE924C500A8E853 /* VideoWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoWindow.mm; path = VideoDevice/ios/VideoWindow.mm; sourceTree = "<group>"; };
-		02D123E51EE924C500A8E853 /* VideoDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoDeviceI.h; path = /Users/AnthonLiu/Work/data/code/EPlayer/EPlayerSDK/src/render/video/VideoDeviceI.h; sourceTree = "<absolute>"; };
 		02D123E61EE924C500A8E853 /* VideoRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoRender.cpp; sourceTree = "<group>"; };
 		02D123E71EE924C500A8E853 /* VideoRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRender.h; sourceTree = "<group>"; };
 		02D123E91EE924C500A8E853 /* FFmpegReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFmpegReader.cpp; sourceTree = "<group>"; };
@@ -150,6 +149,7 @@
 		02DC77FA1EE9220C00C1A06B /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../../../../thirdparty/ffmpeg/export/bin/ios/libswscale.a; sourceTree = "<group>"; };
 		02DC78011EE9222B00C1A06B /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		02DC78031EE9223200C1A06B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		90D81AB61EF3021E006120E6 /* VideoDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDeviceI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,7 +321,7 @@
 			children = (
 				02D123E71EE924C500A8E853 /* VideoRender.h */,
 				02D123E61EE924C500A8E853 /* VideoRender.cpp */,
-				02D123E51EE924C500A8E853 /* VideoDeviceI.h */,
+				90D81AB61EF3021E006120E6 /* VideoDeviceI.h */,
 				02D123DB1EE924C500A8E853 /* iOS_VideoDevice.h */,
 				02D123DC1EE924C500A8E853 /* iOS_VideoDevice.mm */,
 				02D123DD1EE924C500A8E853 /* VideoWindow.h */,

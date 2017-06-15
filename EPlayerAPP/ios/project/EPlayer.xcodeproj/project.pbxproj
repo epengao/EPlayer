@@ -9,11 +9,19 @@
 /* Begin PBXBuildFile section */
 		0201F65F1EF258FA00252692 /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F65E1EF258FA00252692 /* DXAlertView.m */; };
 		0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F6611EF2657200252692 /* PlayVideoViewController.m */; };
-		0201F66E1EF270EE00252692 /* libEPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66D1EF270EE00252692 /* libEPlayerSDK.a */; };
 		0201F6701EF2711500252692 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66F1EF2711500252692 /* libz.tbd */; };
 		0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6711EF2740D00252692 /* libbz2.tbd */; };
 		024B2B881EEE867A00ACDA8E /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */; };
 		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
+		907FE33A1EF303AA0052734C /* libEPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6651EF2671900252692 /* libEPlayerSDK.a */; };
+		907FE33E1EF303EB0052734C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE33D1EF303EB0052734C /* AudioToolbox.framework */; };
+		907FE3421EF3042B0052734C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE3411EF3042B0052734C /* UIKit.framework */; };
+		907FE3441EF3043B0052734C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE3431EF3043B0052734C /* OpenGLES.framework */; };
+		907FE3461EF304440052734C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE3451EF304440052734C /* QuartzCore.framework */; };
+		907FE3471EF304660052734C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE33F1EF303F80052734C /* CoreGraphics.framework */; };
+		907FE3491EF304850052734C /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE3481EF304850052734C /* Photos.framework */; };
+		907FE34D1EF305170052734C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE34C1EF305170052734C /* CoreMedia.framework */; };
+		907FE34E1EF3053F0052734C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE33B1EF303CE0052734C /* AVFoundation.framework */; };
 		90BB0A321EEC282C00627989 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A311EEC282C00627989 /* main.m */; };
 		90BB0A351EEC282C00627989 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A341EEC282C00627989 /* AppDelegate.m */; };
 		90BB0A3B1EEC282C00627989 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A391EEC282C00627989 /* Main.storyboard */; };
@@ -38,13 +46,20 @@
 		0201F6611EF2657200252692 /* PlayVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayVideoViewController.m; path = PlaybackView/PlayVideoViewController.m; sourceTree = "<group>"; };
 		0201F6631EF265E900252692 /* EPlayerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EPlayerAPI.h; path = ../sdk/EPlayerAPI.h; sourceTree = "<group>"; };
 		0201F6651EF2671900252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
-		0201F66D1EF270EE00252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
 		0201F66F1EF2711500252692 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0201F6711EF2740D00252692 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		024B2B861EEE867A00ACDA8E /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = EPlayer/UILoading/MBProgressHUD.h; sourceTree = "<group>"; };
 		024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = EPlayer/UILoading/MBProgressHUD.m; sourceTree = "<group>"; };
 		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
 		901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppRootNavigationViewController.m; sourceTree = "<group>"; };
+		907FE33B1EF303CE0052734C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		907FE33D1EF303EB0052734C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		907FE33F1EF303F80052734C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		907FE3411EF3042B0052734C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		907FE3431EF3043B0052734C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		907FE3451EF304440052734C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		907FE3481EF304850052734C /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		907FE34C1EF305170052734C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		90BB0A2D1EEC282C00627989 /* EPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90BB0A311EEC282C00627989 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90BB0A331EEC282C00627989 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,7 +97,15 @@
 			files = (
 				0201F6701EF2711500252692 /* libz.tbd in Frameworks */,
 				0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */,
-				0201F66E1EF270EE00252692 /* libEPlayerSDK.a in Frameworks */,
+				907FE33A1EF303AA0052734C /* libEPlayerSDK.a in Frameworks */,
+				907FE3421EF3042B0052734C /* UIKit.framework in Frameworks */,
+				907FE3491EF304850052734C /* Photos.framework in Frameworks */,
+				907FE34D1EF305170052734C /* CoreMedia.framework in Frameworks */,
+				907FE3441EF3043B0052734C /* OpenGLES.framework in Frameworks */,
+				907FE3461EF304440052734C /* QuartzCore.framework in Frameworks */,
+				907FE33E1EF303EB0052734C /* AudioToolbox.framework in Frameworks */,
+				907FE3471EF304660052734C /* CoreGraphics.framework in Frameworks */,
+				907FE34E1EF3053F0052734C /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +115,14 @@
 		0201F6641EF2671700252692 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				907FE34C1EF305170052734C /* CoreMedia.framework */,
+				907FE3481EF304850052734C /* Photos.framework */,
+				907FE3451EF304440052734C /* QuartzCore.framework */,
+				907FE3431EF3043B0052734C /* OpenGLES.framework */,
+				907FE3411EF3042B0052734C /* UIKit.framework */,
+				907FE33F1EF303F80052734C /* CoreGraphics.framework */,
+				907FE33D1EF303EB0052734C /* AudioToolbox.framework */,
+				907FE33B1EF303CE0052734C /* AVFoundation.framework */,
 				0201F6711EF2740D00252692 /* libbz2.tbd */,
 				0201F66F1EF2711500252692 /* libz.tbd */,
 				0201F6651EF2671900252692 /* libEPlayerSDK.a */,
@@ -195,7 +226,6 @@
 			isa = PBXGroup;
 			children = (
 				0201F6631EF265E900252692 /* EPlayerAPI.h */,
-				0201F66D1EF270EE00252692 /* libEPlayerSDK.a */,
 			);
 			name = EPlayerSDK;
 			sourceTree = "<group>";

@@ -13,6 +13,7 @@
 {
     MediaInfo       *mediaInfo;
     EPlayerAPI      *eplayerAPI;
+    EPlayerStatus   beforeScreenRotateStatus;
     EPlayerStatus   beforeEntryBackgroundStatus;
 
     NSUInteger      duration;
@@ -24,10 +25,18 @@
     NSDateFormatter *timeFormatter;
     
     UISlider        *playProgress;
+    
+    CGFloat         newWindowWidth;
+    CGFloat         newWindowHeight;
 }
 @end
 
 @implementation PlayVideoViewController
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,6 +54,7 @@
         mediaInfo = [eplayerAPI getMeidaInfo];
         duration = mediaInfo.duration;
     }
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,24 +81,17 @@
     UITapGestureRecognizer *pressed = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoImageClicked:)];
     [videoWindowView addGestureRecognizer:pressed];
     [self.view addSubview:videoWindowView];
-//    videoWindowView = [[VideoWindow alloc]initWithFrame:self.view.bounds];
-//    videoWindowView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//    videoWindowView.backgroundColor = [UIColor blackColor];
-//    videoWindowView.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *pressed = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoImageClicked:)];
-//    [videoWindowView addGestureRecognizer:pressed];
-//    [self.view addSubview:videoWindowView];
 }
 
 - (void)showTopMessageView
 {
+    float height = 50.0;
+    float width = videoWindowView.bounds.size.width;
+    float x = 0;
+    float y = 0;
     if(topMessageView == nil)
     {
-        float hight = 50.0;
-        float width = videoWindowView.bounds.size.width;
-        float x = 0;
-        float y = 0;
-        topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, hight)];
+        topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, height)];
         topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
  
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -97,10 +100,10 @@
         [backButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
         [backButton sizeToFit];
         [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-        [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, hight)];
+        [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, height)];
         [backButton addTarget:self action:@selector(exitFullScreenButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
-        UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, topMessageView.bounds.size.width, hight)];
+        UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, topMessageView.bounds.size.width, height)];
         fileNameLable.text = [self.videoFileURL lastPathComponent];
         [fileNameLable setTextColor:[UIColor whiteColor]];
         [fileNameLable setBackgroundColor:[UIColor clearColor]];
@@ -112,6 +115,7 @@
     }
     else
     {
+        [topMessageView setFrame:CGRectMake(x, y, width, height)];
         if(topMessageView.isHidden)
         {
             [topMessageView setHidden:NO];
@@ -333,9 +337,47 @@
 }
 
 #pragma mark - View rotation
--(void) viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id )coordinator
+//- (void) updateVideoWindowFrame
+//{
+//    [eplayerAPI updateVideoWindow:videoWindowView
+//                      windowWidth:newWindowWidth
+//                     windowHeight:newWindowHeight];
+//    [self performSelector:@selector(updateVideoWindowFrame) withObject:nil afterDelay:0.0];
+//    [self viewDidLayoutSubviews];
+//}
+//
+//- (void) viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id )coordinator
+//{
+//    newWindowWidth = size.width;
+//    newWindowHeight = size.height;
+//
+//}
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id )coordinator
 {
-    NSLog(@"new size start = %f x %f", size.width, size.height);
-    [eplayerAPI updateVideoWindow:videoWindowView windowWidth:size.width windowHeight:size.height];
+    newWindowWidth = size.width;
+    newWindowHeight = size.height;
+    beforeScreenRotateStatus = [eplayerAPI getPlayerStatus];
+    [eplayerAPI pause];
+}
+
+-(void)OrientationDidChange:(NSNotification*)notification
+{
+    UIDeviceOrientation Orientation=[[UIDevice currentDevice]orientation];
+    if(Orientation==UIDeviceOrientationLandscapeLeft || Orientation==UIDeviceOrientationLandscapeRight)
+    {
+        NSLog(@"Landscape");
+    }
+    else if(Orientation==UIDeviceOrientationPortrait)
+    {
+        NSLog(@"Potrait Mode");
+    }
+    if(beforeScreenRotateStatus == EPlayerStatus_Playing)
+    {
+        [eplayerAPI play];
+    }
+    [eplayerAPI updateVideoWindow:videoWindowView
+                      windowWidth:self.view.frame.size.width
+                     windowHeight:self.view.frame.size.height];
+    [videoWindowView setNeedsDisplayInRect:videoWindowView.frame];
 }
 @end

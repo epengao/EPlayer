@@ -35,7 +35,7 @@
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithCoder:(NSCoder*)aDecoder;
 - (void)clearWindow;
-- (void)setVideoSize:(GLuint)width height:(GLuint)height;
-- (void)setUserWindowSize:(GLuint)width height:(GLuint)height;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
+- (void)setRenderParam:(CGFloat)videoWidth videoHeight:(CGFloat)videoHeight
+       userWindowWidth:(CGFloat)userWndWidth userWindowHeight:(CGFloat)userWndHeight;
 @end
