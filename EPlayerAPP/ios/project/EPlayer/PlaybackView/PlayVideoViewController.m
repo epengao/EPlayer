@@ -9,12 +9,18 @@
 #import "EPlayerAPI.h"
 #import "PlayVideoViewController.h"
 
-#define TOP_bakButton_Tag       1001
-#define TOP_fileName_Tag        1002
-#define BOT_progressSlider_Tag  2001
-#define BOT_playPauseButton_Tag 2002
-#define BOT_playTimeLable_Tag   2003
-#define BOT_entryFullScreen_Tag 2004
+#define TOP_bakButton_Tag         1001
+#define TOP_bakLable_Tag          1002
+#define TOP_fileName_Tag          1003
+#define BOT_playPauseButton_Tag   2001
+#define BOT_playTimeLable_Tag     2002
+#define BOT_progressSlider_Tag    2003
+#define BOT_durationTimeLable_Tag 2004
+#define BOT_entryFullScreen_Tag   2005
+
+#define TOP_View_Height    30
+#define BOT_View_Height    50
+#define BOT_Element_Height 30
 
 @interface PlayVideoViewController () <EPlayerSdkDelegate>
 {
@@ -28,13 +34,13 @@
     UIView          *topMessageView;
     VideoWindow     *videoWindowView;
 
-    NSDate          *startTime;
-    NSDateFormatter *timeFormatter;
-    
     UISlider        *playProgress;
     
     CGFloat         newWindowWidth;
     CGFloat         newWindowHeight;
+
+    NSTimer         *updatePlayTimer;
+    NSTimer         *dismissPlayCtrlViewTimer;
 }
 @end
 
@@ -49,6 +55,7 @@
     [super viewDidLoad];
     [self setupVideoImage];
 
+    updatePlayTimer = nil;
     eplayerAPI = [EPlayerAPI sharedEPlayerAPI];
     eplayerAPI.msgHandler = self;
     beforeEntryBackgroundStatus = EPlayerStatus_Playing;
@@ -69,13 +76,22 @@
     [super viewWillAppear:animated];
     if(beforeEntryBackgroundStatus == EPlayerStatus_Playing)
         [eplayerAPI play];
+    if(updatePlayTimer == nil)
+    {
+        updatePlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatePlayTime) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
+    if(updatePlayTimer != nil)
+    {
+        [updatePlayTimer invalidate];
+        updatePlayTimer = nil;
+    }
     beforeEntryBackgroundStatus = [eplayerAPI getPlayerStatus];
     [eplayerAPI pause];
+    [super viewWillDisappear:animated];
 }
 
 - (void)setupVideoImage
@@ -85,33 +101,31 @@
     videoWindowView.contentMode = UIViewContentModeScaleAspectFit;
     videoWindowView.backgroundColor = [UIColor blackColor];
     videoWindowView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *pressed = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoImageClicked:)];
+    UITapGestureRecognizer *pressed = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoWindowViewTouched:)];
     [videoWindowView addGestureRecognizer:pressed];
     [self.view addSubview:videoWindowView];
 }
 
 - (void)showTopMessageView
 {
-    float height = 50.0;
-    float width = videoWindowView.bounds.size.width;
     float x = 0;
     float y = 0;
+    float width = videoWindowView.bounds.size.width;
     if(topMessageView == nil)
     {
-        topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, height)];
-        topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.4];
+        topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, TOP_View_Height)];
+        topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
  
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         backButton.tag = TOP_bakButton_Tag;
         [backButton setBackgroundColor:[UIColor clearColor]];
-        [backButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.6] forState:UIControlStateNormal];
-        [backButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
+        [backButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:1.0] forState:UIControlStateNormal];
         [backButton sizeToFit];
         [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-        [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, height)];
+        [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, TOP_View_Height)];
         [backButton addTarget:self action:@selector(exitFullScreenButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 
-        UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, topMessageView.bounds.size.width-100, height)];
+        UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, topMessageView.bounds.size.width-100, TOP_View_Height)];
         fileNameLable.tag = TOP_fileName_Tag;
         fileNameLable.text = [self.videoFileURL lastPathComponent];
         fileNameLable.textAlignment = NSTextAlignmentCenter;
@@ -120,13 +134,26 @@
         [fileNameLable setBackgroundColor:[UIColor clearColor]];
         [fileNameLable setTextAlignment:NSTextAlignmentCenter];
         
+        UIColor *colorOne = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+        UIColor *colorTwo = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+        NSArray *colors = [NSArray arrayWithObjects:(id)colorOne.CGColor, colorTwo.CGColor, nil];
+        NSNumber *stopOne = [NSNumber numberWithFloat:0.0];
+        NSNumber *stopTwo = [NSNumber numberWithFloat:1.0];
+        NSArray *locations = [NSArray arrayWithObjects:stopOne, stopTwo, nil];
+        CAGradientLayer *colorLayer = [CAGradientLayer layer];
+        colorLayer.colors = colors;
+        colorLayer.locations = locations;
+        colorLayer.frame = topMessageView.bounds;
+
         [topMessageView addSubview:fileNameLable];
         [topMessageView addSubview:backButton];
+        [topMessageView.layer insertSublayer:colorLayer atIndex:0];
+
         [self.view insertSubview:topMessageView aboveSubview:videoWindowView];
     }
     else
     {
-        [topMessageView setFrame:CGRectMake(x, y, width, height)];
+        [topMessageView setFrame:CGRectMake(x, y, width, TOP_View_Height)];
         if(topMessageView.isHidden)
         {
             [topMessageView setHidden:NO];
@@ -142,47 +169,82 @@
 {
     if(playControlView == nil)
     {
-        float hight = 45.0;
-        float width = videoWindowView.bounds.size.width;
         float x = 0;
-        float y = videoWindowView.bounds.size.height - hight;
-        playControlView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, hight)];
-        playControlView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
-        
-        UIButton *pauseButton = [[UIButton alloc]initWithFrame:CGRectMake(20.0+23.0/2-hight/2, 0, hight, hight)];
-        [pauseButton setBackgroundColor:[UIColor clearColor]];
-        [pauseButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-        [pauseButton addTarget:self action:@selector(pauseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [playControlView addSubview:pauseButton];
-    
-        /* duration label */
-        NSString *currTime = [self getTimeTitle:0];
-        NSString *totalTime = [self getTimeTitle:duration];
-        NSString *showTime = [NSString stringWithFormat:@"%@ / %@",currTime,totalTime];
-        UILabel *playbakTime = [[UILabel alloc]init];
-        [playbakTime setTag:1001];
-        [playbakTime setBackgroundColor:[UIColor clearColor]];
-        [playbakTime setText:showTime];
-        [playbakTime setTextColor:[UIColor colorWithWhite:1.0 alpha:0.6]];
-        [playbakTime setFont:[UIFont systemFontOfSize:16]];
-        [playbakTime setFrame:CGRectMake(pauseButton.frame.origin.x+pauseButton.frame.size.width + 20, 0, 200, hight)];
-        [playControlView addSubview:playbakTime];
+        float y = self.view.frame.size.height - BOT_View_Height;
+        float bottomViewHeight = BOT_View_Height;
+        float bottomViewWidth = videoWindowView.bounds.size.width;
+
+        CGRect bottomViewFrame = CGRectMake(x, y, bottomViewWidth, bottomViewHeight);
+        playControlView = [[UIView alloc]initWithFrame:bottomViewFrame];
+        playControlView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+
+        CGFloat buttonWidth = BOT_Element_Height*1.5;
+        CGFloat buttonHeight = BOT_Element_Height*1.5;
+        CGFloat element_Y = (BOT_View_Height - buttonHeight) * 0.5;
+        UIButton *playPauseButton = [[UIButton alloc]initWithFrame:CGRectMake(0, element_Y, buttonWidth, buttonHeight)];
+        [playPauseButton setTag:BOT_playPauseButton_Tag];
+        [playPauseButton setBackgroundColor:[UIColor clearColor]];
+        [playPauseButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+        [playPauseButton addTarget:self action:@selector(playPauseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [playControlView addSubview:playPauseButton];
+
+        element_Y = (BOT_View_Height - buttonHeight*0.4) * 0.5;
+        UIButton *fullScreenButton = [[UIButton alloc]initWithFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
+        [fullScreenButton setTag:BOT_entryFullScreen_Tag];
+        [fullScreenButton setBackgroundColor:[UIColor clearColor]];
+        [fullScreenButton setImage:[UIImage imageNamed:@"entryFullScreen"] forState:UIControlStateNormal];
+        [fullScreenButton addTarget:self action:@selector(entryExitFullScreenClick:) forControlEvents:UIControlEventTouchUpInside];
+        [playControlView addSubview:fullScreenButton];
+
+        CGFloat lableWidth = BOT_Element_Height * 1.5;
+        NSString *playTimeStr = [self getTimeTitle:0];
+        element_Y = (BOT_View_Height - BOT_Element_Height) * 0.5;
+        CGRect playTimeViewFrame = CGRectMake(buttonWidth, element_Y, lableWidth, BOT_Element_Height);
+        UILabel *playTimeLableView = [[UILabel alloc]initWithFrame:playTimeViewFrame];
+        playTimeLableView.textAlignment = NSTextAlignmentCenter;
+        [playTimeLableView setTag:BOT_playTimeLable_Tag];
+        [playTimeLableView setBackgroundColor:[UIColor clearColor]];
+        [playTimeLableView setText:playTimeStr];
+        [playTimeLableView setFont:[UIFont systemFontOfSize:10]];
+        [playTimeLableView setTextColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+        [playControlView addSubview:playTimeLableView];
+
+        NSString *durationTimeStr = [self getTimeTitle:mediaInfo.duration];
+        CGRect durationTimeViewFrame = CGRectMake(bottomViewWidth-buttonWidth-lableWidth, element_Y, lableWidth, BOT_Element_Height);
+        UILabel *durationTimeLableView = [[UILabel alloc]initWithFrame:durationTimeViewFrame];
+        durationTimeLableView.textAlignment = NSTextAlignmentCenter;
+        [durationTimeLableView setTag:BOT_durationTimeLable_Tag];
+        [durationTimeLableView setBackgroundColor:[UIColor clearColor]];
+        [durationTimeLableView setText:durationTimeStr];
+        [durationTimeLableView setFont:[UIFont systemFontOfSize:10]];
+        [durationTimeLableView setTextColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+        CGPoint center1 = durationTimeLableView.center;
+        center1.y = playControlView.frame.size.height / 2;
+        [durationTimeLableView setCenter:center1];
+        [playControlView addSubview:durationTimeLableView];
 
         /* playback progress */
-        playProgress = [[UISlider alloc]initWithFrame:CGRectMake(0, y-10, width, 21)];
+        CGFloat progressBarWidth = bottomViewWidth - buttonWidth*2 - lableWidth*2;
+        playProgress = [[UISlider alloc]initWithFrame:CGRectMake((buttonWidth+lableWidth), element_Y, progressBarWidth, BOT_Element_Height)];
+        [playProgress setTag:BOT_playPauseButton_Tag];
         [playProgress setMinimumValue:0];
-        [playProgress setMaximumValue:duration];
+        [playProgress setMaximumValue:mediaInfo.duration];
         [playProgress setContinuous:YES];
         [playProgress setThumbImage:[UIImage imageNamed:@"progress_dot"] forState:UIControlStateNormal];
         [playProgress addTarget:self action:@selector(onPlaybackProgressChange:) forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:playProgress];
-
-        UIButton *exitFullScreenButton = [[UIButton alloc]initWithFrame:CGRectMake(width-20-24/2-hight/2, 0, hight, hight)];
-        [exitFullScreenButton setBackgroundColor:[UIColor clearColor]];
-        [exitFullScreenButton setImage:[UIImage imageNamed:@"exit"] forState:UIControlStateNormal];
-        [exitFullScreenButton addTarget:self action:@selector(exitFullScreenButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        exitFullScreenButton.tag = 6;
-        [playControlView addSubview:exitFullScreenButton];
+        [playControlView addSubview:playProgress];
+        
+        UIColor *colorOne = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+        UIColor *colorTwo = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+        NSArray *colors = [NSArray arrayWithObjects:(id)colorOne.CGColor, colorTwo.CGColor, nil];
+        NSNumber *stopOne = [NSNumber numberWithFloat:1.0];
+        NSNumber *stopTwo = [NSNumber numberWithFloat:0.0];
+        NSArray *locations = [NSArray arrayWithObjects:stopTwo, stopOne, nil];
+        CAGradientLayer *colorLayer = [CAGradientLayer layer];
+        colorLayer.colors = colors;
+        colorLayer.locations = locations;
+        colorLayer.frame = playControlView.bounds;
+        [playControlView.layer insertSublayer:colorLayer atIndex:0];
 
         [self.view insertSubview:playControlView aboveSubview:videoWindowView];
     }
@@ -213,17 +275,28 @@
 
 #pragma mark - UI Widget Event
 
-- (void)videoImageClicked :(id)sender
+- (void)videoWindowViewTouched :(id)sender
 {
     [self showTopMessageView];
     [self showPlayControlView];
+    if(dismissPlayCtrlViewTimer != nil)
+    {
+        [dismissPlayCtrlViewTimer invalidate];
+        dismissPlayCtrlViewTimer = nil;
+
+    }
+    dismissPlayCtrlViewTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(dismissPlayCtrlView) userInfo:nil repeats:NO];
 }
 
-- (void)hideControlView
+- (void)dismissPlayCtrlView
 {
     [topMessageView setHidden:YES];
     [playControlView setHidden:YES];
-    [playProgress setHidden:YES];
+    if(dismissPlayCtrlViewTimer == nil)
+    {
+        [dismissPlayCtrlViewTimer invalidate];
+        dismissPlayCtrlViewTimer = nil;
+    }
 }
 
 - (void)play
@@ -236,7 +309,7 @@
     [eplayerAPI pause];
 }
 
-- (void)pauseButtonClicked :(id)sender
+- (void)playPauseButtonClicked :(id)sender
 {
     EPlayerStatus status;
     status = [eplayerAPI getPlayerStatus];
@@ -252,6 +325,10 @@
     }
 }
 
+- (void)entryExitFullScreenClick :(id)sender
+{
+}
+
 -(void)onSeek :(UISlider*)sender
 {
     int playPos = (int)sender.value;
@@ -261,7 +338,6 @@
 -(void)onPlaybackProgressChange :(UISlider*)sender
 {
     [eplayerAPI seek:sender.value];
-    [self updatePlayTimeLable:(int)sender.value];
 }
 
 - (void)exitFullScreenButtonClicked :(id)sender
@@ -271,68 +347,44 @@
 }
 
 #pragma mark - private methods
-- (void)updatePlayTimeLable:(unsigned int)time
+- (void)updatePlayTime
 {
-    NSString *currTime = [self getTimeTitle:time];
-    NSString *totalTime = [self getTimeTitle:duration];
-    NSString *showTime = [NSString stringWithFormat:@"%@ / %@",currTime,totalTime];
-    UILabel *timeLabel = (UILabel*)[self.view viewWithTag:1001];
-    [timeLabel setText:showTime];
+    NSUInteger playTime = [eplayerAPI getPlayingPos];
+    NSString *playTimeStr = [self getTimeTitle:playTime];
+    UILabel *timeLabel = [playControlView viewWithTag:BOT_playTimeLable_Tag];
+    [timeLabel setText:playTimeStr];
+    
+    [playProgress setValue:playTime];
 }
 
 - (NSString*)getTimeTitle :(NSUInteger)time
 {
-    
-    int s = (int)time/1000;
-    int m = s/60;
-    int h = m/60;
+    NSUInteger s = (int)time/1000;
+    NSUInteger m = s/60;
+    NSUInteger h = m/60;
 
-    int hh = h;
-    int mm = m%60;
-    int ss = s%60;
+    NSUInteger hh = h;
+    NSUInteger mm = m%60;
+    NSUInteger ss = s%60;
 
     NSString *hhStr = nil;
     NSString *mmStr = nil;
     NSString *ssStr = nil;
 
-    if(hh < 10)
-        hhStr = [NSString stringWithFormat:@"0%d", hh];
-    else
-        hhStr = [NSString stringWithFormat:@"%d", hh];
-    if(mm < 10)
-        mmStr = [NSString stringWithFormat:@"0%d", mm];
-    else
-        mmStr = [NSString stringWithFormat:@"%d", mm];
-    if(ss < 10)
-        ssStr = [NSString stringWithFormat:@"0%d", ss];
-    else
-        ssStr = [NSString stringWithFormat:@"%d", ss];
-
-    return [NSString stringWithFormat:@"%@:%@:%@", hhStr, mmStr, ssStr];
-}
-
-#pragma mark - MediaEngine delegate
-- (void)playbackTimeUpdate:(unsigned int)currPlayTime
-{
-    [playProgress setValue:currPlayTime animated:YES];
-    [self updatePlayTimeLable:currPlayTime];
-}
-
-- (int)mediaStoped
-{
-    NSLog(@"MediaEngine stoped.");
-    return 0;
-}
-
-- (int)playbackFinished
-{
-    NSLog(@"MeidaEngine playback finished.");
-    dispatch_async(dispatch_get_main_queue(), ^
+    if(hh <= 0)
     {
-        [eplayerAPI closeMedia];
-        [self dismissViewControllerAnimated:YES completion:^{}];
-    });
-    return 0;
+        hhStr = @"";
+        mmStr = [NSString stringWithFormat:@"%lu:", mm];
+        ssStr = [NSString stringWithFormat:@"%02lu", ss];
+    }
+    else
+    {
+        hhStr = [NSString stringWithFormat:@"%lu:", hh];
+        mmStr = [NSString stringWithFormat:@"%02lu:", mm];
+        ssStr = [NSString stringWithFormat:@"%02lu", ss];
+    }
+
+    return [NSString stringWithFormat:@"%@%@%@", hhStr, mmStr, ssStr];
 }
 
 #pragma mark - EPlayerSDK delegate
@@ -358,7 +410,7 @@
                       windowWidth:self.view.frame.size.width
                      windowHeight:self.view.frame.size.height];
     [videoWindowView layoutSubviews];
-    
+
     [self updateUI];
 }
 
@@ -406,18 +458,54 @@
 {
     CGFloat x = 0;
     CGFloat y = 0;
-    CGFloat height = 50.0;
+    CGFloat height = TOP_View_Height;
     CGFloat width = videoWindowView.bounds.size.width;
     CGRect topViewFrame = CGRectMake(x, y, width, height);
-    
-    CGFloat lableWidth = width - 100;
-    CGRect lableFrame = CGRectMake(50, 0, lableWidth, 50);
-    UILabel *fileNameLable = [topMessageView viewWithTag:TOP_fileName_Tag];
 
+    CGFloat lableWidth = width - 100;
+    CGRect lableFrame = CGRectMake(50, 0, lableWidth, height);
+    UILabel *fileNameLable = [topMessageView viewWithTag:TOP_fileName_Tag];
     [fileNameLable setFrame:lableFrame];
+    
+    CAGradientLayer *colorLayer = (CAGradientLayer*)topMessageView.layer.sublayers[0];
+    [colorLayer setFrame:topViewFrame];
+
     [topMessageView setFrame:topViewFrame];
 }
 -(void)updateBottomMediaCtrlView
 {
+    float x = 0;
+    float y = self.view.frame.size.height - BOT_View_Height;
+    float bottomViewHeight = BOT_View_Height;
+    float bottomViewWidth = videoWindowView.bounds.size.width;
+    CGRect bottomViewFrame = CGRectMake(x, y, bottomViewWidth, bottomViewHeight);
+
+    CGFloat buttonWidth = BOT_Element_Height*1.5;
+    CGFloat buttonHeight = BOT_Element_Height*1.5;
+    UIButton *playPauseButton = [playControlView viewWithTag:BOT_playPauseButton_Tag];
+    CGFloat element_Y = (BOT_View_Height - buttonHeight) * 0.5;
+    [playPauseButton setFrame :CGRectMake(0, element_Y, buttonWidth, buttonHeight)];
+
+    UIButton *fullScreenButton = [playControlView viewWithTag:BOT_entryFullScreen_Tag];
+    element_Y = (BOT_View_Height - buttonHeight*0.4) * 0.5;
+    [fullScreenButton setFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
+    
+    CGFloat lableWidth = BOT_Element_Height * 1.5;
+    element_Y = (BOT_View_Height - BOT_Element_Height) * 0.5;
+    UILabel *playTimeLableView = [playControlView viewWithTag:BOT_playTimeLable_Tag];
+    CGRect playTimeViewFrame = CGRectMake(buttonWidth, element_Y, lableWidth, BOT_Element_Height);
+    [playTimeLableView setFrame:playTimeViewFrame];
+
+    UILabel *durationTimeLableView = [playControlView viewWithTag:BOT_durationTimeLable_Tag];
+    CGRect durationTimeViewFrame = CGRectMake(bottomViewWidth-buttonWidth-lableWidth, element_Y, lableWidth, BOT_Element_Height);
+    [durationTimeLableView setFrame:durationTimeViewFrame];
+
+    /* playback progress */
+    CGFloat progressBarWidth = bottomViewWidth - buttonWidth*2 - lableWidth*2;
+    [playProgress setFrame:CGRectMake((buttonWidth+lableWidth), element_Y, progressBarWidth, BOT_Element_Height)];
+
+    [playControlView setFrame:bottomViewFrame];
+    CAGradientLayer *colorLayer = (CAGradientLayer*)playControlView.layer.sublayers[0];
+    [colorLayer setFrame:CGRectMake(0, 0, playControlView.bounds.size.width, playControlView.bounds.size.height)];
 }
 @end
