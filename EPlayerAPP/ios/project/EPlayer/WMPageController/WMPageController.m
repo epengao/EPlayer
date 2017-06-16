@@ -416,6 +416,9 @@ static NSInteger const kWMControllerCountUndefined = -1;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
+#define size_max(a,b) (((a) > (b)) ? (a) : (b))
+#define size_min(a,b) (((a) < (b)) ? (a) : (b))
+
 // 包括宽高，子控制器视图 frame
 - (void)wm_calculateSize {
     CGFloat navigationHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame);
@@ -424,10 +427,14 @@ static NSInteger const kWMControllerCountUndefined = -1;
     CGFloat tarBarHeight = (self.hidesBottomBarWhenPushed == YES) ? 0 : height;
     // 计算相对 window 的绝对 frame (self.view.window 可能为 nil)
     UIWindow *mainWindow = [[UIApplication sharedApplication].delegate window];
-    CGRect absoluteRect = [self.view convertRect:self.view.bounds toView:mainWindow];
+    CGRect absoluteRect = CGRectZero;
+    CGRect absoluteRectTmp = [self.view convertRect:self.view.bounds toView:mainWindow];
+    absoluteRect.size.width = size_min(absoluteRectTmp.size.width, absoluteRectTmp.size.height);
+    absoluteRect.size.height = size_max(absoluteRectTmp.size.width, absoluteRectTmp.size.height);
+
     navigationHeight -= absoluteRect.origin.y;
     tarBarHeight -= mainWindow.frame.size.height - CGRectGetMaxY(absoluteRect);
-    
+
     _viewX = self.viewFrame.origin.x;
     _viewY = self.viewFrame.origin.y;
     if (CGRectEqualToRect(self.viewFrame, CGRectZero)) {

@@ -74,7 +74,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     /* 电池栏的字体颜色设置 */
     //self.navigationController.navigationBar.barStyle = (NSUInteger)UIStatusBarStyleLightContent;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
@@ -123,6 +123,9 @@
     self.lastPoint = currentPoint;
 }
 
+#define size_max(a,b) (((a) > (b)) ? (a) : (b))
+#define size_min(a,b) (((a) < (b)) ? (a) : (b))
+
 - (void)setViewTop:(CGFloat)viewTop
 {
     _viewTop = viewTop;
@@ -140,15 +143,18 @@
     {
         _viewTop = kWMHeaderViewHeight;
     }
-    
+
     self.redView.frame = (
     {
         CGRect oriFrame = self.redView.frame;
         oriFrame.origin.y = _viewTop - kWMHeaderViewHeight;
         oriFrame;
     });
-    self.viewFrame = CGRectMake(0, _viewTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - _viewTop);
 
+    CGRect frameScreen = [UIScreen mainScreen].bounds;
+    CGFloat w = size_min(frameScreen.size.width, frameScreen.size.height);
+    CGFloat h = size_max(frameScreen.size.width, frameScreen.size.height);
+    self.viewFrame = CGRectMake(0, _viewTop, w, h - _viewTop);
 }
 
 - (void)didReceiveMemoryWarning
