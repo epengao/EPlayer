@@ -5,6 +5,9 @@
 #import <AVFoundation/AVMediaFormat.h>
 #import "VideoFilesTableViewController.h"
 
+#define size_max(a,b) (((a) > (b)) ? (a) : (b))
+#define size_min(a,b) (((a) < (b)) ? (a) : (b))
+
 @interface MainViewController() <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSArray *videoCategories;
 @property (nonatomic, strong) WMPanGestureRecognizer *panGesture;
@@ -31,7 +34,9 @@
         self.titleSizeNormal = 16;
         self.titleSizeSelected = 16;
         self.menuViewStyle = WMMenuViewStyleFloodHollow;
-        self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.videoCategories.count;
+        CGRect frameScreen = [UIScreen mainScreen].bounds;
+        CGFloat screenWidth = size_min(frameScreen.size.width, frameScreen.size.height);
+        self.menuItemWidth = screenWidth / self.videoCategories.count;
         self.menuHeight = 45;
         self.viewTop = kWMHeaderViewHeight;
         self.accessMeidaRight = NeedRequest;
@@ -122,9 +127,6 @@
     self.viewTop += yChange;
     self.lastPoint = currentPoint;
 }
-
-#define size_max(a,b) (((a) > (b)) ? (a) : (b))
-#define size_min(a,b) (((a) < (b)) ? (a) : (b))
 
 - (void)setViewTop:(CGFloat)viewTop
 {

@@ -9,6 +9,13 @@
 #import "EPlayerAPI.h"
 #import "PlayVideoViewController.h"
 
+#define TOP_bakButton_Tag       1001
+#define TOP_fileName_Tag        1002
+#define BOT_progressSlider_Tag  2001
+#define BOT_playPauseButton_Tag 2002
+#define BOT_playTimeLable_Tag   2003
+#define BOT_entryFullScreen_Tag 2004
+
 @interface PlayVideoViewController () <EPlayerSdkDelegate>
 {
     MediaInfo       *mediaInfo;
@@ -92,9 +99,10 @@
     if(topMessageView == nil)
     {
         topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, height)];
-        topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+        topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.4];
  
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        backButton.tag = TOP_bakButton_Tag;
         [backButton setBackgroundColor:[UIColor clearColor]];
         [backButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.6] forState:UIControlStateNormal];
         [backButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
@@ -102,9 +110,12 @@
         [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
         [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, height)];
         [backButton addTarget:self action:@selector(exitFullScreenButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, topMessageView.bounds.size.width, height)];
+
+        UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, topMessageView.bounds.size.width-100, height)];
+        fileNameLable.tag = TOP_fileName_Tag;
         fileNameLable.text = [self.videoFileURL lastPathComponent];
+        fileNameLable.textAlignment = NSTextAlignmentCenter;
+        [fileNameLable setLineBreakMode:NSLineBreakByTruncatingMiddle];
         [fileNameLable setTextColor:[UIColor whiteColor]];
         [fileNameLable setBackgroundColor:[UIColor clearColor]];
         [fileNameLable setTextAlignment:NSTextAlignmentCenter];
@@ -337,15 +348,20 @@
 }
 
 #pragma mark - View rotation
-//- (void) updateVideoWindowFrame
-//{
-//    [eplayerAPI updateVideoWindow:videoWindowView
-//                      windowWidth:newWindowWidth
-//                     windowHeight:newWindowHeight];
-//    [self performSelector:@selector(updateVideoWindowFrame) withObject:nil afterDelay:0.0];
-//    [self viewDidLayoutSubviews];
-//}
-//
+- (void)updateVideoWindowFrame
+{
+    if(beforeScreenRotateStatus == EPlayerStatus_Playing)
+    {
+        [eplayerAPI play];
+    }
+    [eplayerAPI updateVideoWindow:videoWindowView
+                      windowWidth:self.view.frame.size.width
+                     windowHeight:self.view.frame.size.height];
+    [videoWindowView layoutSubviews];
+    
+    [self updateUI];
+}
+
 //- (void) viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id )coordinator
 //{
 //    newWindowWidth = size.width;
@@ -371,13 +387,37 @@
     {
         NSLog(@"Potrait Mode");
     }
-    if(beforeScreenRotateStatus == EPlayerStatus_Playing)
-    {
-        [eplayerAPI play];
-    }
-    [eplayerAPI updateVideoWindow:videoWindowView
-                      windowWidth:self.view.frame.size.width
-                     windowHeight:self.view.frame.size.height];
-    [videoWindowView setNeedsDisplayInRect:videoWindowView.frame];
+    [self performSelector:@selector(updateVideoWindowFrame) withObject:nil afterDelay:0.02];
+}
+
+#pragma mark - Screen top bar status
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+#pragma mark - Update UI after Rotation
+- (void)updateUI
+{
+    [self updateToViewMessageView];
+    [self updateBottomMediaCtrlView];
+}
+-(void)updateToViewMessageView
+{
+    CGFloat x = 0;
+    CGFloat y = 0;
+    CGFloat height = 50.0;
+    CGFloat width = videoWindowView.bounds.size.width;
+    CGRect topViewFrame = CGRectMake(x, y, width, height);
+    
+    CGFloat lableWidth = width - 100;
+    CGRect lableFrame = CGRectMake(50, 0, lableWidth, 50);
+    UILabel *fileNameLable = [topMessageView viewWithTag:TOP_fileName_Tag];
+
+    [fileNameLable setFrame:lableFrame];
+    [topMessageView setFrame:topViewFrame];
+}
+-(void)updateBottomMediaCtrlView
+{
 }
 @end
