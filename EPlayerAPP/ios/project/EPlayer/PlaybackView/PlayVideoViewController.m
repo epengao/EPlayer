@@ -17,6 +17,7 @@
 #define BOT_progressSlider_Tag    2003
 #define BOT_durationTimeLable_Tag 2004
 #define BOT_entryFullScreen_Tag   2005
+#define BOT_exitFullScreen_Tag    2006
 
 #define TOP_View_Height    30
 #define BOT_View_Height    50
@@ -28,6 +29,7 @@
     EPlayerAPI      *eplayerAPI;
     EPlayerStatus   beforeScreenRotateStatus;
     EPlayerStatus   beforeEntryBackgroundStatus;
+    EPlayerStatus   beforeDragProgressBarStatus;
 
     NSUInteger      duration;
     UIView          *playControlView;
@@ -41,6 +43,9 @@
 
     NSTimer         *updatePlayTimer;
     NSTimer         *dismissPlayCtrlViewTimer;
+
+    BOOL            canRotate;
+    BOOL            fullScreen;
 }
 @end
 
@@ -55,6 +60,8 @@
     [super viewDidLoad];
     [self setupVideoImage];
 
+    canRotate = NO;
+    fullScreen = NO;
     updatePlayTimer = nil;
     eplayerAPI = [EPlayerAPI sharedEPlayerAPI];
     eplayerAPI.msgHandler = self;
@@ -123,7 +130,7 @@
         [backButton sizeToFit];
         [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
         [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, TOP_View_Height)];
-        [backButton addTarget:self action:@selector(exitFullScreenButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [backButton addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 
         UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, topMessageView.bounds.size.width-100, TOP_View_Height)];
         fileNameLable.tag = TOP_fileName_Tag;
@@ -189,12 +196,21 @@
         [playControlView addSubview:playPauseButton];
 
         element_Y = (BOT_View_Height - buttonHeight*0.4) * 0.5;
-        UIButton *fullScreenButton = [[UIButton alloc]initWithFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
-        [fullScreenButton setTag:BOT_entryFullScreen_Tag];
-        [fullScreenButton setBackgroundColor:[UIColor clearColor]];
-        [fullScreenButton setImage:[UIImage imageNamed:@"entryFullScreen"] forState:UIControlStateNormal];
-        [fullScreenButton addTarget:self action:@selector(entryExitFullScreenClick:) forControlEvents:UIControlEventTouchUpInside];
-        [playControlView addSubview:fullScreenButton];
+        UIButton *entryFullScreenButton = [[UIButton alloc]initWithFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
+        [entryFullScreenButton setTag:BOT_entryFullScreen_Tag];
+        [entryFullScreenButton setBackgroundColor:[UIColor clearColor]];
+        [entryFullScreenButton setImage:[UIImage imageNamed:@"entryFullScreen"] forState:UIControlStateNormal];
+        [entryFullScreenButton addTarget:self action:@selector(rotateToLandscape:) forControlEvents:UIControlEventTouchUpInside];
+        [playControlView addSubview:entryFullScreenButton];
+
+        element_Y = (BOT_View_Height - buttonHeight*0.4) * 0.5;
+        UIButton *exitFullScreenButton = [[UIButton alloc]initWithFrame:CGRectMake(bottomViewWidth-(buttonWidth*0.4), element_Y, buttonWidth*0.4, buttonHeight*0.4)];
+        [exitFullScreenButton setTag:BOT_exitFullScreen_Tag];
+        [exitFullScreenButton setBackgroundColor:[UIColor clearColor]];
+        [exitFullScreenButton setImage:[UIImage imageNamed:@"exitFullScreen"] forState:UIControlStateNormal];
+        [exitFullScreenButton addTarget:self action:@selector(rotateToPoraid:) forControlEvents:UIControlEventTouchUpInside];
+        [playControlView addSubview:exitFullScreenButton];
+        [exitFullScreenButton setHidden:YES];
 
         CGFloat lableWidth = BOT_Element_Height * 1.5;
         NSString *playTimeStr = [self getTimeTitle:0];
@@ -230,10 +246,15 @@
         [playProgress setMinimumValue:0];
         [playProgress setMaximumValue:mediaInfo.duration];
         [playProgress setContinuous:YES];
-        [playProgress setThumbImage:[UIImage imageNamed:@"progress_dot"] forState:UIControlStateNormal];
+        //[playProgress setMinimumTrackTintColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+        [playProgress setMaximumTrackTintColor:[UIColor colorWithWhite:0.6 alpha:0.8]];
+        [playProgress setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
         [playProgress addTarget:self action:@selector(onPlaybackProgressChange:) forControlEvents:UIControlEventValueChanged];
+        [playProgress addTarget:self action:@selector(onPlaybackProgressStartDrag:) forControlEvents:UIControlEventTouchDown];
+        [playProgress addTarget:self action:@selector(onPlaybackProgressStopDrag:) forControlEvents:UIControlEventTouchUpInside];
+        [playProgress addTarget:self action:@selector(onPlaybackProgressStopDrag:) forControlEvents:UIControlEventTouchUpOutside];
         [playControlView addSubview:playProgress];
-        
+
         UIColor *colorOne = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
         UIColor *colorTwo = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
         NSArray *colors = [NSArray arrayWithObjects:(id)colorOne.CGColor, colorTwo.CGColor, nil];
@@ -263,40 +284,40 @@
     }
 }
 
-- (BOOL)shouldAutorotate
+#pragma mark - Set All UI Hiden/Show on FullScreen
+- (void)startDismissTimer
 {
-    return YES;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-#pragma mark - UI Widget Event
-
-- (void)videoWindowViewTouched :(id)sender
-{
-    [self showTopMessageView];
-    [self showPlayControlView];
     if(dismissPlayCtrlViewTimer != nil)
     {
         [dismissPlayCtrlViewTimer invalidate];
         dismissPlayCtrlViewTimer = nil;
-
+        
     }
     dismissPlayCtrlViewTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(dismissPlayCtrlView) userInfo:nil repeats:NO];
+}
+
+-(void)stopDismissTimer
+{
+    if(dismissPlayCtrlViewTimer != nil)
+    {
+        [dismissPlayCtrlViewTimer invalidate];
+        dismissPlayCtrlViewTimer = nil;
+    }
 }
 
 - (void)dismissPlayCtrlView
 {
     [topMessageView setHidden:YES];
     [playControlView setHidden:YES];
-    if(dismissPlayCtrlViewTimer == nil)
-    {
-        [dismissPlayCtrlViewTimer invalidate];
-        dismissPlayCtrlViewTimer = nil;
-    }
+    [self stopDismissTimer];
+}
+
+#pragma mark - UI Widget Event
+- (void)videoWindowViewTouched :(id)sender
+{
+    [self showTopMessageView];
+    [self showPlayControlView];
+    [self startDismissTimer];
 }
 
 - (void)play
@@ -323,10 +344,7 @@
         [self play];
         [sender setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
     }
-}
-
-- (void)entryExitFullScreenClick :(id)sender
-{
+    [self startDismissTimer];
 }
 
 -(void)onSeek :(UISlider*)sender
@@ -335,15 +353,87 @@
     [eplayerAPI seek:playPos];
 }
 
+-(void)onPlaybackProgressStartDrag :(UISlider*)sender
+{
+    beforeDragProgressBarStatus = [eplayerAPI getPlayerStatus];
+    [eplayerAPI pause];
+    [self stopDismissTimer];
+}
+
+-(void)onPlaybackProgressStopDrag :(UISlider*)sender
+{
+    if(beforeDragProgressBarStatus == EPlayerStatus_Playing)
+    {
+        [eplayerAPI play];
+    }
+    [self startDismissTimer];
+}
+
 -(void)onPlaybackProgressChange :(UISlider*)sender
 {
     [eplayerAPI seek:sender.value];
 }
 
-- (void)exitFullScreenButtonClicked :(id)sender
+- (void)rotateToLandscape:(id)sender
 {
-    [eplayerAPI closeMedia];
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+    {
+        canRotate = YES;
+        fullScreen = YES;
+        SEL selector             = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val                  = UIDeviceOrientationLandscapeLeft;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
+}
+
+- (void)rotateToPoraid:(id)sender
+{
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+    {
+        SEL selector             = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val                  = UIDeviceOrientationPortrait;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
+    fullScreen = NO;
+}
+
+- (void)exitPlayView
+{
+    if([eplayerAPI hasMediaActived])
+    {
+        [eplayerAPI closeMedia];
+    }
+    if(updatePlayTimer != nil)
+    {
+        [updatePlayTimer invalidate];
+        updatePlayTimer = nil;
+    }
+    if(dismissPlayCtrlViewTimer != nil)
+    {
+        [dismissPlayCtrlViewTimer invalidate];
+        dismissPlayCtrlViewTimer = nil;
+    }
     [self dismissViewControllerAnimated:YES completion:^{}];
+}
+
+- (void)backButtonClicked
+{
+    if(fullScreen)
+    {
+        [self rotateToPoraid:nil];
+    }
+    else
+    {
+        [self exitPlayView];
+    }
 }
 
 #pragma mark - private methods
@@ -394,12 +484,22 @@
     {
         dispatch_sync(dispatch_get_main_queue(),^
         {
-            [eplayerAPI closeMedia];
+            [self exitPlayView];
         });
     }
 }
 
 #pragma mark - View rotation
+- (BOOL)shouldAutorotate
+{
+    return canRotate;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 - (void)updateVideoWindowFrame
 {
     if(beforeScreenRotateStatus == EPlayerStatus_Playing)
@@ -410,7 +510,6 @@
                       windowWidth:self.view.frame.size.width
                      windowHeight:self.view.frame.size.height];
     [videoWindowView layoutSubviews];
-
     [self updateUI];
 }
 
@@ -433,11 +532,12 @@
     UIDeviceOrientation Orientation=[[UIDevice currentDevice]orientation];
     if(Orientation==UIDeviceOrientationLandscapeLeft || Orientation==UIDeviceOrientationLandscapeRight)
     {
-        NSLog(@"Landscape");
+        canRotate = YES;
+        fullScreen = YES;
     }
     else if(Orientation==UIDeviceOrientationPortrait)
     {
-        NSLog(@"Potrait Mode");
+        fullScreen = NO;
     }
     [self performSelector:@selector(updateVideoWindowFrame) withObject:nil afterDelay:0.02];
 }
@@ -486,10 +586,22 @@
     CGFloat element_Y = (BOT_View_Height - buttonHeight) * 0.5;
     [playPauseButton setFrame :CGRectMake(0, element_Y, buttonWidth, buttonHeight)];
 
-    UIButton *fullScreenButton = [playControlView viewWithTag:BOT_entryFullScreen_Tag];
+    UIButton *entryFullScreenButton = [playControlView viewWithTag:BOT_entryFullScreen_Tag];
+    UIButton *exitFullScreenButton = [playControlView viewWithTag:BOT_exitFullScreen_Tag];
     element_Y = (BOT_View_Height - buttonHeight*0.4) * 0.5;
-    [fullScreenButton setFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
-    
+    [entryFullScreenButton setFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
+    [exitFullScreenButton setFrame:CGRectMake(bottomViewWidth-buttonWidth, element_Y, buttonWidth*0.4, buttonHeight*0.4)];
+    if(fullScreen)
+    {
+        [entryFullScreenButton setHidden:YES];
+        [exitFullScreenButton setHidden:NO];
+    }
+    else
+    {
+        [entryFullScreenButton setHidden:NO];
+        [exitFullScreenButton setHidden:YES];
+    }
+
     CGFloat lableWidth = BOT_Element_Height * 1.5;
     element_Y = (BOT_View_Height - BOT_Element_Height) * 0.5;
     UILabel *playTimeLableView = [playControlView viewWithTag:BOT_playTimeLable_Tag];
