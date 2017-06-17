@@ -2,6 +2,8 @@
 #import "DXAlertView.h"
 #import <Photos/Photos.h>
 #import "MBProgressHUD.h"
+#import "YiRefreshHeader.h"
+#import "YiRefreshFooter.h"
 #import "VideoInfoTableViewCell.h"
 #import "PlayVideoViewController.h"
 #import "VideoFilesTableViewController.h"
@@ -12,11 +14,11 @@
     NSMutableArray *videoInfoList;
     /* Camera Video files */
     PHFetchResult *assetsFetchResults;
-    //NSMutableArray *cameraVideoInfoList;
     /* Upload Video files */
     NSString* videoFileFolder;
-    NSArray *uploadVideoFilesList;
-    //NSMutableArray *uploadVideoInfoList;
+    /* Refresh control */
+    YiRefreshHeader *refreshHeader;
+    YiRefreshFooter *refreshFooter;
 }
 @property (nonatomic, strong) UIButton *helpButton;
 @end
@@ -28,6 +30,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 {
     [super viewDidLoad];
     videoFilesCount = 0;
+    [self initRefreshController];
     self.tableView.dataSource = self;
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     [self.tableView setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:1.0]];
@@ -42,6 +45,49 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)dealloc
 {
     [PHPhotoLibrary.sharedPhotoLibrary unregisterChangeObserver:self];
+}
+
+- (void)initRefreshController
+{
+    if ([[[UIDevice currentDevice]systemVersion] floatValue] >= 7.0)
+    {
+        self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+    }
+    self.automaticallyAdjustsScrollViewInsets=NO;
+
+    refreshHeader=[[YiRefreshHeader alloc] init];
+    refreshHeader.scrollView = self.tableView;
+    [refreshHeader header];
+    typeof(refreshHeader) __weak weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingBlock=^(){
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            sleep(2);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(weakRefreshHeader) __strong strongRefreshHeader = weakRefreshHeader;
+                [videoInfoList removeAllObjects];
+                [self initAllVideoData];
+                [strongRefreshHeader endRefreshing];
+            });
+        });
+    };
+    //[refreshHeader beginRefreshing];
+
+    /*
+    refreshFooter=[[YiRefreshFooter alloc] init];
+    refreshFooter.scrollView = self.tableView;
+    [refreshFooter footer];
+    typeof(refreshFooter) __weak weakRefreshFooter = refreshFooter;
+    refreshFooter.beginRefreshingBlock=^(){
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            sleep(2);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(weakRefreshFooter) __strong strongRefreshFooter = weakRefreshFooter;
+                NSLog(@"foot refreshed");
+                [strongRefreshFooter endRefreshing];
+            });
+        });
+    };
+    */
 }
 
 - (void)setVideoFilesFolder :(NSString*)folderPath
@@ -198,14 +244,14 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     NSInteger filesCount = 0;
     if(videoFileFolder != nil)
     {
-        uploadVideoFilesList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
+        NSArray *uploadVideoFilesList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
         if(uploadVideoFilesList != nil)
         {
             videoInfoList = [NSMutableArray array];
             for(NSString *fileName in uploadVideoFilesList)
             {
                 NSString *fileURL = [NSString stringWithFormat:@"%@/%@", videoFileFolder, fileName];
-                [videoInfoList addObject:[self createUploadVideoInfoFromFileURL:fileURL]];
+                [videoInfoList insertObject:[self createUploadVideoInfoFromFileURL:fileURL] atIndex:0];
             }
         }
         filesCount = [videoInfoList count];
@@ -233,9 +279,9 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     for (PHAssetCollection *sub in assetsFetchResults)
     {
         PHFetchResult *assetsInCollection = [PHAsset fetchAssetsInAssetCollection:sub options:nil];
-        for (PHAsset *asset in assetsInCollection)
+        for (PHAsset *phAsset in assetsInCollection)
         {
-            NSArray *assetResources = [PHAssetResource assetResourcesForAsset:asset];
+            NSArray *assetResources = [PHAssetResource assetResourcesForAsset:phAsset];
             for (PHAssetResource *assetRes in assetResources)
             {
                 if (assetRes.type == PHAssetResourceTypeVideo ||
@@ -246,7 +292,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     videoFetchOptions.networkAccessAllowed = NO;
                     __block AVURLAsset *urlAsset = nil;
                     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-                    [[PHImageManager defaultManager] requestAVAssetForVideo:asset
+                    [[PHImageManager defaultManager] requestAVAssetForVideo:phAsset
                                                                     options:videoFetchOptions
                                                               resultHandler:^(AVAsset * _Nullable asset, AVAudioMix* _Nullable audioMix, NSDictionary* _Nullable info)
                      {
@@ -256,7 +302,8 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                     if(urlAsset != nil)
                     {
-                        [videoInfoList addObject:[self CreateCameraVideoInfoFromAVURLAsset:urlAsset needInitThumbnail:YES]];
+                        VideoInfo *videoInfo = [self CreateCameraVideoInfoFromAVURLAsset:urlAsset phAsset:phAsset needInitThumbnail:YES];
+                        [videoInfoList insertObject:videoInfo atIndex:0];
                     }
                     [self updateTableViewUIAtMainThread];
                 }
@@ -304,7 +351,9 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     }
 }
 
-- (VideoInfo*)CreateCameraVideoInfoFromAVURLAsset :(AVURLAsset*)urlAsset needInitThumbnail:(BOOL)needInitThumbnail
+- (VideoInfo*)CreateCameraVideoInfoFromAVURLAsset:(AVURLAsset*)urlAsset
+                                          phAsset:(PHAsset*)phAsset
+                                needInitThumbnail:(BOOL)needInitThumbnail
 {
     VideoInfo *videoInfo = [[VideoInfo alloc] init];
     videoInfo.videoCellType = CameraVideoCell;
@@ -321,6 +370,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
         }
         videoInfo.videoDuration = [self convertCMTimeToNSString:urlAsset.duration];
     }
+    videoInfo.phAsset = phAsset;
     videoInfo.urlAsset = urlAsset;
     if(needInitThumbnail)
     {
@@ -361,12 +411,12 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return [self getVideosCount];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self getVideosCount];
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -381,12 +431,12 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     if( (self.tableViewType == CameraVideosTableView) ||
         (self.tableViewType == UploadVideosTableView) )
     {
-        info = videoInfoList[indexPath.row];
+        info = videoInfoList[indexPath.section];
     }
     else {/* TODO */}
 
+    [cell setFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
     [cell setVideoInfo:info];
-    [cell setFrame:CGRectMake(0, 0, self.view.frame.size.width - 10, 100)];
     [cell configuVideoInfoCell];
     return cell;
 }
@@ -425,7 +475,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     if( (self.tableViewType == CameraVideosTableView) ||
        (self.tableViewType == UploadVideosTableView) )
     {
-        info = videoInfoList[indexPath.row];
+        info = videoInfoList[indexPath.section];
     }
     else {/* TODO */}
     PlayVideoViewController *playView = [[PlayVideoViewController alloc]init];
@@ -444,6 +494,109 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     //    [cell setCellSelected:NO];
     //}
 }
+
+#pragma mark - tableView Edit
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.tableViewType == UploadVideosTableView)
+    {
+        return YES;
+    }
+    return YES;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView setEditing:NO animated:YES];
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        if(self.tableViewType == CameraVideosTableView)
+        {
+            [self removeMediaLibrayVideo:indexPath.section];
+        }
+        else if(self.tableViewType == UploadVideosTableView)
+        {
+            [self removeUploadVideo:indexPath.section];
+        }
+        else {/* TODO */}
+    }
+}
+
+- (void)removeMediaLibrayVideo:(NSUInteger)index
+{
+    [self removeVideoCell:index];
+}
+
+- (void)removeUploadVideo:(NSUInteger)index
+{
+    UIAlertController *alert =[UIAlertController alertControllerWithTitle:@"确定删除该视频？"
+                                                                  message:@""
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action){
+        NSLog(@"cancle");
+    }];
+    UIAlertAction * remove = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action){
+        NSLog(@"remove");
+        [self.tableView beginUpdates];
+        [self removeVideoCell:index];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.tableView endUpdates];
+    }];
+    [alert addAction:cancle];
+    [alert addAction:remove];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)removeMediaLibraryVideoUpdate:(NSUInteger)index
+{
+    [videoInfoList removeObjectAtIndex:index];
+    [self.tableView beginUpdates];
+    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView endUpdates];
+}
+
+- (void)removeVideoCell:(NSUInteger)index
+{
+    if(index < [videoInfoList count])
+    {
+        VideoInfo *videoInfo = [videoInfoList objectAtIndex:index];
+        if(videoInfo != nil)
+        {
+            if(self.tableViewType == CameraVideosTableView)
+            {
+                NSArray *asertArray = [[NSArray alloc] initWithObjects:videoInfo.phAsset, nil];
+                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                    [PHAssetChangeRequest deleteAssets:asertArray];
+                }
+                completionHandler:^(BOOL success, NSError *error){
+                    if(success)
+                    {
+                        dispatch_sync(dispatch_get_main_queue(),^{
+                            [self removeMediaLibraryVideoUpdate:index];
+                        });
+                    }
+                }];
+            }
+            else if(self.tableViewType == UploadVideosTableView)
+            {
+                NSString *fileURL = videoInfo.fileURL;
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                if([fileManager fileExistsAtPath:fileURL])
+                {
+                    [fileManager removeItemAtPath:fileURL error:nil];
+                    [videoInfoList removeObjectAtIndex:index];
+                }
+            }
+            else {/* TODO */}
+        }
+    }
+}
+#pragma mark - rottation control
 - (BOOL)shouldAutorotate
 {
     return YES;

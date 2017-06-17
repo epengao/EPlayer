@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, VideoCellType)
 @property (nonatomic, copy) NSString *fileType;
 @property (nonatomic, copy) NSString *updateTime;
 @property (nonatomic, copy) NSString *videoDuration;
+@property (nonatomic, strong) PHAsset *phAsset;
 @property (nonatomic, strong) AVURLAsset *urlAsset;
 @property (nonatomic, strong) UIImage *thumbnailImage;
 @property (nonatomic, assign) CGFloat fileSize;

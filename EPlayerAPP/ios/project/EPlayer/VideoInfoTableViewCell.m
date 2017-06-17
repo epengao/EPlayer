@@ -141,12 +141,12 @@
 
 - (void)setFrame:(CGRect)frame
 {
-    frame.origin.x = 5;
-    frame.size.width -= 2 * frame.origin.x;
-    frame.size.height -= frame.origin.x;
-    self.layer.masksToBounds = YES;
-    self.layer.cornerRadius = 4.0;
+//    frame.origin.x = 5;
+//    frame.size.width -= 2 * frame.origin.x;
+//    frame.size.height -= frame.origin.x;
+//    self.layer.masksToBounds = YES;
 
+    self.layer.cornerRadius = 2.0;
     [super setFrame:frame];
 }
 
@@ -280,6 +280,8 @@
         thumbnailImageView.image = thumbnailImage;
         [thumbnailImageView setTag:ThumbnailView_Tag];
         [self.contentView addSubview:thumbnailImageView];
+        thumbnailImageView.layer.masksToBounds = YES;
+        thumbnailImageView.layer.cornerRadius = 2.0;
     }
     [thumbnailImageView setImage:thumbnailImage];
 }
