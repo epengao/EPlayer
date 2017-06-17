@@ -33,6 +33,7 @@
 
 extern "C"
 {
+#include "libavutil/display.h"
 #include "libavformat/avformat.h"
 };
 
@@ -51,6 +52,7 @@ typedef struct __MediaContext
     EC_U32 nVideoIndex;
     EC_U32 nVideoWidth;
     EC_U32 nVideoHeight;
+    int    videoRotation;
     EC_U32 nSampleRate;
     EC_U32 nSampleSize;
     EC_U32 nSampleFormat;

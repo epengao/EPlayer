@@ -112,11 +112,21 @@ EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
             m_TimeBase = av_q2d(pStream->time_base);
         }
         m_MediaContext.hasVideo = true;
+        m_MediaContext.videoRotation = 0;
         m_MediaContext.nVideoIndex = m_nVideoIndex;
         m_MediaContext.pVideoCodecCtx = pAVCodecCtx;
         m_MediaContext.pVideoDecParam = pCodecParam;
         m_MediaContext.nVideoWidth = pCodecParam->width;
         m_MediaContext.nVideoHeight = pCodecParam->height;
+
+        for (EC_U32 i = 0; i < pStream->nb_side_data; i++)
+        {
+            AVPacketSideData sd = pStream->side_data[i];
+            if(sd.type == AV_PKT_DATA_DISPLAYMATRIX)
+            {
+                m_MediaContext.videoRotation = av_display_rotation_get((int32_t*)sd.data);
+            }
+        }
     }
     else
     {

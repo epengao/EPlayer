@@ -49,13 +49,16 @@ enum EGL_Texture
     GLuint                  _renderBuffer;
     GLuint                  _program;
     GLuint                  _textureYUV[YUV];
-    GLuint                  _videoWidth;
-    GLuint                  _videoHeight;
+    CGFloat                 _videoWidth;
+    CGFloat                 _videoHeight;
+    CGFloat                 _userWndWidt;
+    CGFloat                 _userWndHeight;
     CGFloat                 _viewScale;
     CGFloat                 _drawVideo_x;
     CGFloat                 _drawVideo_y;
     CGFloat                 _drawVideo_w;
     CGFloat                 _drawVideo_h;
+    VideoRotation           _rotation;
 }
 
 - (void)render;
@@ -64,8 +67,6 @@ enum EGL_Texture
 - (void)setupYUVTexture;
 - (BOOL)createFrameAndRenderBuffer;
 - (void)destoryFrameAndRenderBuffer;
-- (void)setVideoSize:(CGFloat)width height:(CGFloat)height;
-- (void)setUserWindowSize:(CGFloat)width height:(CGFloat)height;
 - (void)ClipDrawVideoRect:(CGFloat)wndWidth height:(CGFloat)wndHeight;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
 - (GLuint)compileShader:(NSString*)shaderCode withType:(GLenum)shaderType;
@@ -95,6 +96,7 @@ enum EGL_Texture
     glUniform1i(textureUniformY, Y);
     glUniform1i(textureUniformU, U);
     glUniform1i(textureUniformV, V);
+    _rotation = VideoRotation_None;
 
     return YES;
 }
@@ -145,9 +147,11 @@ enum EGL_Texture
 {
     _videoWidth = videoWidth;
     _videoHeight = videoHeight;
+    _userWndWidt = userWndWidth;
+    _userWndHeight = userWndHeight;
     if(userWndWidth != 0 && userWndHeight != 0)
     {
-        [self ClipDrawVideoRect:userWndWidth height:userWndHeight];
+        [self ClipDrawVideoRect:_userWndWidt height:_userWndHeight];
     }
     GLuint renderDataSize = _videoWidth * _videoHeight;
     GLubyte *blackData = (GLubyte*)malloc(renderDataSize * 1.5);
@@ -172,7 +176,17 @@ enum EGL_Texture
     CGFloat viewWidth = wndWidth;
     CGFloat viewHeight = wndHeight;
     GLfloat viewAspectRatio = (GLfloat)viewWidth / (GLfloat)viewHeight;
-    GLfloat videoAspectRatio = (GLfloat)_videoWidth / (GLfloat)_videoHeight;
+    GLfloat videoAspectRatio = 0.0f;
+    if((_rotation == VideoRotation_None)     ||
+       (_rotation == VideoRotation_Left_180) ||
+       (_rotation == VideoRotation_Right_180) )
+    {
+        videoAspectRatio = (GLfloat)_videoWidth / (GLfloat)_videoHeight;
+    }
+    else
+    {
+        videoAspectRatio = (GLfloat)_videoHeight / (GLfloat)_videoWidth;
+    }
 
     if (viewAspectRatio > videoAspectRatio)
     {
@@ -199,6 +213,17 @@ enum EGL_Texture
     _drawVideo_y = _drawVideo_y * _viewScale;
     _drawVideo_w = videoScaleWidth * _viewScale;
     _drawVideo_h = videoScaleHeight * _viewScale;
+}
+
+- (void)setRotation:(VideoRotation)rotation
+{
+    if(rotation == VideoRotation_Right_90)
+    {
+        _rotation = VideoRotation_Right_90;
+        [self setRenderParam:_videoWidth videoHeight:_videoHeight
+             userWindowWidth:_userWndWidt userWindowHeight:_userWndHeight];
+    }
+    else {/* TODO */}
 }
 
 - (void)clearWindow
@@ -229,20 +254,20 @@ enum EGL_Texture
 {
     [EAGLContext setCurrentContext:_glContext];
     glViewport(_drawVideo_x, _drawVideo_y, _drawVideo_w, _drawVideo_h);
-    static const GLfloat squareVertices[] =
+    static const GLfloat squareVertices[] = {-1,-1, 1,-1, -1,1, 1,1,};
+    static const GLfloat coordVertices_None[] = {0,1, 1,1, 0,0, 1,0,};
+    static const GLfloat coordVertices_R90[] = {1,1, 1,0, 0,1, 0,0,};
+    static const GLfloat *coordVertices = NULL;
+    if(_rotation == VideoRotation_None)
     {
-        -1.0f, -1.0f,
-        1.0f, -1.0f,
-        -1.0f,  1.0f,
-        1.0f,  1.0f,
-    };
-    static const GLfloat coordVertices[] =
+        coordVertices = coordVertices_None;
+    }
+    else if(_rotation == VideoRotation_Right_90)
     {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f,  0.0f,
-        1.0f,  0.0f,
-    };
+        coordVertices = coordVertices_R90;
+    }
+    else {/* TODO */}
+
     glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, squareVertices);
     glEnableVertexAttribArray(ATTRIB_VERTEX);
     glVertexAttribPointer(ATTRIB_TEXTURE, 2, GL_FLOAT, 0, 0, coordVertices);

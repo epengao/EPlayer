@@ -58,6 +58,10 @@ int iOS_VideoDevice::Init(void* pVideoWindow,
                    userWindowWidth:m_nUserWndWidth
                   userWindowHeight:m_nUserWndHeight];
     }
+    if(pMediaContext->videoRotation == -90)
+    {
+        [m_pUserWnd setRotation:VideoRotation_Right_90];
+    }
     return 0;
 }
 
