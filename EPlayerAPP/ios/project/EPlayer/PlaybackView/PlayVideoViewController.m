@@ -8,6 +8,7 @@
 
 #import "EPlayerAPI.h"
 #import "PlayVideoViewController.h"
+//#import "VideoFilesTableViewController.h"
 
 #define TOP_bakButton_Tag         1001
 #define TOP_bakLable_Tag          1002
@@ -74,6 +75,11 @@
     {
         mediaInfo = [eplayerAPI getMeidaInfo];
         duration = mediaInfo.duration;
+    }
+    else
+    {
+        //[_parent playFailed];
+        [self dismissViewControllerAnimated:YES completion:^{}];
     }
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
 }

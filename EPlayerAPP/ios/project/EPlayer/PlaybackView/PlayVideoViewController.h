@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class VideoFilesTableViewController;
+
 @interface PlayVideoViewController : UIViewController
 @property (nonatomic, strong) NSString *videoFileURL;
+@property (nonatomic, assign) VideoFilesTableViewController *parent;
 @end

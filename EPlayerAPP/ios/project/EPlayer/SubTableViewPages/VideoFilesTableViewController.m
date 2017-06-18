@@ -12,14 +12,17 @@
 @interface VideoFilesTableViewController ()
 {
     NSInteger videoFilesCount;
-    NSMutableArray *videoInfoList;
-    /* Camera Video files */
-    PHFetchResult *assetsFetchResults;
-    /* Upload Video files */
     NSString* videoFileFolder;
+    NSMutableArray *videoInfoList;
+    NSMutableArray *videoInfoListUpdate;
+    NSMutableArray *videoinfoListSwitch;
+    /* Camera Video files use it*/
+    PHFetchResult *assetsFetchResults;
     /* Refresh control */
     YiRefreshHeader *refreshHeader;
     YiRefreshFooter *refreshFooter;
+    /* Update list Flag */
+    BOOL doingUpdate;
 }
 @property (nonatomic, strong) UIButton *helpButton;
 @end
@@ -30,9 +33,13 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    doingUpdate = NO;
     videoFilesCount = 0;
     [self initRefreshController];
     self.tableView.dataSource = self;
+    videoInfoList = [[NSMutableArray alloc] init];
+    videoInfoListUpdate = [[NSMutableArray alloc] init];
+    videoinfoListSwitch = [[NSMutableArray alloc] init];
     //We use YiRefresh to update the new Photo videos, no need regest
     //[[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     [self.tableView setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:1.0]];
@@ -40,7 +47,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerClass:[VideoInfoTableViewCell class] forCellReuseIdentifier:CameraTablewCellIdentifier];
 
-    NSThread *loadVideoInfoThread = [[NSThread alloc]initWithTarget:self selector:@selector(initAllVideoData) object:nil];
+    NSThread *loadVideoInfoThread = [[NSThread alloc]initWithTarget:self selector:@selector(initVideoData) object:nil];
     [loadVideoInfoThread start];
 }
 
@@ -78,17 +85,24 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     typeof(refreshHeader) __weak weakRefreshHeader = refreshHeader;
     refreshHeader.beginRefreshingBlock=^(){
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            sleep(1);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(weakRefreshHeader) __strong strongRefreshHeader = weakRefreshHeader;
-                [self clearAllVideoInfo];
-                [self initAllVideoData];
-                NSUInteger videoCount = [self getVideosCount];
-                CGFloat topOffset = [self.mainVC getTopViewHeight];
-                NSString *notice = [NSString stringWithFormat:@"%@ %ld 个视频", noticeStr, videoCount];
-                [JRToast showWithText:notice topOffset:topOffset duration:0.8f];
-                [strongRefreshHeader endRefreshing];
-            });
+            if(doingUpdate == NO)
+            {
+                doingUpdate = YES;
+                [self doPreUpdate];
+                sleep(1.0);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    typeof(weakRefreshHeader) __strong strongRefreshHeader = weakRefreshHeader;
+                    [self doPostUpdate];
+                    [self.tableView reloadData];
+                    doingUpdate = NO;
+                    NSUInteger videoCount = [self getVideosCount];
+                    CGFloat topOffset = [self.mainVC getTopViewHeight];
+                    NSString *notice = [NSString stringWithFormat:@"%@ %ld 个视频", noticeStr, videoCount];
+                    [JRToast showWithText:notice topOffset:topOffset duration:0.8f];
+                    [self checkBackgroundSetting];
+                    [strongRefreshHeader endRefreshing];
+                });
+            }
         });
     };
     //[refreshHeader beginRefreshing];
@@ -123,7 +137,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (void)reloadAllVideosInfo
 {
-    NSThread *loadVideoInfoThread = [[NSThread alloc]initWithTarget:self selector:@selector(initAllVideoData) object:nil];
+    NSThread *loadVideoInfoThread = [[NSThread alloc]initWithTarget:self selector:@selector(initVideoData) object:nil];
     [loadVideoInfoThread start];
 }
 
@@ -140,54 +154,9 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)setNoMediaLibraryAuthorization
 {
     [videoInfoList removeAllObjects];
-    [self setEmptyTableBackground];
+    [self checkBackgroundSetting];
     [self addSetMediaAccessAuthoriztionHelpButton];
     [self updateTableViewUIAtMainThread];
-}
-
-- (void)addSetMediaAccessAuthoriztionHelpButton;
-{
-    NSString *buttonTitle = NSLocalizedString(@"获取相册权限",nil);
-    [self createHelpButtonWithTitle:buttonTitle];
-}
-
-- (void)addUploadVideoFileToPhoneHelpButton;
-{
-    NSString *buttonTitle = NSLocalizedString(@"从电脑导入视频",nil);
-    [self createHelpButtonWithTitle:buttonTitle];
-}
-
-- (void)createHelpButtonWithTitle: (NSString*)title
-{
-    CGFloat targetWidth = 130;
-    CGFloat targetHeight = 26;
-    CGFloat x = (self.tableView.frame.size.width - targetWidth) * 0.5;
-    CGFloat y = (self.tableView.frame.size.width - targetHeight) *0.5 + 5;
-    CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-    
-    if(_helpButton == nil)
-    {
-        _helpButton = [[UIButton alloc]initWithFrame:targetFrame];
-    }
-    UIColor *normalColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.6];
-    UIColor *highlightedColor = [UIColor colorWithRed:(121.f/256.f) green:(121.f/256.f) blue:(121.f/256.f) alpha:1.0];
-    [_helpButton addTarget:self action:@selector(helpButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [_helpButton setTitleColor:normalColor forState:UIControlStateNormal];
-    [_helpButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
-    
-    NSRange titleRange = {0,[title length]};
-    NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:title];
-    [titleStr addAttribute:NSForegroundColorAttributeName value:normalColor range:titleRange];
-    [titleStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
-    [_helpButton setAttributedTitle:titleStr forState:UIControlStateNormal];
-    
-    NSRange titleRange0 = {0,[title length]};
-    NSMutableAttributedString *titleStr0 = [[NSMutableAttributedString alloc] initWithString:title];
-    [titleStr0 addAttribute:NSForegroundColorAttributeName value:highlightedColor range:titleRange0];
-    [titleStr0 addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
-    [_helpButton setAttributedTitle:titleStr0 forState:UIControlStateHighlighted];
-    
-    [self.tableView.backgroundView addSubview:_helpButton];
 }
 
 - (void)helpButtonClicked
@@ -197,32 +166,109 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     else if(self.tableViewType == UploadVideosTableView)
         [self showUploadVideoToPhoneHelp];
 }
+#pragma mark - update videoInfo list
+- (void)doPreUpdate
+{
+    [videoInfoListUpdate removeAllObjects];
+    [videoinfoListSwitch removeAllObjects];
+    [self getAllVideoData];
+    [self checkUpdate];
+}
+-(void)doPostUpdate
+{
+    NSMutableArray* tempTable = videoInfoList;
+    videoInfoList = videoinfoListSwitch;
+    videoinfoListSwitch = tempTable;
+    [videoinfoListSwitch removeAllObjects];
+    [videoInfoListUpdate removeAllObjects];
+}
+- (void)checkUpdate
+{
+    [self removeDeletedItems];
+    [self addNewItems];
+}
+- (void)removeDeletedItems
+{
+    for(int i = 0; i < videoInfoList.count; i++)
+    {
+        BOOL find = NO;
+        int index = -1;
+        VideoInfo *oldItem = videoInfoList[i];
+        for(int j = 0; j < videoInfoListUpdate.count; j++)
+        {
+            VideoInfo *newItem = videoInfoListUpdate[j];
+            if([oldItem.fileURL isEqualToString:newItem.fileURL])
+            {
+                find = YES;
+                index = j;
+                break;
+            }
+        }
+        if(find)
+        {
+            [videoinfoListSwitch addObject:oldItem];
+            [videoInfoListUpdate removeObjectAtIndex:index];
+        }
+    }
+}
+-(void)addNewItems
+{
+    for(int i = 0; i < videoInfoListUpdate.count; i++)
+    {
+        VideoInfo *videoInfo = nil;
+        VideoInfo *newItem = videoInfoListUpdate[i];
+        if(self.tableViewType == CameraVideosTableView)
+        {
+            videoInfo = [self CreateCameraVideoInfoFromAVURLAsset:newItem.urlAsset phAsset:newItem.phAsset needInitThumbnail:YES];
+        }
+        else if(self.tableViewType == UploadVideosTableView)
+        {
+            videoInfo = [self createUploadVideoInfoFromFileURL:newItem.fileURL];
+        }
+        [videoinfoListSwitch insertObject:videoInfo atIndex:0];
+    }
+}
 
+#pragma mark - init all videoInfo list
 - (NSInteger)getVideosCount
 {
     return [videoInfoList count];
 }
-
-- (NSInteger)initAllVideoData
+-(void)checkBackgroundSetting
 {
-    NSInteger ret = 0;
-    if(self.tableViewType == CameraVideosTableView)
+    if([videoInfoList count] <= 0)
     {
-        ret = [self initCameraVideos];
-    }
-    else if(self.tableViewType == UploadVideosTableView)
-    {
-        ret = [self initUploadVideos];
+        [self showEmptyTableBackground];
     }
     else
     {
-        ret = [self initItunesVideos];
+        [self hideEmptyTableBackground];
     }
+}
+- (void)initVideoData
+{
+    [self getAllVideoData];
+    [self checkBackgroundSetting];
     [self.tableView reloadData];
-    return ret;
 }
 
-- (NSInteger)initCameraVideos
+- (void)getAllVideoData
+{
+    if(self.tableViewType == CameraVideosTableView)
+    {
+        [self initCameraVideos];
+    }
+    else if(self.tableViewType == UploadVideosTableView)
+    {
+        [self initUploadVideos];
+    }
+    else
+    {
+        [self initItunesVideos];
+    }
+}
+
+- (void)initCameraVideos
 {
 //    MBProgressHUD *hubAlertView = [[MBProgressHUD alloc] initWithView:self.view];
 //    hubAlertView.removeFromSuperViewOnHide = YES;
@@ -231,43 +277,24 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 //    hubAlertView.labelText = NSLocalizedString(@"正在加载",nil);
 //    [hubAlertView show:YES];
 
-    NSInteger videosCount = 0;
     NSString *finishedMsg = nil;
     if(videoFileFolder != nil)
     {
         [self loadAllMediaLibraryVideos];
-        videosCount = [videoInfoList count];
         finishedMsg = NSLocalizedString(@"加载完毕", nil);
     }
     else
     {
         finishedMsg = NSLocalizedString(@"无相册访问权限", nil);
     }
-    
-    if(videosCount <= 0)
-    {
-        if(self.accessMeidaRight == CanAccess)
-        {
-            [self setEmptyTableBackground];
-        }
-        else if (self.accessMeidaRight == CanNotAccess)
-        {
-            [self setEmptyTableBackground];
-            [self addSetMediaAccessAuthoriztionHelpButton];
-        }
-    }
-
 //    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
 //    hud.mode = MBProgressHUDModeAnnularDeterminate;
 //    hud.labelText = finishedMsg;
 //    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
-    return videosCount;
 }
 
-- (NSInteger)initUploadVideos
+- (void)initUploadVideos
 {
-    NSInteger filesCount = 0;
     if(videoFileFolder != nil)
     {
         NSArray *uploadVideoFilesList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:videoFileFolder error:nil];
@@ -277,28 +304,27 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
             for(NSString *fileName in uploadVideoFilesList)
             {
                 NSString *fileURL = [NSString stringWithFormat:@"%@/%@", videoFileFolder, fileName];
-                [videoInfoList insertObject:[self createUploadVideoInfoFromFileURL:fileURL] atIndex:0];
+                if(doingUpdate)
+                {
+                    VideoInfo *videoInfo = [[VideoInfo alloc]init];
+                    videoInfo.fileURL = fileURL;
+                    [videoInfoListUpdate addObject:videoInfo];
+                }
+                else
+                {
+                    [videoInfoList insertObject:[self createUploadVideoInfoFromFileURL:fileURL] atIndex:0];
+                }
             }
         }
-        filesCount = [videoInfoList count];
     }
-    if(filesCount <= 0)
-    {
-        [self setEmptyTableBackground];
-        [self addUploadVideoFileToPhoneHelpButton];
-    }
-    return filesCount;
 }
 
-- (NSInteger)initItunesVideos
+- (void)initItunesVideos
 {
-    [self setEmptyTableBackground];
-    return 0;
 }
 
-- (NSInteger)loadAllMediaLibraryVideos
+- (void)loadAllMediaLibraryVideos
 {
-    videoInfoList = [[NSMutableArray alloc] init];
     assetsFetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                   subtype:PHAssetCollectionSubtypeSmartAlbumVideos
                                                                   options:nil];
@@ -335,34 +361,142 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                     if(urlAsset != nil)
                     {
-                        VideoInfo *videoInfo = [self CreateCameraVideoInfoFromAVURLAsset:urlAsset phAsset:phAsset needInitThumbnail:YES];
-                        [videoInfoList insertObject:videoInfo atIndex:0];
+                        if(doingUpdate)
+                        {
+                            VideoInfo *videoInfo = [[VideoInfo alloc]init];
+                            videoInfo.phAsset = phAsset;
+                            videoInfo.urlAsset = urlAsset;
+                            videoInfo.fileURL = [urlAsset.URL absoluteString];
+                            [videoInfoListUpdate addObject:videoInfo];
+                        }
+                        else
+                        {
+                            VideoInfo *videoInfo = [self CreateCameraVideoInfoFromAVURLAsset:urlAsset phAsset:phAsset needInitThumbnail:YES];
+                            [videoInfoList insertObject:videoInfo atIndex:0];
+                        }
                     }
                     [self updateTableViewUIAtMainThread];
                 }
             }
         }
     }
-    return [videoInfoList count];
 }
 
-- (void)setEmptyTableBackground
+#pragma mark - empty table background
+- (void)hideEmptyTableBackground
 {
-    UIImage* image = [UIImage imageNamed:@"no_video_bg"];
-    CGSize tableSize = self.tableView.frame.size;
-    CGFloat targetWidth = tableSize.width * 0.4;
-    CGFloat targetHeight = (targetWidth * image.size.height) / image.size.width;
+    UIView *view = [self.tableView.backgroundView viewWithTag:1001];
+    if(view != nil)
+    {
+        [view setHidden:YES];
+    }
+    if(_helpButton != nil)
+    {
+        [_helpButton setHidden:YES];
+    }
+}
+- (void)showEmptyTableBackground
+{
+    [self setEmptyTableBackgroundImage];
+    if(self.tableViewType == CameraVideosTableView)
+    {
+        if(self.accessMeidaRight == CanNotAccess)
+        {
+            [self addSetMediaAccessAuthoriztionHelpButton];
+        }
+    }
+    else if(self.tableViewType == UploadVideosTableView)
+    {
+        [self addUploadVideoFileToPhoneHelpButton];
+    }
+    else {/* TODO */}
+}
 
-    CGFloat y = 70;
-    CGFloat x = (tableSize.width - targetWidth) * 0.5;
+- (void)setEmptyTableBackgroundImage
+{
+    UIView *view = [self.tableView.backgroundView viewWithTag:1001];
+    if(view == nil)
+    {
+        UIImage* image = [UIImage imageNamed:@"no_video_bg"];
+        CGSize tableSize = self.tableView.frame.size;
+        CGFloat targetWidth = tableSize.width * 0.4;
+        CGFloat targetHeight = (targetWidth * image.size.height) / image.size.width;
+
+        CGFloat y = 70;
+        CGFloat x = (tableSize.width - targetWidth) * 0.5;
+        CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
+        UIImageView* emptyTableBackgroundImage = [[UIImageView alloc] initWithFrame:targetFrame];
+        emptyTableBackgroundImage.contentMode = UIViewContentModeScaleToFill;
+        emptyTableBackgroundImage.image = image;
+
+        UIView *bgView = [[UIView alloc]initWithFrame:targetFrame];
+        [bgView addSubview:emptyTableBackgroundImage];
+        bgView.tag = 1001;
+        [self.tableView setBackgroundView:bgView];
+    }
+    else
+    {
+        [view setHidden:NO];
+    }
+}
+
+- (void)addSetMediaAccessAuthoriztionHelpButton;
+{
+    if(_helpButton == nil)
+    {
+        NSString *buttonTitle = NSLocalizedString(@"获取相册权限",nil);
+        [self createHelpButtonWithTitle:buttonTitle];
+    }
+    else
+    {
+        [_helpButton setHidden:NO];
+    }
+}
+
+- (void)addUploadVideoFileToPhoneHelpButton;
+{
+    if(_helpButton == nil)
+    {
+        NSString *buttonTitle = NSLocalizedString(@"从电脑导入视频",nil);
+        [self createHelpButtonWithTitle:buttonTitle];
+    }
+    else
+    {
+        [_helpButton setHidden:NO];
+    }
+}
+
+- (void)createHelpButtonWithTitle: (NSString*)title
+{
+    CGFloat targetWidth = 130;
+    CGFloat targetHeight = 26;
+    CGFloat x = (self.tableView.frame.size.width - targetWidth) * 0.5;
+    CGFloat y = (self.tableView.frame.size.width - targetHeight) *0.5 + 5;
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-    UIImageView* emptyTableBackgroundImage = [[UIImageView alloc] initWithFrame:targetFrame];
-    emptyTableBackgroundImage.contentMode = UIViewContentModeScaleToFill;
-    emptyTableBackgroundImage.image = image;
-
-    UIView *bgView = [[UIView alloc]initWithFrame:targetFrame];
-    [bgView addSubview:emptyTableBackgroundImage];
-    [self.tableView setBackgroundView:bgView];
+    
+    if(_helpButton == nil)
+    {
+        _helpButton = [[UIButton alloc]initWithFrame:targetFrame];
+    }
+    UIColor *normalColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.6];
+    UIColor *highlightedColor = [UIColor colorWithRed:(121.f/256.f) green:(121.f/256.f) blue:(121.f/256.f) alpha:1.0];
+    [_helpButton addTarget:self action:@selector(helpButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [_helpButton setTitleColor:normalColor forState:UIControlStateNormal];
+    [_helpButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
+    
+    NSRange titleRange = {0,[title length]};
+    NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:title];
+    [titleStr addAttribute:NSForegroundColorAttributeName value:normalColor range:titleRange];
+    [titleStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+    [_helpButton setAttributedTitle:titleStr forState:UIControlStateNormal];
+    
+    NSRange titleRange0 = {0,[title length]};
+    NSMutableAttributedString *titleStr0 = [[NSMutableAttributedString alloc] initWithString:title];
+    [titleStr0 addAttribute:NSForegroundColorAttributeName value:highlightedColor range:titleRange0];
+    [titleStr0 addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+    [_helpButton setAttributedTitle:titleStr0 forState:UIControlStateHighlighted];
+    
+    [self.tableView.backgroundView addSubview:_helpButton];
 }
 
 #pragma mark - Config VideoInfo data
@@ -514,6 +648,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     PlayVideoViewController *playView = [[PlayVideoViewController alloc]init];
     if(info != nil)
     {
+        playView.parent = self;
         playView.videoFileURL = info.fileURL;
         [self presentViewController:playView animated:YES completion:nil];
     }
@@ -526,6 +661,14 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     //{
     //    [cell setCellSelected:NO];
     //}
+}
+
+- (void)playFailed
+{
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    hud.labelText = @"xxxxxxxxxx";
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 #pragma mark - tableView Edit
@@ -592,6 +735,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     [self.tableView beginUpdates];
     [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationLeft];
     [self.tableView endUpdates];
+    [self checkBackgroundSetting];
 }
 
 - (void)removeVideoCell:(NSUInteger)index
@@ -624,6 +768,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                 {
                     [fileManager removeItemAtPath:fileURL error:nil];
                     [videoInfoList removeObjectAtIndex:index];
+                    [self checkBackgroundSetting];
                 }
             }
             else {/* TODO */}

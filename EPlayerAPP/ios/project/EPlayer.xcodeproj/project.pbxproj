@@ -43,6 +43,8 @@
 		90BB0A401EEC282C00627989 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */; };
 		90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A4C1EEC2C3D00627989 /* MainViewController.m */; };
 		90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */; };
+		90C825CD1EF6EF05008363E0 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C825CC1EF6EF05008363E0 /* CoreVideo.framework */; };
+		90C825D11EF6EF36008363E0 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C825D01EF6EF36008363E0 /* VideoToolbox.framework */; };
 		90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +105,9 @@
 		90BB0A4C1EEC2C3D00627989 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		90BB0A781EEC3F5600627989 /* VideoInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInfoTableViewCell.h; sourceTree = "<group>"; };
 		90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInfoTableViewCell.m; sourceTree = "<group>"; };
+		90C825CC1EF6EF05008363E0 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		90C825CE1EF6EF13008363E0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		90C825D01EF6EF36008363E0 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoFilesTableViewController.h; path = SubTableViewPages/VideoFilesTableViewController.h; sourceTree = "<group>"; };
 		90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoFilesTableViewController.m; path = SubTableViewPages/VideoFilesTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,9 +122,11 @@
 				907FE33A1EF303AA0052734C /* libEPlayerSDK.a in Frameworks */,
 				907FE3421EF3042B0052734C /* UIKit.framework in Frameworks */,
 				907FE3491EF304850052734C /* Photos.framework in Frameworks */,
+				90C825CD1EF6EF05008363E0 /* CoreVideo.framework in Frameworks */,
 				907FE34D1EF305170052734C /* CoreMedia.framework in Frameworks */,
 				907FE3441EF3043B0052734C /* OpenGLES.framework in Frameworks */,
 				907FE3461EF304440052734C /* QuartzCore.framework in Frameworks */,
+				90C825D11EF6EF36008363E0 /* VideoToolbox.framework in Frameworks */,
 				907FE33E1EF303EB0052734C /* AudioToolbox.framework in Frameworks */,
 				907FE3471EF304660052734C /* CoreGraphics.framework in Frameworks */,
 				907FE34E1EF3053F0052734C /* AVFoundation.framework in Frameworks */,
@@ -132,6 +139,9 @@
 		0201F6641EF2671700252692 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90C825D01EF6EF36008363E0 /* VideoToolbox.framework */,
+				90C825CE1EF6EF13008363E0 /* ImageIO.framework */,
+				90C825CC1EF6EF05008363E0 /* CoreVideo.framework */,
 				0201F66F1EF2711500252692 /* libz.tbd */,
 				0201F6711EF2740D00252692 /* libbz2.tbd */,
 				0201F6651EF2671900252692 /* libEPlayerSDK.a */,

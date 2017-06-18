@@ -30,4 +30,5 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
 - (void)setVideoFilesFolder :(NSString*)folderPath;
 - (void)setNoMediaLibraryAuthorization;
 - (void)reloadAllVideosInfo;
+- (void)playFailed;
 @end
