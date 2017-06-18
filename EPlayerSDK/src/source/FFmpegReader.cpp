@@ -60,7 +60,6 @@ EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
     //av_dict_set(&optionsDict, "rtsp_transport", "tcp", 0);
     //av_dict_set(&optionsDict, "network_timeout", "60000000", 0);
 
-
     int ffmpeg_ret = avformat_open_input(&m_MediaContext.pFormatCtx, m_strMediaPath.ToCStr(), NULL, NULL);
     if (ffmpeg_ret != 0)
     {
@@ -84,7 +83,6 @@ EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
         avcodec_parameters_to_context(pAVCodecCtx, pCodecParam);
 
         m_TimeBase = av_q2d(pStream->time_base);
-
         m_MediaContext.hasAudio = true;
         m_MediaContext.nAudioIndex = m_nAudioIndex;
         m_MediaContext.pAudioCodecCtx = pAVCodecCtx;
@@ -105,6 +103,7 @@ EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
         AVCodecParameters *pCodecParam = m_MediaContext.pFormatCtx->streams[m_nVideoIndex]->codecpar;
         AVCodec *pCodec = avcodec_find_decoder(pCodecParam->codec_id);
         AVCodecContext *pAVCodecCtx = avcodec_alloc_context3(pCodec);
+        pAVCodecCtx->thread_count = 8;
         AVStream* pStream = m_MediaContext.pFormatCtx->streams[m_nVideoIndex];
         avcodec_parameters_to_context(pAVCodecCtx, pCodecParam);
         if(m_TimeBase == 0)

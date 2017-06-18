@@ -7,12 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0201F65F1EF258FA00252692 /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F65E1EF258FA00252692 /* DXAlertView.m */; };
 		0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F6611EF2657200252692 /* PlayVideoViewController.m */; };
 		0201F6701EF2711500252692 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66F1EF2711500252692 /* libz.tbd */; };
 		0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6711EF2740D00252692 /* libbz2.tbd */; };
-		024B2B881EEE867A00ACDA8E /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */; };
 		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
+		903B247B1EF6594B00794632 /* btn_close_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B24571EF6594B00794632 /* btn_close_normal.png */; };
+		903B247C1EF6594B00794632 /* btn_close_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B24581EF6594B00794632 /* btn_close_normal@2x.png */; };
+		903B247D1EF6594B00794632 /* btn_close_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B24591EF6594B00794632 /* btn_close_selected.png */; };
+		903B247E1EF6594B00794632 /* btn_close_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B245A1EF6594B00794632 /* btn_close_selected@2x.png */; };
+		903B247F1EF6594B00794632 /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B245C1EF6594B00794632 /* DXAlertView.m */; };
+		903B24801EF6594B00794632 /* JRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24601EF6594B00794632 /* JRToast.m */; };
+		903B24811EF6594B00794632 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24631EF6594B00794632 /* MBProgressHUD.m */; };
+		903B24821EF6594B00794632 /* UINavigationBarEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24661EF6594B00794632 /* UINavigationBarEx.m */; };
+		903B24831EF6594B00794632 /* WMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B246A1EF6594B00794632 /* WMMenuItem.m */; };
+		903B24841EF6594B00794632 /* WMMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B246C1EF6594B00794632 /* WMMenuView.m */; };
+		903B24851EF6594B00794632 /* WMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B246E1EF6594B00794632 /* WMProgressView.m */; };
+		903B24861EF6594B00794632 /* WMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24701EF6594B00794632 /* WMScrollView.m */; };
+		903B24871EF6594B00794632 /* WMPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24721EF6594B00794632 /* WMPageController.m */; };
+		903B24881EF6594B00794632 /* WMPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24751EF6594B00794632 /* WMPanGestureRecognizer.m */; };
+		903B24891EF6594B00794632 /* YiRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B24781EF6594B00794632 /* YiRefreshFooter.m */; };
+		903B248A1EF6594B00794632 /* YiRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 903B247A1EF6594B00794632 /* YiRefreshHeader.m */; };
 		907FE33A1EF303AA0052734C /* libEPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6651EF2671900252692 /* libEPlayerSDK.a */; };
 		907FE33E1EF303EB0052734C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE33D1EF303EB0052734C /* AudioToolbox.framework */; };
 		907FE3421EF3042B0052734C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907FE3411EF3042B0052734C /* UIKit.framework */; };
@@ -28,30 +42,47 @@
 		90BB0A3D1EEC282C00627989 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A3C1EEC282C00627989 /* Assets.xcassets */; };
 		90BB0A401EEC282C00627989 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */; };
 		90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A4C1EEC2C3D00627989 /* MainViewController.m */; };
-		90BB0A501EEC2C5B00627989 /* WMPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A4F1EEC2C5B00627989 /* WMPanGestureRecognizer.m */; };
-		90BB0A5D1EEC2C6A00627989 /* WMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A541EEC2C6A00627989 /* WMMenuItem.m */; };
-		90BB0A5E1EEC2C6A00627989 /* WMMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A561EEC2C6A00627989 /* WMMenuView.m */; };
-		90BB0A5F1EEC2C6A00627989 /* WMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A581EEC2C6A00627989 /* WMProgressView.m */; };
-		90BB0A601EEC2C6A00627989 /* WMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A5A1EEC2C6A00627989 /* WMScrollView.m */; };
-		90BB0A611EEC2C6A00627989 /* WMPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A5C1EEC2C6A00627989 /* WMPageController.m */; };
-		90BB0A641EEC2CE300627989 /* UINavigationBarEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A631EEC2CE300627989 /* UINavigationBarEx.m */; };
 		90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */; };
 		90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F8AD3F1EED046500AF594F /* VideoFilesTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0201F65D1EF258FA00252692 /* DXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DXAlertView.h; path = DixAlertView/DXAlertView.h; sourceTree = "<group>"; };
-		0201F65E1EF258FA00252692 /* DXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DXAlertView.m; path = DixAlertView/DXAlertView.m; sourceTree = "<group>"; };
 		0201F6601EF2657200252692 /* PlayVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayVideoViewController.h; path = PlaybackView/PlayVideoViewController.h; sourceTree = "<group>"; };
 		0201F6611EF2657200252692 /* PlayVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayVideoViewController.m; path = PlaybackView/PlayVideoViewController.m; sourceTree = "<group>"; };
 		0201F6631EF265E900252692 /* EPlayerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EPlayerAPI.h; path = ../sdk/EPlayerAPI.h; sourceTree = "<group>"; };
 		0201F6651EF2671900252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
 		0201F66F1EF2711500252692 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0201F6711EF2740D00252692 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
-		024B2B861EEE867A00ACDA8E /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = EPlayer/UILoading/MBProgressHUD.h; sourceTree = "<group>"; };
-		024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = EPlayer/UILoading/MBProgressHUD.m; sourceTree = "<group>"; };
 		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
 		901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppRootNavigationViewController.m; sourceTree = "<group>"; };
+		903B24571EF6594B00794632 /* btn_close_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_close_normal.png; sourceTree = "<group>"; };
+		903B24581EF6594B00794632 /* btn_close_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_close_normal@2x.png"; sourceTree = "<group>"; };
+		903B24591EF6594B00794632 /* btn_close_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_close_selected.png; sourceTree = "<group>"; };
+		903B245A1EF6594B00794632 /* btn_close_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_close_selected@2x.png"; sourceTree = "<group>"; };
+		903B245B1EF6594B00794632 /* DXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAlertView.h; sourceTree = "<group>"; };
+		903B245C1EF6594B00794632 /* DXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAlertView.m; sourceTree = "<group>"; };
+		903B245F1EF6594B00794632 /* JRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRToast.h; sourceTree = "<group>"; };
+		903B24601EF6594B00794632 /* JRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRToast.m; sourceTree = "<group>"; };
+		903B24621EF6594B00794632 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		903B24631EF6594B00794632 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		903B24651EF6594B00794632 /* UINavigationBarEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigationBarEx.h; sourceTree = "<group>"; };
+		903B24661EF6594B00794632 /* UINavigationBarEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINavigationBarEx.m; sourceTree = "<group>"; };
+		903B24691EF6594B00794632 /* WMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuItem.h; sourceTree = "<group>"; };
+		903B246A1EF6594B00794632 /* WMMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuItem.m; sourceTree = "<group>"; };
+		903B246B1EF6594B00794632 /* WMMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuView.h; sourceTree = "<group>"; };
+		903B246C1EF6594B00794632 /* WMMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuView.m; sourceTree = "<group>"; };
+		903B246D1EF6594B00794632 /* WMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMProgressView.h; sourceTree = "<group>"; };
+		903B246E1EF6594B00794632 /* WMProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMProgressView.m; sourceTree = "<group>"; };
+		903B246F1EF6594B00794632 /* WMScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMScrollView.h; sourceTree = "<group>"; };
+		903B24701EF6594B00794632 /* WMScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMScrollView.m; sourceTree = "<group>"; };
+		903B24711EF6594B00794632 /* WMPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPageController.h; sourceTree = "<group>"; };
+		903B24721EF6594B00794632 /* WMPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPageController.m; sourceTree = "<group>"; };
+		903B24741EF6594B00794632 /* WMPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPanGestureRecognizer.h; sourceTree = "<group>"; };
+		903B24751EF6594B00794632 /* WMPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPanGestureRecognizer.m; sourceTree = "<group>"; };
+		903B24771EF6594B00794632 /* YiRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiRefreshFooter.h; sourceTree = "<group>"; };
+		903B24781EF6594B00794632 /* YiRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiRefreshFooter.m; sourceTree = "<group>"; };
+		903B24791EF6594B00794632 /* YiRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiRefreshHeader.h; sourceTree = "<group>"; };
+		903B247A1EF6594B00794632 /* YiRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiRefreshHeader.m; sourceTree = "<group>"; };
 		907FE33B1EF303CE0052734C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		907FE33D1EF303EB0052734C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		907FE33F1EF303F80052734C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -70,20 +101,6 @@
 		90BB0A411EEC282C00627989 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90BB0A4B1EEC2C3D00627989 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		90BB0A4C1EEC2C3D00627989 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		90BB0A4E1EEC2C5B00627989 /* WMPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WMPanGestureRecognizer.h; path = EPlayer/WMPageGesture/WMPanGestureRecognizer.h; sourceTree = "<group>"; };
-		90BB0A4F1EEC2C5B00627989 /* WMPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WMPanGestureRecognizer.m; path = EPlayer/WMPageGesture/WMPanGestureRecognizer.m; sourceTree = "<group>"; };
-		90BB0A531EEC2C6A00627989 /* WMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuItem.h; sourceTree = "<group>"; };
-		90BB0A541EEC2C6A00627989 /* WMMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuItem.m; sourceTree = "<group>"; };
-		90BB0A551EEC2C6A00627989 /* WMMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuView.h; sourceTree = "<group>"; };
-		90BB0A561EEC2C6A00627989 /* WMMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuView.m; sourceTree = "<group>"; };
-		90BB0A571EEC2C6A00627989 /* WMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMProgressView.h; sourceTree = "<group>"; };
-		90BB0A581EEC2C6A00627989 /* WMProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMProgressView.m; sourceTree = "<group>"; };
-		90BB0A591EEC2C6A00627989 /* WMScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMScrollView.h; sourceTree = "<group>"; };
-		90BB0A5A1EEC2C6A00627989 /* WMScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMScrollView.m; sourceTree = "<group>"; };
-		90BB0A5B1EEC2C6A00627989 /* WMPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WMPageController.h; path = EPlayer/WMPageController/WMPageController.h; sourceTree = "<group>"; };
-		90BB0A5C1EEC2C6A00627989 /* WMPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WMPageController.m; path = EPlayer/WMPageController/WMPageController.m; sourceTree = "<group>"; };
-		90BB0A621EEC2CE300627989 /* UINavigationBarEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UINavigationBarEx.h; path = EPlayer/UINavigationBarEx/UINavigationBarEx.h; sourceTree = "<group>"; };
-		90BB0A631EEC2CE300627989 /* UINavigationBarEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UINavigationBarEx.m; path = EPlayer/UINavigationBarEx/UINavigationBarEx.m; sourceTree = "<group>"; };
 		90BB0A781EEC3F5600627989 /* VideoInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInfoTableViewCell.h; sourceTree = "<group>"; };
 		90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInfoTableViewCell.m; sourceTree = "<group>"; };
 		90F8AD3E1EED046500AF594F /* VideoFilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoFilesTableViewController.h; path = SubTableViewPages/VideoFilesTableViewController.h; sourceTree = "<group>"; };
@@ -115,39 +132,127 @@
 		0201F6641EF2671700252692 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				907FE34C1EF305170052734C /* CoreMedia.framework */,
-				907FE3481EF304850052734C /* Photos.framework */,
-				907FE3451EF304440052734C /* QuartzCore.framework */,
-				907FE3431EF3043B0052734C /* OpenGLES.framework */,
+				0201F66F1EF2711500252692 /* libz.tbd */,
+				0201F6711EF2740D00252692 /* libbz2.tbd */,
+				0201F6651EF2671900252692 /* libEPlayerSDK.a */,
 				907FE3411EF3042B0052734C /* UIKit.framework */,
-				907FE33F1EF303F80052734C /* CoreGraphics.framework */,
+				907FE3481EF304850052734C /* Photos.framework */,
+				907FE3431EF3043B0052734C /* OpenGLES.framework */,
+				907FE34C1EF305170052734C /* CoreMedia.framework */,
+				907FE3451EF304440052734C /* QuartzCore.framework */,
 				907FE33D1EF303EB0052734C /* AudioToolbox.framework */,
 				907FE33B1EF303CE0052734C /* AVFoundation.framework */,
-				0201F6711EF2740D00252692 /* libbz2.tbd */,
-				0201F66F1EF2711500252692 /* libz.tbd */,
-				0201F6651EF2671900252692 /* libEPlayerSDK.a */,
+				907FE33F1EF303F80052734C /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		024B2B851EEE866400ACDA8E /* UILoading */ = {
+		903B24551EF6594B00794632 /* Thirdparty */ = {
 			isa = PBXGroup;
 			children = (
-				024B2B861EEE867A00ACDA8E /* MBProgressHUD.h */,
-				024B2B871EEE867A00ACDA8E /* MBProgressHUD.m */,
+				903B24561EF6594B00794632 /* DixAlertView */,
+				903B245D1EF6594B00794632 /* HyperlinksButton */,
+				903B245E1EF6594B00794632 /* JRToast */,
+				903B24611EF6594B00794632 /* UILoading */,
+				903B24641EF6594B00794632 /* UINavigationBarEx */,
+				903B24671EF6594B00794632 /* WMPageController */,
+				903B24731EF6594B00794632 /* WMPageGesture */,
+				903B24761EF6594B00794632 /* YiRefresh */,
 			);
-			name = UILoading;
+			name = Thirdparty;
+			path = EPlayer/Thirdparty;
 			sourceTree = "<group>";
 		};
-		909085961EF01FED00611831 /* thirdParty */ = {
+		903B24561EF6594B00794632 /* DixAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				90BB0A4A1EEC29F800627989 /* WMPageGesture */,
-				90BB0A471EEC294400627989 /* WMPageController */,
-				90BB0A481EEC297E00627989 /* UINavigationBarEx */,
-				024B2B851EEE866400ACDA8E /* UILoading */,
+				903B24571EF6594B00794632 /* btn_close_normal.png */,
+				903B24581EF6594B00794632 /* btn_close_normal@2x.png */,
+				903B24591EF6594B00794632 /* btn_close_selected.png */,
+				903B245A1EF6594B00794632 /* btn_close_selected@2x.png */,
+				903B245B1EF6594B00794632 /* DXAlertView.h */,
+				903B245C1EF6594B00794632 /* DXAlertView.m */,
 			);
-			name = thirdParty;
+			path = DixAlertView;
+			sourceTree = "<group>";
+		};
+		903B245D1EF6594B00794632 /* HyperlinksButton */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HyperlinksButton;
+			sourceTree = "<group>";
+		};
+		903B245E1EF6594B00794632 /* JRToast */ = {
+			isa = PBXGroup;
+			children = (
+				903B245F1EF6594B00794632 /* JRToast.h */,
+				903B24601EF6594B00794632 /* JRToast.m */,
+			);
+			path = JRToast;
+			sourceTree = "<group>";
+		};
+		903B24611EF6594B00794632 /* UILoading */ = {
+			isa = PBXGroup;
+			children = (
+				903B24621EF6594B00794632 /* MBProgressHUD.h */,
+				903B24631EF6594B00794632 /* MBProgressHUD.m */,
+			);
+			path = UILoading;
+			sourceTree = "<group>";
+		};
+		903B24641EF6594B00794632 /* UINavigationBarEx */ = {
+			isa = PBXGroup;
+			children = (
+				903B24651EF6594B00794632 /* UINavigationBarEx.h */,
+				903B24661EF6594B00794632 /* UINavigationBarEx.m */,
+			);
+			path = UINavigationBarEx;
+			sourceTree = "<group>";
+		};
+		903B24671EF6594B00794632 /* WMPageController */ = {
+			isa = PBXGroup;
+			children = (
+				903B24681EF6594B00794632 /* WMMenuView */,
+				903B24711EF6594B00794632 /* WMPageController.h */,
+				903B24721EF6594B00794632 /* WMPageController.m */,
+			);
+			path = WMPageController;
+			sourceTree = "<group>";
+		};
+		903B24681EF6594B00794632 /* WMMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				903B24691EF6594B00794632 /* WMMenuItem.h */,
+				903B246A1EF6594B00794632 /* WMMenuItem.m */,
+				903B246B1EF6594B00794632 /* WMMenuView.h */,
+				903B246C1EF6594B00794632 /* WMMenuView.m */,
+				903B246D1EF6594B00794632 /* WMProgressView.h */,
+				903B246E1EF6594B00794632 /* WMProgressView.m */,
+				903B246F1EF6594B00794632 /* WMScrollView.h */,
+				903B24701EF6594B00794632 /* WMScrollView.m */,
+			);
+			path = WMMenuView;
+			sourceTree = "<group>";
+		};
+		903B24731EF6594B00794632 /* WMPageGesture */ = {
+			isa = PBXGroup;
+			children = (
+				903B24741EF6594B00794632 /* WMPanGestureRecognizer.h */,
+				903B24751EF6594B00794632 /* WMPanGestureRecognizer.m */,
+			);
+			path = WMPageGesture;
+			sourceTree = "<group>";
+		};
+		903B24761EF6594B00794632 /* YiRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				903B24771EF6594B00794632 /* YiRefreshFooter.h */,
+				903B24781EF6594B00794632 /* YiRefreshFooter.m */,
+				903B24791EF6594B00794632 /* YiRefreshHeader.h */,
+				903B247A1EF6594B00794632 /* YiRefreshHeader.m */,
+			);
+			path = YiRefresh;
 			sourceTree = "<group>";
 		};
 		90BB0A241EEC282C00627989 = {
@@ -155,7 +260,7 @@
 			children = (
 				90BB0A2F1EEC282C00627989 /* EPlayer */,
 				90BB0A491EEC299F00627989 /* EPlayerSDK */,
-				909085961EF01FED00611831 /* thirdParty */,
+				903B24551EF6594B00794632 /* Thirdparty */,
 				90BB0A2E1EEC282C00627989 /* Products */,
 				0201F6641EF2671700252692 /* Frameworks */,
 			);
@@ -172,8 +277,6 @@
 		90BB0A2F1EEC282C00627989 /* EPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				0201F65D1EF258FA00252692 /* DXAlertView.h */,
-				0201F65E1EF258FA00252692 /* DXAlertView.m */,
 				90BB0A331EEC282C00627989 /* AppDelegate.h */,
 				90BB0A341EEC282C00627989 /* AppDelegate.m */,
 				90BB0A4B1EEC2C3D00627989 /* MainViewController.h */,
@@ -203,56 +306,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		90BB0A471EEC294400627989 /* WMPageController */ = {
-			isa = PBXGroup;
-			children = (
-				90BB0A521EEC2C6A00627989 /* WMMenuView */,
-				90BB0A5B1EEC2C6A00627989 /* WMPageController.h */,
-				90BB0A5C1EEC2C6A00627989 /* WMPageController.m */,
-			);
-			name = WMPageController;
-			sourceTree = "<group>";
-		};
-		90BB0A481EEC297E00627989 /* UINavigationBarEx */ = {
-			isa = PBXGroup;
-			children = (
-				90BB0A621EEC2CE300627989 /* UINavigationBarEx.h */,
-				90BB0A631EEC2CE300627989 /* UINavigationBarEx.m */,
-			);
-			name = UINavigationBarEx;
-			sourceTree = "<group>";
-		};
 		90BB0A491EEC299F00627989 /* EPlayerSDK */ = {
 			isa = PBXGroup;
 			children = (
 				0201F6631EF265E900252692 /* EPlayerAPI.h */,
 			);
 			name = EPlayerSDK;
-			sourceTree = "<group>";
-		};
-		90BB0A4A1EEC29F800627989 /* WMPageGesture */ = {
-			isa = PBXGroup;
-			children = (
-				90BB0A4E1EEC2C5B00627989 /* WMPanGestureRecognizer.h */,
-				90BB0A4F1EEC2C5B00627989 /* WMPanGestureRecognizer.m */,
-			);
-			name = WMPageGesture;
-			sourceTree = "<group>";
-		};
-		90BB0A521EEC2C6A00627989 /* WMMenuView */ = {
-			isa = PBXGroup;
-			children = (
-				90BB0A531EEC2C6A00627989 /* WMMenuItem.h */,
-				90BB0A541EEC2C6A00627989 /* WMMenuItem.m */,
-				90BB0A551EEC2C6A00627989 /* WMMenuView.h */,
-				90BB0A561EEC2C6A00627989 /* WMMenuView.m */,
-				90BB0A571EEC2C6A00627989 /* WMProgressView.h */,
-				90BB0A581EEC2C6A00627989 /* WMProgressView.m */,
-				90BB0A591EEC2C6A00627989 /* WMScrollView.h */,
-				90BB0A5A1EEC2C6A00627989 /* WMScrollView.m */,
-			);
-			name = WMMenuView;
-			path = EPlayer/WMPageController/WMMenuView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,9 +373,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				903B247E1EF6594B00794632 /* btn_close_selected@2x.png in Resources */,
+				903B247B1EF6594B00794632 /* btn_close_normal.png in Resources */,
 				90BB0A401EEC282C00627989 /* LaunchScreen.storyboard in Resources */,
+				903B247D1EF6594B00794632 /* btn_close_selected.png in Resources */,
 				90BB0A3D1EEC282C00627989 /* Assets.xcassets in Resources */,
 				90BB0A3B1EEC282C00627989 /* Main.storyboard in Resources */,
+				903B247C1EF6594B00794632 /* btn_close_normal@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,21 +391,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				90BB0A351EEC282C00627989 /* AppDelegate.m in Sources */,
+				903B24841EF6594B00794632 /* WMMenuView.m in Sources */,
+				903B248A1EF6594B00794632 /* YiRefreshHeader.m in Sources */,
+				903B24871EF6594B00794632 /* WMPageController.m in Sources */,
 				90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */,
-				90BB0A611EEC2C6A00627989 /* WMPageController.m in Sources */,
-				90BB0A5E1EEC2C6A00627989 /* WMMenuView.m in Sources */,
-				0201F65F1EF258FA00252692 /* DXAlertView.m in Sources */,
-				90BB0A5D1EEC2C6A00627989 /* WMMenuItem.m in Sources */,
-				90BB0A501EEC2C5B00627989 /* WMPanGestureRecognizer.m in Sources */,
+				903B24801EF6594B00794632 /* JRToast.m in Sources */,
+				903B24861EF6594B00794632 /* WMScrollView.m in Sources */,
 				901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */,
+				903B24851EF6594B00794632 /* WMProgressView.m in Sources */,
+				903B24891EF6594B00794632 /* YiRefreshFooter.m in Sources */,
 				90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */,
 				90F8AD401EED046500AF594F /* VideoFilesTableViewController.m in Sources */,
-				90BB0A5F1EEC2C6A00627989 /* WMProgressView.m in Sources */,
 				0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */,
+				903B24811EF6594B00794632 /* MBProgressHUD.m in Sources */,
 				90BB0A321EEC282C00627989 /* main.m in Sources */,
-				90BB0A641EEC2CE300627989 /* UINavigationBarEx.m in Sources */,
-				90BB0A601EEC2C6A00627989 /* WMScrollView.m in Sources */,
-				024B2B881EEE867A00ACDA8E /* MBProgressHUD.m in Sources */,
+				903B247F1EF6594B00794632 /* DXAlertView.m in Sources */,
+				903B24821EF6594B00794632 /* UINavigationBarEx.m in Sources */,
+				903B24881EF6594B00794632 /* WMPanGestureRecognizer.m in Sources */,
+				903B24831EF6594B00794632 /* WMMenuItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

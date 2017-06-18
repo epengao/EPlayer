@@ -1,4 +1,5 @@
 
+#import "JRToast.h"
 #import "DXAlertView.h"
 #import <Photos/Photos.h>
 #import "MBProgressHUD.h"
@@ -32,7 +33,8 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     videoFilesCount = 0;
     [self initRefreshController];
     self.tableView.dataSource = self;
-    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+    //We use YiRefresh to update the new Photo videos, no need regest
+    //[[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     [self.tableView setBackgroundColor:[UIColor colorWithRed:236.0f/256.0f green:236.0f/256.0f blue:236.0f/256.0f alpha:1.0]];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -42,10 +44,11 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     [loadVideoInfoThread start];
 }
 
-- (void)dealloc
-{
-    [PHPhotoLibrary.sharedPhotoLibrary unregisterChangeObserver:self];
-}
+//We use YiRefresh to update the new Photo videos, no need regest
+//- (void)dealloc
+//{
+//    [PHPhotoLibrary.sharedPhotoLibrary unregisterChangeObserver:self];
+//}
 
 - (void)initRefreshController
 {
@@ -55,17 +58,34 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     }
     self.automaticallyAdjustsScrollViewInsets=NO;
 
+    __block NSString *noticeStr = nil;
+    if(self.tableViewType == CameraVideosTableView)
+    {
+        noticeStr = @"刷新相册中 ";
+    }
+    else if(self.tableViewType == UploadVideosTableView)
+    {
+        noticeStr = @"刷新共享文件夹中 ";
+    }
+    else
+    {
+        noticeStr = @"刷新 ";
+    }
+
     refreshHeader=[[YiRefreshHeader alloc] init];
     refreshHeader.scrollView = self.tableView;
     [refreshHeader header];
     typeof(refreshHeader) __weak weakRefreshHeader = refreshHeader;
     refreshHeader.beginRefreshingBlock=^(){
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            sleep(2);
+            sleep(1);
             dispatch_async(dispatch_get_main_queue(), ^{
                 typeof(weakRefreshHeader) __strong strongRefreshHeader = weakRefreshHeader;
-                [videoInfoList removeAllObjects];
+                [self clearAllVideoInfo];
                 [self initAllVideoData];
+                NSUInteger videoCount = [self getVideosCount];
+                NSString *notice = [NSString stringWithFormat:@"%@ %ld 个视频", noticeStr, videoCount];
+                [JRToast showWithText:notice topOffset:self.topViewHeight duration:0.8f];
                 [strongRefreshHeader endRefreshing];
             });
         });
@@ -93,6 +113,11 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 - (void)setVideoFilesFolder :(NSString*)folderPath
 {
     videoFileFolder = folderPath;
+}
+
+- (void)clearAllVideoInfo
+{
+    [videoInfoList removeAllObjects];
 }
 
 - (void)reloadAllVideosInfo
@@ -296,7 +321,14 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                                                                     options:videoFetchOptions
                                                               resultHandler:^(AVAsset * _Nullable asset, AVAudioMix* _Nullable audioMix, NSDictionary* _Nullable info)
                      {
-                         urlAsset = (AVURLAsset *)asset;
+                         if([asset isKindOfClass:[AVURLAsset class]])
+                         {
+                             urlAsset = (AVURLAsset *)asset;
+                         }
+                         else
+                         {
+                             urlAsset = nil;
+                         }
                          dispatch_semaphore_signal(semaphore);
                      }];
                     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
@@ -498,10 +530,11 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 #pragma mark - tableView Edit
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /* 相册视频，控制可以不删除
     if(self.tableViewType == UploadVideosTableView)
     {
         return YES;
-    }
+    } */
     return YES;
 }
 
@@ -615,8 +648,8 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     {
         if ([collectionChanges hasIncrementalChanges])
         {
-            PHFetchResult *before = [collectionChanges fetchResultBeforeChanges];
-            PHFetchResult *after = [collectionChanges fetchResultAfterChanges];
+            //PHFetchResult *before = [collectionChanges fetchResultBeforeChanges];
+            //PHFetchResult *after = [collectionChanges fetchResultAfterChanges];
             /* Do diff and update data */
         }
     }

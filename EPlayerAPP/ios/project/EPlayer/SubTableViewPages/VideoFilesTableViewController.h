@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
 @interface VideoFilesTableViewController : UITableViewController <PHPhotoLibraryChangeObserver>
 @property (nonatomic, assign) AccessMediaLibraryRight accessMeidaRight;
 @property (nonatomic, assign) VideoTableViewType tableViewType;
+@property (nonatomic, assign) CGFloat topViewHeight;
 - (void)setVideoFilesFolder :(NSString*)folderPath;
 - (void)setNoMediaLibraryAuthorization;
 - (void)reloadAllVideosInfo;
