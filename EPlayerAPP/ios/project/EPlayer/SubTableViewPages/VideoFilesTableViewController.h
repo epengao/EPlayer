@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainViewController.h"
 
 typedef NS_ENUM(NSUInteger, VideoTableViewType)
 {
@@ -25,7 +26,7 @@ typedef NS_ENUM(NSUInteger, AccessMediaLibraryRight)
 @interface VideoFilesTableViewController : UITableViewController <PHPhotoLibraryChangeObserver>
 @property (nonatomic, assign) AccessMediaLibraryRight accessMeidaRight;
 @property (nonatomic, assign) VideoTableViewType tableViewType;
-@property (nonatomic, assign) CGFloat topViewHeight;
+@property (nonatomic, assign) MainViewController *mainVC;
 - (void)setVideoFilesFolder :(NSString*)folderPath;
 - (void)setNoMediaLibraryAuthorization;
 - (void)reloadAllVideosInfo;

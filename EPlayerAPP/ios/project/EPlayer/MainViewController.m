@@ -127,10 +127,6 @@
     
     self.viewTop += yChange;
     self.lastPoint = currentPoint;
-    if(_currSubPageVC != nil)
-    {
-        _currSubPageVC.topViewHeight = _viewTop + 45;
-    }
 }
 
 - (void)setViewTop:(CGFloat)viewTop
@@ -162,11 +158,6 @@
     CGFloat w = size_min(frameScreen.size.width, frameScreen.size.height);
     CGFloat h = size_max(frameScreen.size.width, frameScreen.size.height);
     self.viewFrame = CGRectMake(0, _viewTop, w, h - _viewTop);
-
-    if(_currSubPageVC != nil)
-    {
-        _currSubPageVC.topViewHeight = _viewTop + 45;
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -212,8 +203,8 @@
         [vc setVideoFilesFolder:nil];
         vc.tableViewType = iTunesVideosTableView;
     }
-    vc.topViewHeight = self.viewTop + 45;
-    _currSubPageVC = vc;
+    vc.mainVC = self;
+
     return vc;
 }
 
@@ -283,5 +274,10 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (CGFloat)getTopViewHeight
+{
+    return (self.viewTop + 45);
 }
 @end

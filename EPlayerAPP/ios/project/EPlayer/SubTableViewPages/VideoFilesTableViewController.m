@@ -84,8 +84,9 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
                 [self clearAllVideoInfo];
                 [self initAllVideoData];
                 NSUInteger videoCount = [self getVideosCount];
+                CGFloat topOffset = [self.mainVC getTopViewHeight];
                 NSString *notice = [NSString stringWithFormat:@"%@ %ld 个视频", noticeStr, videoCount];
-                [JRToast showWithText:notice topOffset:self.topViewHeight duration:0.8f];
+                [JRToast showWithText:notice topOffset:topOffset duration:0.8f];
                 [strongRefreshHeader endRefreshing];
             });
         });
