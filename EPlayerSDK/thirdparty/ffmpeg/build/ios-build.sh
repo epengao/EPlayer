@@ -54,14 +54,22 @@ function do_ffmpeg_config
     ./configure \
         --prefix="${INTERDIR}/${ARCH}" \
         --enable-pic \
+        --enable-neon \
+        --enable-vaapi \
         --enable-small \
         --enable-static \
         --enable-network \
+        --enable-stripping \
+        --enable-audiotoolbox \
+        --enable-videotoolbox \
         --enable-cross-compile \
         --enable-memalign-hack \
+        --enable-optimizations \
+        --disable-gpl \
         --disable-doc \
         --disable-vda \
         --disable-sdl2 \
+        --disable-debug \
         --disable-iconv \
         --disable-muxers \
         --disable-ffmpeg \
@@ -71,8 +79,6 @@ function do_ffmpeg_config
         --disable-ffserver \
         --disable-avdevice \
         --disable-encoders \
-        --disable-audiotoolbox \
-        --disable-videotoolbox \
         --disable-decoder=tiff \
         --disable-swscale-alpha \
         --disable-securetransport \

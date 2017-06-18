@@ -50,7 +50,11 @@ echo "now doing configure before build ffmpeg ..."
     --enable-static \
     --enable-small \
     --enable-network \
+    --enable-stripping \
+    --enable-optimizations \
     --enable-memalign-hack \
+    --disable-gpl \
+    --disable-debug \
     --disable-doc \
     --disable-vda \
     --disable-sdl2 \
