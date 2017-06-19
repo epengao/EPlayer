@@ -21,6 +21,7 @@
     MainViewController *homeController = [[MainViewController alloc] init];
     AppRootNavigationViewController *nav = [[AppRootNavigationViewController alloc] initWithRootViewController:homeController];
     self.window.rootViewController = nav;
+    [NSThread sleepForTimeInterval:0.8];
     return YES;
 }
 
@@ -49,6 +50,10 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 @end

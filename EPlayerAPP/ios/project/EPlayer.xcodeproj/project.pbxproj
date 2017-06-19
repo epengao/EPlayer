@@ -10,6 +10,7 @@
 		0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F6611EF2657200252692 /* PlayVideoViewController.m */; };
 		0201F6701EF2711500252692 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66F1EF2711500252692 /* libz.tbd */; };
 		0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6711EF2740D00252692 /* libbz2.tbd */; };
+		9001F80B1EF80EF500A37A6C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9001F80A1EF80EF500A37A6C /* Launch Screen.storyboard */; };
 		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
 		903B247B1EF6594B00794632 /* btn_close_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B24571EF6594B00794632 /* btn_close_normal.png */; };
 		903B247C1EF6594B00794632 /* btn_close_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B24581EF6594B00794632 /* btn_close_normal@2x.png */; };
@@ -40,7 +41,6 @@
 		90BB0A351EEC282C00627989 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A341EEC282C00627989 /* AppDelegate.m */; };
 		90BB0A3B1EEC282C00627989 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A391EEC282C00627989 /* Main.storyboard */; };
 		90BB0A3D1EEC282C00627989 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A3C1EEC282C00627989 /* Assets.xcassets */; };
-		90BB0A401EEC282C00627989 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */; };
 		90BB0A4D1EEC2C3D00627989 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A4C1EEC2C3D00627989 /* MainViewController.m */; };
 		90BB0A7A1EEC3F5600627989 /* VideoInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB0A791EEC3F5600627989 /* VideoInfoTableViewCell.m */; };
 		90C825CD1EF6EF05008363E0 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C825CC1EF6EF05008363E0 /* CoreVideo.framework */; };
@@ -55,6 +55,7 @@
 		0201F6651EF2671900252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
 		0201F66F1EF2711500252692 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0201F6711EF2740D00252692 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		9001F80A1EF80EF500A37A6C /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
 		901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppRootNavigationViewController.m; sourceTree = "<group>"; };
 		903B24571EF6594B00794632 /* btn_close_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_close_normal.png; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		90BB0A341EEC282C00627989 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		90BB0A3A1EEC282C00627989 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		90BB0A3C1EEC282C00627989 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		90BB0A3F1EEC282C00627989 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		90BB0A411EEC282C00627989 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90BB0A4B1EEC2C3D00627989 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		90BB0A4C1EEC2C3D00627989 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -300,8 +300,8 @@
 				901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */,
 				901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */,
 				90BB0A391EEC282C00627989 /* Main.storyboard */,
+				9001F80A1EF80EF500A37A6C /* Launch Screen.storyboard */,
 				90BB0A3C1EEC282C00627989 /* Assets.xcassets */,
-				90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */,
 				90BB0A411EEC282C00627989 /* Info.plist */,
 				90BB0A301EEC282C00627989 /* Supporting Files */,
 			);
@@ -385,11 +385,11 @@
 			files = (
 				903B247E1EF6594B00794632 /* btn_close_selected@2x.png in Resources */,
 				903B247B1EF6594B00794632 /* btn_close_normal.png in Resources */,
-				90BB0A401EEC282C00627989 /* LaunchScreen.storyboard in Resources */,
 				903B247D1EF6594B00794632 /* btn_close_selected.png in Resources */,
 				90BB0A3D1EEC282C00627989 /* Assets.xcassets in Resources */,
 				90BB0A3B1EEC282C00627989 /* Main.storyboard in Resources */,
 				903B247C1EF6594B00794632 /* btn_close_normal@2x.png in Resources */,
+				9001F80B1EF80EF500A37A6C /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,14 +431,6 @@
 				90BB0A3A1EEC282C00627989 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		90BB0A3E1EEC282C00627989 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				90BB0A3F1EEC282C00627989 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
