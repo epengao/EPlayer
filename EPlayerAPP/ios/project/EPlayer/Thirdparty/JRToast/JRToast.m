@@ -32,6 +32,46 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
 }
 
+- (id)initCentreStyleWithText:(NSString *)text {
+    if (self = [super init]) {
+        _text = [text copy];
+
+        UIFont *font = [UIFont boldSystemFontOfSize:16];
+        CGSize textSize = [text boundingRectWithSize:CGSizeMake(280, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font} context:nil].size;
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, textSize.width + 12, textSize.height + 12)];
+        textLabel.backgroundColor = [UIColor clearColor];
+        textLabel.textColor = [UIColor whiteColor];
+        textLabel.textAlignment = NSTextAlignmentCenter;
+        textLabel.font = font;
+        textLabel.text = text;
+        textLabel.numberOfLines = 0;
+        
+        CGFloat viewHeight = 100;
+        CGFloat viewWidth = 120;
+        _contentView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
+        _contentView.layer.cornerRadius = 6.0f;
+        _contentView.layer.masksToBounds = YES;
+        _contentView.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.8];
+//        _contentView.backgroundColor = [UIColor colorWithRed:80.0f/256.0f
+//                                                       green:45.0f/256.0f
+//                                                        blue:180.0f/256.0f
+//                                                       alpha:0.70f];
+        [textLabel setCenter:_contentView.center];
+        [_contentView addSubview:textLabel];
+        _contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [_contentView addTarget:self
+                         action:@selector(toastTaped:)
+               forControlEvents:UIControlEventTouchDown];
+        _contentView.alpha = 0.0f;
+        _duration = DEFAULT_DISPLAY_DURATION;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(deviceOrientationDidChanged:)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:[UIDevice currentDevice]];
+    }
+    return self;
+}
+
 - (id)initWithText:(NSString *)text{
     if (self = [super init]) {
         
@@ -160,7 +200,7 @@
 /** Toast显示text, 经duration时间后移除 */
 + (void)showWithText:(NSString *)text duration:(CGFloat)duration
 {
-    JRToast *toast = [[JRToast alloc] initWithText:text];
+    JRToast *toast = [[JRToast alloc] initCentreStyleWithText:text];
     [toast setDuration:duration];
     [toast show];
 }

@@ -8,7 +8,7 @@
 
 #import "EPlayerAPI.h"
 #import "PlayVideoViewController.h"
-//#import "VideoFilesTableViewController.h"
+#import "VideoFilesTableViewController.h"
 
 #define TOP_bakButton_Tag         1001
 #define TOP_bakLable_Tag          1002
@@ -47,6 +47,8 @@
 
     BOOL            canRotate;
     BOOL            fullScreen;
+    
+    NSInteger       openMediaRetCode;
 }
 @end
 
@@ -67,31 +69,38 @@
     eplayerAPI = [EPlayerAPI sharedEPlayerAPI];
     eplayerAPI.msgHandler = self;
     beforeEntryBackgroundStatus = EPlayerStatus_Playing;
-    NSInteger ret = [eplayerAPI openMediaPath:_videoFileURL
+    openMediaRetCode = [eplayerAPI openMediaPath:_videoFileURL
                                   videoWindow:videoWindowView
                                   windowWidth:videoWindowView.frame.size.width
                                  windowHeight:videoWindowView.frame.size.height];
-    if (ret == EPlayer_Err_None)
+    if (openMediaRetCode == EPlayer_Err_None)
     {
         mediaInfo = [eplayerAPI getMeidaInfo];
         duration = mediaInfo.duration;
     }
-    else
-    {
-        //[_parent playFailed];
-        [self dismissViewControllerAnimated:YES completion:^{}];
-    }
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(OrientationDidChange:)
+                                                name:UIDeviceOrientationDidChangeNotification
+                                              object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if(beforeEntryBackgroundStatus == EPlayerStatus_Playing)
-        [eplayerAPI play];
-    if(updatePlayTimer == nil)
+    if(openMediaRetCode == EPlayer_Err_None)
     {
-        updatePlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatePlayTime) userInfo:nil repeats:YES];
+        if(beforeEntryBackgroundStatus == EPlayerStatus_Playing)
+            [eplayerAPI play];
+        if(updatePlayTimer == nil)
+        {
+            updatePlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatePlayTime) userInfo:nil repeats:YES];
+        }
+    }
+    else
+    {
+        [eplayerAPI closeMedia];
+        [self dismissViewControllerAnimated:YES completion:^{
+            [_parent playFailed];
+        }];
     }
 }
 

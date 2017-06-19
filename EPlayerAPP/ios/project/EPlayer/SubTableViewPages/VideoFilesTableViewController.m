@@ -68,11 +68,11 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     __block NSString *noticeStr = nil;
     if(self.tableViewType == CameraVideosTableView)
     {
-        noticeStr = @"刷新相册中 ";
+        noticeStr = @"相机胶卷中 ";
     }
     else if(self.tableViewType == UploadVideosTableView)
     {
-        noticeStr = @"刷新共享文件夹中 ";
+        noticeStr = @"EPlayer文件夹中 ";
     }
     else
     {
@@ -665,10 +665,16 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
 
 - (void)playFailed
 {
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
-    hud.labelText = @"xxxxxxxxxx";
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    NSString *notice = @"打开失败";
+    if(self.tableViewType == CameraVideosTableView)
+    {
+        notice = @"文件已被删除";
+    }
+    else if(self.tableViewType == UploadVideosTableView)
+    {
+        notice = @"格式不支持";
+    }
+    [JRToast showWithText:NSLocalizedString(notice, nil) duration:1.2];
 }
 
 #pragma mark - tableView Edit

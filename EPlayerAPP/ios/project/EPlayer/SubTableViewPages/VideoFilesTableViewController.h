@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
+#import <Photos/PHPhotoLibrary.h>
 
 typedef NS_ENUM(NSUInteger, VideoTableViewType)
 {
