@@ -9,6 +9,10 @@
 #define size_min(a,b) (((a) < (b)) ? (a) : (b))
 
 @interface MainViewController() <UIGestureRecognizerDelegate>
+{
+    CGFloat kWMHeaderViewHeight;
+    CGFloat kNavigationBarHeight;
+}
 @property (nonatomic, strong) NSArray *videoCategories;
 @property (nonatomic, strong) WMPanGestureRecognizer *panGesture;
 @property (nonatomic, assign) CGPoint lastPoint;
@@ -39,6 +43,9 @@
         CGFloat screenWidth = size_min(frameScreen.size.width, frameScreen.size.height);
         self.menuItemWidth = screenWidth / self.videoCategories.count;
         self.menuHeight = 45;
+        UIImage* image = [UIImage imageNamed:@"banner"];
+        kNavigationBarHeight = 64;
+        kWMHeaderViewHeight = screenWidth * image.size.height / image.size.width;
         self.viewTop = kWMHeaderViewHeight;
         self.accessMeidaRight = NeedRequest;
         self.titleColorSelected = [UIColor colorWithRed:90.0f/256.0f green:53.0f/256.0f blue:200.0f/256.0f alpha:1.0];

@@ -85,11 +85,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self registListen];
     [super viewWillAppear:animated];
     if(openMediaRetCode == EPlayer_Err_None)
     {
-        if(beforeEntryBackgroundStatus == EPlayerStatus_Playing)
-            [eplayerAPI play];
+        [eplayerAPI play];
         if(updatePlayTimer == nil)
         {
             updatePlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatePlayTime) userInfo:nil repeats:YES];
@@ -106,14 +106,46 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [self unregisterListen];
+    [super viewWillDisappear:animated];
+}
+
+#pragma mark - Entry Front & Background
+- (void)registListen
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector (EntryFront)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector (GotoBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+}
+- (void)unregisterListen
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+- (void)EntryFront
+{
+    if(beforeEntryBackgroundStatus == EPlayerStatus_Playing)
+        [eplayerAPI play];
+    if(updatePlayTimer == nil)
+    {
+        updatePlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatePlayTime) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)GotoBackground
+{
+    beforeEntryBackgroundStatus = [eplayerAPI getPlayerStatus];
+    [eplayerAPI pause];
     if(updatePlayTimer != nil)
     {
         [updatePlayTimer invalidate];
         updatePlayTimer = nil;
     }
-    beforeEntryBackgroundStatus = [eplayerAPI getPlayerStatus];
-    [eplayerAPI pause];
-    [super viewWillDisappear:animated];
 }
 
 - (void)setupVideoImage
