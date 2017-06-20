@@ -57,12 +57,10 @@ typedef enum
     EPlayer_Msg_PlayStart            = 1,
     EPlayer_Msg_PlayStop             = 2,
     EPlayer_Msg_NetworkError         = 3,
-    EPlayer_Msg_Video_BufferingStart = 4,
-    EPlayer_Msg_Video_BufferingStop  = 5,
-    EPlayer_Msg_Audio_BufferingStart = 6,
-    EPlayer_Msg_Audio_BufferingStop  = 7,
-    EPlayer_Msg_Audio_PlayFinished   = 8,
-    EPlayer_Msg_Video_PlayFinished   = 9,
+    EPlayer_Msg_BufferingStart       = 4,
+    EPlayer_Msg_BufferingStop        = 5,
+    EPlayer_Msg_Audio_PlayFinished   = 6,
+    EPlayer_Msg_Video_PlayFinished   = 7,
     EPlayer_Msg_Undefine        = 0xFFFF,
 } EPlayerMessage;
 
@@ -120,7 +118,7 @@ typedef struct
      * API: OpenMeida
      * @pMediaPath: Local file/Network URL
      * @pVideoWindow: Video output window handler:
-     *                Mac platform is a NSWindow object
+     *                Mac/iOS platform is a VideoWindow object
      *                Win platform is a hWnd created by CreateWindow/CreateWindowEx
      * @nWindowWidth:  Video output window width
      * @nWindowHeight: Video output window height

@@ -45,8 +45,9 @@
 #define Source_Err_NoMediaTrack    0x0000F007
 #define Source_Err_ReadPacketFaild 0x0000F008
 
-#define SRC_WAIT_TIME      5
-#define SRC_MAX_SEEK_TRY 256
+#define SRC_WAIT_TIME               5
+#define MAX_NOTIFY_WAIT          1500
+#define SRC_MAX_SEEK_TRY (512+256+100)
 
 class SourceAudioPort;
 class SourceVideoPort;
@@ -70,11 +71,13 @@ public:
 private:
     void DoPlay();
     EC_U32 DoSeek();
+    void CheckBufferting(EC_U32 nCheckRet);
     /* ECThreadWorkerI */
     virtual void DoRunning();
 
 private:
     bool               m_bEOS;
+    bool               m_bBuffing;
     bool               m_bRunning;
     int                m_nSeekPos;
     EC_U32             m_nDuration;
@@ -84,6 +87,7 @@ private:
     FFmpegReader*      m_pFFmpegReader;
     PacketManager*     m_pPacketManager;
     ECThreadDriver*    m_pThreadDriver;
+    EC_U32             m_nLastReadPktFailTime;
 
     friend class SourceAudioPort;
     friend class SourceVideoPort;

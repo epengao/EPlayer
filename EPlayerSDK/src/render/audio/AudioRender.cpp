@@ -53,7 +53,6 @@
 
 AudioRender::AudioRender(MediaClock* pClock)
 :m_bEOS(false)
-,m_bBufing(false)
 ,m_bRunning(false)
 ,m_bRawFFPcm(false)
 ,m_nLastRndTime(0)
@@ -131,7 +130,6 @@ EC_U32 AudioRender::OpenDevice(MediaContext* pMediaContext,
                                AudioDecPort* pAudioDecPort)
 {
     m_bEOS = false;
-    m_bBufing = false;
     m_bRunning = false;
     m_bRawFFPcm = false;
     m_pDecoderPort = pAudioDecPort;
@@ -141,7 +139,6 @@ EC_U32 AudioRender::OpenDevice(MediaContext* pMediaContext,
 void AudioRender::CloseDevice()
 {
     m_bEOS = false;
-    m_bBufing = false;
     m_bRunning = false;
     m_bRawFFPcm = false;
     m_pAudioDevice->Uninit();
@@ -169,12 +166,6 @@ void AudioRender::GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSa
                 (*pOutSize) = audioFram.nDataSize;
                 (*pOutSamples) = audioFram.nSamples;
                 m_nLastRndTime = ECGetSystemTime();
-                if(m_bBufing)
-                {
-                    m_bBufing = false;
-                    MessageHub* pMsgHub = MessageHub::GetInstance();
-                    pMsgHub->SendMessage(PlayerMessage_Audio_BufferingStop);
-                }
                 if(!m_bRunning)
                 {
                     m_bRunning = true;
@@ -203,13 +194,6 @@ void AudioRender::GetPCMBuffer(char** ppOutBuf, EC_U32* pOutSize, EC_U32* pOutSa
             }
         }
         while (nTryTimes < MAX_SEEK_TRY);
-    }
-
-    if( (!m_bBufing) && (ECGetSystemTime() - m_nLastRndTime > MAX_NOTIFY_WAIT) )
-    {
-        m_bBufing = true;
-        MessageHub* pMsgHub = MessageHub::GetInstance();
-        pMsgHub->SendMessage(PlayerMessage_Audio_BufferingStart);
     }
 }
 

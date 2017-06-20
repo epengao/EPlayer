@@ -37,12 +37,10 @@ typedef enum
     PlayerMessage_PlayStart            = 1,
     PlayerMessage_PlayStop             = 2,
     PlayerMessage_NetworkError         = 3,
-    PlayerMessage_Video_BufferingStart = 4,
-    PlayerMessage_Video_BufferingStop  = 5,
-    PlayerMessage_Audio_BufferingStart = 6,
-    PlayerMessage_Audio_BufferingStop  = 7,
-    PlayerMessage_Audio_PlayFinished   = 8,
-    PlayerMessage_Video_PlayFinished   = 9,
+    PlayerMessage_BufferingStart       = 4,
+    PlayerMessage_BufferingStop        = 5,
+    PlayerMessage_Audio_PlayFinished   = 6,
+    PlayerMessage_Video_PlayFinished   = 7,
     PlayerMessage_Undefine        = 0xFFFF,
 } PlayerMessage;
 

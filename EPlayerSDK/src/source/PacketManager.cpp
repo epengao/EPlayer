@@ -109,6 +109,13 @@ bool PacketManager::IsPacketQueueFull() const
     return (audioPktFull || videoPktFull);
 }
 
+bool PacketManager::IsPacketQueueEmpty() const
+{
+    bool audioPktEmpty = m_pAudioDataPacketQueue->IsEmpty();
+    bool videoPktEmpty = m_pVideoDataPacketQueue->IsEmpty();
+    return (audioPktEmpty && videoPktEmpty);
+}
+
 /* Empty Packet */
 EC_U32 PacketManager::PushEmptyDataPacket(SourcePacket *pPacket)
 {

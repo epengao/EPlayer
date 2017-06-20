@@ -43,6 +43,7 @@ public:
 
     void ClearAll();
     bool IsPacketQueueFull() const;
+    bool IsPacketQueueEmpty() const;
     /* Empty Packet Interface */
     EC_U32 PushEmptyDataPacket(SourcePacket *pPacket);
     EC_U32 PopEmptyDataPacket(SourcePacket **ppPacket);

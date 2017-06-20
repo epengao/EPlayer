@@ -42,30 +42,31 @@ static void _switch_media_time(int time_ms)
 
 int main(int argc, const char * argv[]) {
 
-    EPlayerAPI playerAPI;
-    InitEPlayerAPI(&playerAPI);
+    EPlayerAPI *playerAPI = [EPlayerAPI sharedEPlayerAPI];
 
     NSWindow *screen = creat_window(W_WIDTH , W_HEIGHT);
+    VideoWindow *videoWindow = [VideoWindow createVideoWindowFrom:screen];
     //NSWindow *screen_bak = creat_window(200, 100);
-    void* drawable = (__bridge void *)(screen);
     //int xxx = player.OpenMedia("http://wsod.qingting.fm/vod/00/00/0000000000000000000024714128_24.m4a");
     //int xxx = player.OpenMedia("http://live.whtv.com.cn/live/2a532d70bcbe47e6aaccc74dea2655cc?fmt=h264_450k_flv", drawable, 600, 400);
 
-    playerAPI.Init();
-    int xxx = playerAPI.OpenMedia("/Users/AnthonLiu/Work/data/testAV/222.wmv", drawable, W_WIDTH, W_HEIGHT);
+    NSInteger xxx = [playerAPI openMediaPath:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"
+                           videoWindow:videoWindow
+                           windowWidth:W_WIDTH
+                          windowHeight:W_HEIGHT];
     if(xxx)
     {
-        printf("Open Faild: 0x%08X\n", xxx);
+        printf("Open Faild: 0x%08lX\n", (long)xxx);
     }
     else
     {
         char c;
         int i = 0;
         cout<<"Open Media OK"<<endl;
-        playerAPI.Play();
+        [playerAPI play];
         while (1) {
-            int playTime = playerAPI.GetPlayingPos();
-            int buffTime = playerAPI.GetBufferingPos();
+            NSInteger playTime = [playerAPI getPlayingPos];
+            NSInteger buffTime = [playerAPI getBufferingPos];
             _switch_media_time(playTime);
             //cout<<" ";
             //_switch_media_time(buffTime);
@@ -74,7 +75,7 @@ int main(int argc, const char * argv[]) {
             i++;
             if(i == 8)
             {
-                playerAPI.Seek(20 * 1000);
+                //playerAPI.Seek(20 * 1000);
             }
             else if(i == 15)
             {
@@ -95,7 +96,7 @@ int main(int argc, const char * argv[]) {
         }
 
         cin>>c;
-        playerAPI.CloseMedia();
+        [playerAPI closeMedia];
     }
 
     return 0;
