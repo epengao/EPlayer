@@ -38,6 +38,8 @@ extern "C"
 };
 
 #define TIME_UNIT              1000
+#define MAX_NOTIFY_WAIT        2000
+#define MAX_NET_WORK_WAIT   1000*30
 #define MAX_READ_PACKET_RETRY    32
 
 typedef AVPacket SourcePacket;
@@ -78,14 +80,20 @@ public:
     bool IsLiveMedia() const;
     EC_U32 GetBufferingTime();
     MediaContext* GetMediaContext();
+    void SetWillBuffering(bool willBuffering);
+
+private:
+    static int FFReaderCallback(void* pUserData);
 
 private:
     int m_nAudioIndex;
     int m_nVideoIndex;
     double m_TimeBase;
+    bool m_bBuffering;
     EC_U32 m_nBufingTime;
     ECString m_strMediaPath;
     MediaContext m_MediaContext;
+    EC_U32 m_nBufferingStartTime;
 };
 
 #endif /* FFMPEG_READER_H */

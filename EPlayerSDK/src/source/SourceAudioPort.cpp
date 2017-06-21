@@ -38,12 +38,7 @@ SourceAudioPort::~SourceAudioPort()
 
 EC_U32 SourceAudioPort::GetAudioDataPacket(SourcePacket** ppPacket)
 {
-    EC_U32 nRet = m_pOwner->m_pPacketManager->PopAudioDataPacket(ppPacket);
-    if( (nRet != EC_Err_None) && (m_pOwner->m_bEOS) )
-    {
-        nRet = Source_Err_ReadEOS;
-    }
-    return nRet;
+    return m_pOwner->GetAudioDataPacket(ppPacket);
 }
 
 EC_U32 SourceAudioPort::ReturnAudioEmptyPacket(SourcePacket* pPacket)

@@ -31,7 +31,7 @@
 #define MAX_BUFFER_SIZE     352800
 #define MUTE_SOUND_SIZE        128
 #define QUEUE_BUFFER_COUNT       2
-#define WAIT_BUF_SOUND_SIZE     64
+#define WAIT_BUF_SOUND_SIZE    128
 
 #include "AudioDeviceI.h"
 #include <AudioToolbox/AudioToolbox.h>

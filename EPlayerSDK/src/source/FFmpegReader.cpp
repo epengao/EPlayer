@@ -29,6 +29,7 @@
 #include "ECUtil.h"
 #include "ECError.h"
 #include "ECMemOP.h"
+#include "MessageHub.h"
 #include "MediaSource.h"
 #include "FFmpegReader.h"
 
@@ -38,8 +39,12 @@ FFmpegReader::FFmpegReader()
 ,m_nBufingTime(0)
 ,m_nAudioIndex(-1)
 ,m_nVideoIndex(-1)
+,m_bBuffering(false)
 ,m_strMediaPath(NULL)
+,m_nBufferingStartTime(0)
 {
+    av_register_all();
+    avformat_network_init();
     ECMemSet(&m_MediaContext, 0, sizeof(MediaContext));
 }
 
@@ -49,16 +54,17 @@ FFmpegReader::~FFmpegReader()
 
 EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
 {
-    av_register_all();
-    avformat_network_init();
+    m_bBuffering = false;
+    m_nBufferingStartTime = 0;
     m_strMediaPath = pMediaPath;
+    m_MediaContext.pFormatCtx = avformat_alloc_context();
+    m_MediaContext.pFormatCtx->interrupt_callback.opaque = this;
+    m_MediaContext.pFormatCtx->interrupt_callback.callback = FFReaderCallback;
 
-    //m_MediaContext.pFormatCtx = avformat_alloc_context();
-    //m_MediaContext.pFormatCtx->interrupt_callback.opaque = NULL;
-    //m_MediaContext.pFormatCtx->interrupt_callback.callback = open_input_interrupt_callback;
-    //AVDictionary *optionsDict = NULL;
-    //av_dict_set(&optionsDict, "rtsp_transport", "tcp", 0);
-    //av_dict_set(&optionsDict, "network_timeout", "60000000", 0);
+    /* here we can set timeout of network
+    AVDictionary *optionsDict = NULL;
+    av_dict_set(&optionsDict, "rtsp_transport", "tcp", 0);
+    av_dict_set(&optionsDict, "network_timeout", "60000000", 0); */
 
     int ffmpeg_ret = avformat_open_input(&m_MediaContext.pFormatCtx, m_strMediaPath.ToCStr(), NULL, NULL);
     if (ffmpeg_ret != 0)
@@ -212,7 +218,9 @@ EC_U32 FFmpegReader::ReadPacket(SourcePacket* pPacket)
             nRetryTimes++;
         }
         if (nRetryTimes >= MAX_READ_PACKET_RETRY)
+        {
             nRet = Source_Err_ReadPacketFaild;
+        }
     }
     else
         nRet = EC_Err_BadParam;
@@ -269,4 +277,54 @@ EC_U32 FFmpegReader::GetBufferingTime()
 MediaContext* FFmpegReader::GetMediaContext()
 {
     return &m_MediaContext;
+}
+
+void FFmpegReader::SetWillBuffering(bool willBuffering)
+{
+    if(willBuffering)
+    {
+        if(m_nBufferingStartTime == 0)
+        {
+            m_nBufferingStartTime = ECGetSystemTime();
+        }
+    }
+    else
+    {
+        if(m_bBuffering)
+        {
+            MessageHub* pMsgHub = MessageHub::GetInstance();
+            pMsgHub->SendMessage(PlayerMessage_BufferingStop);
+        }
+        m_bBuffering = false;
+        m_nBufferingStartTime = 0;
+    }
+}
+
+/* private method */
+int FFmpegReader::FFReaderCallback(void* pUserData)
+{
+    int interrupt = 0;
+    FFmpegReader *self = (FFmpegReader*)pUserData;
+    if(self && self->m_nBufferingStartTime != 0)
+    {
+        int timePassed = ECGetSystemTime() - self->m_nBufferingStartTime;
+        if(timePassed > MAX_NET_WORK_WAIT)
+        {
+            interrupt = 1;
+            self->m_bBuffering = false;
+            MessageHub* pMsgHub = MessageHub::GetInstance();
+            pMsgHub->SendMessage(PlayerMessage_NetworkError);
+            pMsgHub->SendMessage(PlayerMessage_BufferingStop);
+        }
+        else if(timePassed > MAX_NOTIFY_WAIT)
+        {
+            if(!self->m_bBuffering)
+            {
+                self->m_bBuffering = true;
+                MessageHub* pMsgHub = MessageHub::GetInstance();
+                pMsgHub->SendMessage(PlayerMessage_BufferingStart);
+            }
+        }
+    }
+    return interrupt;
 }

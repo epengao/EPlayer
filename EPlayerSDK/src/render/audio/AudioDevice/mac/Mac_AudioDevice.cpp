@@ -159,6 +159,11 @@ void Mac_AudioDevice::PlaySoundCallback(void* pUserData, AudioQueueRef inQueue, 
         {
             ECMemCopy(pAudioQueueRndBuf, pPCM, nOutSize);
         }
+        else
+        {
+            nOutSize = WAIT_BUF_SOUND_SIZE;
+            ECMemSet(pAudioQueueRndBuf, 0, nOutSize);
+        }
     }
     else
     {

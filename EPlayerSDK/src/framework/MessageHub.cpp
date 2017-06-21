@@ -25,6 +25,7 @@
  * ****************************************************************
  */
 
+#include "ECLog.h"
 #include "ECAutoLock.h"
 #include "MessageHub.h"
 
@@ -100,6 +101,7 @@ void MessageHub::DoRunning()
         if( (nRet == EC_Err_None) &&
             (m_MsgNotifer.Callback != NULL) )
         {
+            ECLogI("Send EPlayerSDK Msg: %d", nMsg);
             m_MsgNotifer.Callback(m_MsgNotifer.pUserData, nMsg);
         }
     }

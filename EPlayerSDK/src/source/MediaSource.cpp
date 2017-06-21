@@ -38,14 +38,12 @@ MediaSource::MediaSource()
 :m_bEOS(false)
 ,m_nDuration(0)
 ,m_nSeekPos(-1)
-,m_bBuffing(false)
 ,m_bRunning(false)
 ,m_pAudioPort(NULL)
 ,m_pVideoPort(NULL)
 ,m_pThreadDriver(NULL)
 ,m_pFFmpegReader(NULL)
 ,m_pPacketManager(NULL)
-,m_nLastReadPktFailTime(0)
 {
     m_pFFmpegReader = new FFmpegReader();
     m_pPacketManager = new PacketManager();
@@ -68,9 +66,7 @@ MediaSource::~MediaSource()
 EC_U32 MediaSource::OpenMedia(const char* pMediaPath)
 {
     m_bEOS = false;
-    m_bBuffing = false;
     m_bRunning = false;
-    m_nLastReadPktFailTime = 0;
     EC_U32 nRet = EC_Err_None;
     if (NULL == pMediaPath)
         nRet = EC_Err_BadParam;
@@ -90,9 +86,7 @@ EC_U32 MediaSource::OpenMedia(const char* pMediaPath)
 void MediaSource::CloseMedia()
 {
     m_bEOS = false;
-    m_bBuffing = false;
     m_bRunning = false;
-    m_nLastReadPktFailTime = 0;
     {
         m_pThreadDriver->Pause();
         ECAutoLock lock(&m_mtxFFmpeg);
@@ -185,7 +179,6 @@ void MediaSource::DoPlay()
             m_pPacketManager->PushEmptyDataPacket(pPkt);
             ECSleep(SRC_WAIT_TIME);
         }
-        CheckBufferting(nRet);
     }
     else
     {
@@ -233,41 +226,6 @@ EC_U32 MediaSource::DoSeek()
     return nRet;
 }
 
-void MediaSource::CheckBufferting(EC_U32 nCheckRet)
-{
-    if( (nCheckRet == Source_Err_ReadEOS) ||
-        (nCheckRet == Source_Err_ReadAudioPkt)||
-        (nCheckRet == Source_Err_ReadVideoPkt) )
-    {
-        if(m_bBuffing)
-        {
-            m_bBuffing = false;
-            MessageHub* pMsgHub = MessageHub::GetInstance();
-            pMsgHub->SendMessage(PlayerMessage_BufferingStop);
-        }
-        m_nLastReadPktFailTime = 0;
-    }
-    else
-    {
-        if(m_pPacketManager->IsPacketQueueEmpty())
-        {
-            if(!m_bBuffing)
-            {
-                if(m_nLastReadPktFailTime == 0)
-                {
-                    m_nLastReadPktFailTime = ECGetSystemTime();
-                }
-                else if(ECGetSystemTime() - m_nLastReadPktFailTime > MAX_NOTIFY_WAIT)
-                {
-                    m_bBuffing = true;
-                    MessageHub* pMsgHub = MessageHub::GetInstance();
-                    pMsgHub->SendMessage(PlayerMessage_BufferingStart);
-                }
-            }
-        }
-    }
-}
-
 void MediaSource::DoRunning()
 {
     if (m_bRunning)
@@ -282,4 +240,50 @@ void MediaSource::DoRunning()
     {
         m_bRunning = false;
     }
+}
+
+void MediaSource::CheckBufferting()
+{
+    if(m_pPacketManager->IsPacketQueueEmpty())
+    {
+        m_pFFmpegReader->SetWillBuffering(true);
+    }
+    else
+    {
+        m_pFFmpegReader->SetWillBuffering(false);
+    }
+}
+
+EC_U32 MediaSource::GetVideoDataPacket(SourcePacket** ppPacket)
+{
+    EC_U32 nRet = m_pPacketManager->PopVideoDataPacket(ppPacket);
+    if(nRet != EC_Err_None)
+    {
+        if(!m_bEOS)
+        {
+            CheckBufferting();
+        }
+        else
+        {
+            nRet = Source_Err_ReadEOS;
+        }
+    }
+    return nRet;
+}
+
+EC_U32 MediaSource::GetAudioDataPacket(SourcePacket** ppPacket)
+{
+    EC_U32 nRet = m_pPacketManager->PopAudioDataPacket(ppPacket);
+    if(nRet != EC_Err_None)
+    {
+        if(!m_bEOS)
+        {
+            CheckBufferting();
+        }
+        else
+        {
+            nRet = Source_Err_ReadEOS;
+        }
+    }
+    return nRet;
 }
