@@ -87,6 +87,7 @@ void MediaSource::CloseMedia()
 {
     m_bEOS = false;
     m_bRunning = false;
+    m_pFFmpegReader->SetReadPacketStop();
     {
         m_pThreadDriver->Pause();
         ECAutoLock lock(&m_mtxFFmpeg);
@@ -284,6 +285,10 @@ EC_U32 MediaSource::GetAudioDataPacket(SourcePacket** ppPacket)
         {
             nRet = Source_Err_ReadEOS;
         }
+    }
+    else
+    {
+        m_pFFmpegReader->SetWillBuffering(false);
     }
     return nRet;
 }

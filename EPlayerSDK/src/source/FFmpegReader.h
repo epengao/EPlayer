@@ -81,15 +81,18 @@ public:
     EC_U32 GetBufferingTime();
     MediaContext* GetMediaContext();
     void SetWillBuffering(bool willBuffering);
+    void SetReadPacketStop();
 
 private:
     static int FFReaderCallback(void* pUserData);
 
 private:
+
     int m_nAudioIndex;
     int m_nVideoIndex;
     double m_TimeBase;
     bool m_bBuffering;
+    bool m_bReadPacketStop;
     EC_U32 m_nBufingTime;
     ECString m_strMediaPath;
     MediaContext m_MediaContext;

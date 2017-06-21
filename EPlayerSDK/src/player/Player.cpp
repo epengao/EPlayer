@@ -346,6 +346,10 @@ void Player::MessageHandler(void* pUserData, unsigned int msg)
             case PlayerMessage_PlayStart:
                 if(pSelf->m_nPlayerStatus != PlayerStatus_Playing)
                     dropMsg = true;
+                break;
+            case PlayerMessage_NetworkError:
+                pSelf->Pause();
+                break;
             default: break;
         }
         if(pSelf->m_AEOS && pSelf->m_VEOS)

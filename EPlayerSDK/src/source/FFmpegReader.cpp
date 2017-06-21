@@ -41,6 +41,7 @@ FFmpegReader::FFmpegReader()
 ,m_nVideoIndex(-1)
 ,m_bBuffering(false)
 ,m_strMediaPath(NULL)
+,m_bReadPacketStop(false)
 ,m_nBufferingStartTime(0)
 {
     av_register_all();
@@ -55,6 +56,7 @@ FFmpegReader::~FFmpegReader()
 EC_U32 FFmpegReader::OpenMedia(const char* pMediaPath)
 {
     m_bBuffering = false;
+    m_bReadPacketStop = false;
     m_nBufferingStartTime = 0;
     m_strMediaPath = pMediaPath;
     m_MediaContext.pFormatCtx = avformat_alloc_context();
@@ -256,7 +258,7 @@ void FFmpegReader::CloseMedia()
 {
     m_nAudioIndex = -1;
     m_nVideoIndex = -1;
-    
+
     avformat_close_input(&m_MediaContext.pFormatCtx);
     avcodec_free_context(&m_MediaContext.pAudioCodecCtx);
     avcodec_free_context(&m_MediaContext.pVideoCodecCtx);
@@ -300,6 +302,11 @@ void FFmpegReader::SetWillBuffering(bool willBuffering)
     }
 }
 
+void FFmpegReader::SetReadPacketStop()
+{
+    m_bReadPacketStop = true;
+}
+
 /* private method */
 int FFmpegReader::FFReaderCallback(void* pUserData)
 {
@@ -313,8 +320,15 @@ int FFmpegReader::FFReaderCallback(void* pUserData)
             interrupt = 1;
             self->m_bBuffering = false;
             MessageHub* pMsgHub = MessageHub::GetInstance();
-            pMsgHub->SendMessage(PlayerMessage_NetworkError);
-            pMsgHub->SendMessage(PlayerMessage_BufferingStop);
+            if(!self->m_bReadPacketStop)
+            {
+                self->m_bReadPacketStop = true;
+                pMsgHub->SendMessage(PlayerMessage_NetworkError);
+            }
+            if(self->m_bBuffering)
+            {
+                pMsgHub->SendMessage(PlayerMessage_BufferingStop);
+            }
         }
         else if(timePassed > MAX_NOTIFY_WAIT)
         {
@@ -325,6 +339,10 @@ int FFmpegReader::FFReaderCallback(void* pUserData)
                 pMsgHub->SendMessage(PlayerMessage_BufferingStart);
             }
         }
+    }
+    if(self->m_bReadPacketStop)
+    {
+        interrupt = 1;
     }
     return interrupt;
 }
