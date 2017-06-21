@@ -28,6 +28,7 @@
 #include "ECLog.h"
 #include "ECUtil.h"
 #include "Player.h"
+#include "ECMemOP.h"
 #include "ECAutoLock.h"
 
 /* Singleton */
@@ -82,10 +83,19 @@ int Player::OpenMedia(const char* pMeidaPath,
                                       m_nVideoWndWidth, m_nVideoWndHeight);
         if(ret == Player_Err_None)
         {
-            const MediaContext* pMCtx = m_pMediaCtrl->GetMediaContext();
+            MediaContext* pMCtx = m_pMediaCtrl->GetMediaContext();
             if(pMCtx->hasAudio) m_AEOS = false;
             if(pMCtx->hasVideo) m_VEOS = false;
             m_nPlayerStatus = PlayerStatus_Opened;
+            ECMemCopy(&m_MediaContext, pMCtx, sizeof(MediaContext));
+            if( (pMCtx->videoRotation == 90)  ||
+                (pMCtx->videoRotation == -90) ||
+                (pMCtx->videoRotation == 270) ||
+                (pMCtx->videoRotation == -270) )
+            {
+                m_MediaContext.nVideoWidth = pMCtx->nVideoHeight;
+                m_MediaContext.nVideoHeight = pMCtx->nVideoWidth;
+            }
         }
         else
         {
@@ -190,7 +200,7 @@ PlayerStatus Player::GetPlayerStatus()
 
 const MediaContext* Player::GetMeidaContext()
 {
-    return m_pMediaCtrl->GetMediaContext();
+    return &m_MediaContext;
 }
 
 char* GetParam(const char* pKey)

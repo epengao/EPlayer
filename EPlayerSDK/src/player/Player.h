@@ -110,6 +110,7 @@ private:
     MediaCtrl*   m_pMediaCtrl;
     MessageHub*  m_pMessageCtrl;
     MsgNotifier  m_MsgNotifer;
+    MediaContext m_MediaContext;
     PlayerStatus m_nPlayerStatus;
 };
 
