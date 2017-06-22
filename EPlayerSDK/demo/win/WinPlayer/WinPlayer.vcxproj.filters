@@ -108,9 +108,6 @@
     <ClCompile Include="..\..\..\src\render\audio\AudioRender.cpp">
       <Filter>EPlayerSDK\render\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\render\audio\AudioDevice\common\SDL_AudioDevice.cpp">
-      <Filter>EPlayerSDK\render\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\render\audio\AudioDevice\win\Win_AudioDevice.cpp">
       <Filter>EPlayerSDK\render\audio</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
       <Filter>EPlayerSDK\render\video</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\FrameScale.cpp">
-      <Filter>EPlayerSDK\render\video</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\SDL_VideoDevice.cpp">
       <Filter>EPlayerSDK\render\video</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\render\video\VideoDevice\win\Win_VideoDevice.cpp">
@@ -143,6 +137,15 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>WinPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\audio\AudioDevice\common\SDL2_AudioDevice.cpp">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\SDL2_VideoDevice.cpp">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\ECBufferStream.cpp">
+      <Filter>EPlayerSDK\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +233,6 @@
     <ClInclude Include="..\..\..\src\render\audio\AudioRender.h">
       <Filter>EPlayerSDK\render\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\render\audio\AudioDevice\common\SDL_AudioDevice.h">
-      <Filter>EPlayerSDK\render\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\render\audio\AudioDevice\win\Win_AudioDevice.h">
       <Filter>EPlayerSDK\render\audio</Filter>
     </ClInclude>
@@ -243,9 +243,6 @@
       <Filter>EPlayerSDK\render\video</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\FrameScale.h">
-      <Filter>EPlayerSDK\render\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\SDL_VideoDevice.h">
       <Filter>EPlayerSDK\render\video</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\render\video\VideoDevice\win\Win_VideoDevice.h">
@@ -265,6 +262,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\source\SourceVideoPort.h">
       <Filter>EPlayerSDK\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\audio\AudioDevice\common\SDL2_AudioDevice.h">
+      <Filter>EPlayerSDK\render\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\SDL2_VideoDevice.h">
+      <Filter>EPlayerSDK\render\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\ECBufferStream.h">
+      <Filter>EPlayerSDK\base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

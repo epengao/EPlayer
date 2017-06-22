@@ -29,7 +29,6 @@
 #define WIN_VIDEO_DEVICE_H
 
 #include "VideoDeviceI.h"
-#include "SDL_VideoDevice.h"
 
 class Win_VideoDevice : public VideoDeviceI
 {
@@ -46,7 +45,7 @@ public:
     void UpdateVideoWindow(void* pWindow, int nWidth, int nHeight);
 
 private:
-    SDL_VideoDevice *m_pRndDev;
+    VideoDeviceI *m_pRndDev;
 };
 
 #endif /* WIN_VIDEO_DEVICE_H */

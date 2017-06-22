@@ -167,5 +167,6 @@ void SDL_AudioDevice::PlaySoundCallback(void* pUserData, Uint8* pStream, int nLe
         char* pPCMBuf = (char*)ECMemAlloc(nLen);
         EC_U32 nPCMSize = pSelf->m_PCMBufStream.Read(pPCMBuf, nLen);
         SDL_MixAudio(pStream, (Uint8*)pPCMBuf, nPCMSize, SDL_MIX_MAXVOLUME);
+        ECMemFree(pPCMBuf);
     }
 }

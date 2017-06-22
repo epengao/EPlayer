@@ -34,6 +34,7 @@ extern "C"
 };
 #include "ReSample.h"
 #include "AudioDeviceI.h"
+#include "ECBufferStream.h"
 
 #define RESAMPLE_OUT_RATE 44100
 #define RESAMPLE_OUT_CHANNEL  2
@@ -56,10 +57,11 @@ private:
     int SampleFmtSwitch(AudioSampleFormat nFmtIn);
 
 private:
-    EC_U8*        m_pMutePCM;
-    EC_U32        m_nMuteBufSize;
-	ReSample*     m_pResample;
-    SDL_AudioSpec m_sAudioContext;
+    EC_U8*          m_pMutePCM;
+    EC_U32          m_nMuteBufSize;
+	ReSample*       m_pResample;
+    SDL_AudioSpec   m_sAudioContext;
+    ECBufferStream  m_PCMBufStream;
 };
 
 #endif /* SDL2_AUDIO_DEVICE_H */

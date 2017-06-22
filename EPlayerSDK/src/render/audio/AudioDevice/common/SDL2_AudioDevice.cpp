@@ -53,7 +53,7 @@ int SDL2_AudioDevice::Init(MediaContext* pMediaCtx)
     m_sAudioContext.callback = PlaySoundCallback;
     m_sAudioContext.freq = pMediaCtx->nSampleRate;
     m_sAudioContext.channels = pMediaCtx->nChannels;
-    m_sAudioContext.samples = pMediaCtx->nSampleSize;
+    m_sAudioContext.samples = 8192;// pMediaCtx->nSampleSize;
     AudioSampleFormat nSampleFmt = m_pAudioRender->SampleFmtSwitch(pMediaCtx->nSampleFormat);
     m_sAudioContext.format = SampleFmtSwitch(nSampleFmt);
 
@@ -100,18 +100,52 @@ int SDL2_AudioDevice::SampleFmtSwitch(AudioSampleFormat nFmtIn)
 void SDL2_AudioDevice::PlaySoundCallback(void* pUserData, Uint8* pStream, int nLen)
 {
     char* pPCM = NULL;
+    EC_U32 nMaxTry = 0;
+    EC_U32 nTotalMixPCM = 0;
     unsigned int nOutSize = 0;
     unsigned int nOutSamples = 0;
 
-    SDL2_AudioDevice *pSelf = (SDL2_AudioDevice*)pUserData;
-    pSelf->m_pAudioRender->GetPCMBuffer(&pPCM, &nOutSize, &nOutSamples);
-
     SDL_memset(pStream, 0, nLen);
-    if (pPCM && (nOutSize > 0))
+    SDL2_AudioDevice *pSelf = (SDL2_AudioDevice*)pUserData;
+
+    EC_U32 nLastPCM = pSelf->m_PCMBufStream.DataSize();
+    if (nLastPCM > 0)
     {
-        SDL_MixAudio(pStream, (Uint8*)pPCM, nOutSize, SDL_MIX_MAXVOLUME);
+        char* pPCMBuf = (char*)ECMemAlloc(nLen);
+        EC_U32 nPCMSize = pSelf->m_PCMBufStream.Read(pPCMBuf, nLen);
+        SDL_MixAudio(pStream, (Uint8*)pPCMBuf, nPCMSize, SDL_MIX_MAXVOLUME);
+        ECMemFree(pPCMBuf);
+        if (nPCMSize >= nLen)
+        {
+            return;
+        }
+        else
+        {
+            nTotalMixPCM = nTotalMixPCM + nPCMSize;
+        }
     }
-    else
+
+    do
+    {
+        nMaxTry++;
+        pSelf->m_pAudioRender->GetPCMBuffer(&pPCM, &nOutSize, &nOutSamples);
+        if (pPCM && (nOutSize > 0))
+        {
+            if ((nTotalMixPCM + nOutSize) < nLen)
+            {
+                SDL_MixAudio(pStream, (Uint8*)pPCM, nOutSize, SDL_MIX_MAXVOLUME);
+            }
+            else
+            {
+                EC_U32 doMix = nLen - nTotalMixPCM;
+                SDL_MixAudio(pStream, (Uint8*)pPCM, doMix, SDL_MIX_MAXVOLUME);
+                pSelf->m_PCMBufStream.Write(pPCM, (nOutSize - doMix)); /* Keep the rest of PCM*/
+            }
+            nTotalMixPCM = nTotalMixPCM + nOutSize;
+        }
+    } while( (nMaxTry < 2) && (nTotalMixPCM < nLen) );
+
+    if (nTotalMixPCM = 0)
     {
         SDL_MixAudio(pStream, (Uint8*)pSelf->m_pMutePCM, pSelf->m_nMuteBufSize, SDL_MIX_MAXVOLUME);
     }

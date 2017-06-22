@@ -26,10 +26,11 @@
  */
 
 #include "Win_VideoDevice.h"
+#include "SDL2_VideoDevice.h"
 
 Win_VideoDevice::Win_VideoDevice()
 {
-    m_pRndDev = new SDL_VideoDevice();
+    m_pRndDev = new SDL2_VideoDevice();
 }
 
 Win_VideoDevice::~Win_VideoDevice()

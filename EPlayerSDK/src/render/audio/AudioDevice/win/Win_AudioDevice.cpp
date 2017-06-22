@@ -26,11 +26,12 @@
  */
 
 #include "Win_AudioDevice.h"
+#include "SDL2_AudioDevice.h"
 
 Win_AudioDevice::Win_AudioDevice(AudioRender* pAudioRender)
 :AudioDeviceI(pAudioRender)
 {
-    m_AudioDevice = new SDL_AudioDevice(pAudioRender);
+    m_AudioDevice = new SDL2_AudioDevice(pAudioRender);
 }
 
 Win_AudioDevice::~Win_AudioDevice()

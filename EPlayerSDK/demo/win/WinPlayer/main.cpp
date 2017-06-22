@@ -4,8 +4,10 @@
 #include <Windows.h>
 #include "EPlayerAPI.h"
 
-#define W_WIDTH  500
-#define W_HEIGHT 360
+#define W_WIDTH  1280
+#define W_HEIGHT  720
+
+char* filePath = "C:/Users/Public/Videos/Sample\ Videos/野生动物.wmv";
 
 static EPlayerAPI player;
 
@@ -23,7 +25,7 @@ int WINAPI WinMain(
     wndclass.cbClsExtra = 0;
     wndclass.cbWndExtra = 0;
     wndclass.style = CS_HREDRAW | CS_VREDRAW;
-    wndclass.lpszClassName = _T("EPlayerWnd");
+    wndclass.lpszClassName = _T("demoPlayerWnd");
     wndclass.hInstance = hInstance;
     wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
     wndclass.hIcon = 0;
@@ -35,9 +37,9 @@ int WINAPI WinMain(
         return 0;
     }
 
-    HWND hWnd = CreateWindow(_T("EPlayerWnd"),
-                             _T("WinPlayer"),
-                             WS_OVERLAPPEDWINDOW,
+    HWND hWnd = CreateWindow(_T("demoPlayerWnd"),
+                             _T("demoPlayer"),
+                             WS_OVERLAPPEDWINDOW^WS_THICKFRAME,
                              100, 100, W_WIDTH, W_HEIGHT, 0, 0, hInstance, 0);
 
     ShowWindow(hWnd, SW_SHOW);
@@ -46,7 +48,7 @@ int WINAPI WinMain(
     InitEPlayerAPI(&player);
 
     player.Init();
-    int ret = player.OpenMedia("d:/video/testVideo.mp4", (void*)hWnd, W_WIDTH, W_HEIGHT);
+    int ret = player.OpenMedia(filePath, (void*)hWnd, W_WIDTH, W_HEIGHT);
     if (ret == 0)
     {
         player.Play();
@@ -66,10 +68,6 @@ int WINAPI WinMain(
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM IParam)
 {
-    RECT rcClient = { 0 };
-    unsigned int nWidth = LOWORD(IParam); // width of client area
-    unsigned int nHeight = HIWORD(IParam); // height of client area
-
     switch (uMsg)
     {
     case WM_CLOSE:
@@ -77,18 +75,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM IParam)
         break;
     case WM_SYSCOMMAND:
         if (wParam == SC_MAXIMIZE)
-        return 0;
-    case WM_SIZE:   //要让窗体能够随着缩放改变，要响应WM-SIZE消息
-        if (player.UpdateVideoScreen)
-        {
-            player.UpdateVideoScreen(hwnd, nWidth, nHeight);
-            rcClient.left = 0;
-            rcClient.top = 0;
-            rcClient.right = nWidth;
-            rcClient.bottom = nHeight;
-            InvalidateRect(hwnd, &rcClient, 0);
-            DefWindowProc(hwnd, uMsg, wParam, IParam);
-        }
+            return 0;
     default:
         return DefWindowProc(hwnd, uMsg, wParam, IParam);
     }

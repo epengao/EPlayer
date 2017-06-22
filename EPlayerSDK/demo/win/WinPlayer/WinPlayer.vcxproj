@@ -90,6 +90,7 @@ copy "$(SolutionDir)..\..\..\thirdparty\ffmpeg\export\bin\win\swscale-4.dll" "$(
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\base\ECAutoLock.cpp" />
+    <ClCompile Include="..\..\..\src\base\ECBufferStream.cpp" />
     <ClCompile Include="..\..\..\src\base\ECMemOP.cpp" />
     <ClCompile Include="..\..\..\src\base\ECMutex.cpp" />
     <ClCompile Include="..\..\..\src\base\ECSignal.cpp" />
@@ -109,11 +110,11 @@ copy "$(SolutionDir)..\..\..\thirdparty\ffmpeg\export\bin\win\swscale-4.dll" "$(
     <ClCompile Include="..\..\..\src\framework\MediaCtrl.cpp" />
     <ClCompile Include="..\..\..\src\framework\MessageHub.cpp" />
     <ClCompile Include="..\..\..\src\player\Player.cpp" />
-    <ClCompile Include="..\..\..\src\render\audio\AudioDevice\common\SDL_AudioDevice.cpp" />
+    <ClCompile Include="..\..\..\src\render\audio\AudioDevice\common\SDL2_AudioDevice.cpp" />
     <ClCompile Include="..\..\..\src\render\audio\AudioDevice\win\Win_AudioDevice.cpp" />
     <ClCompile Include="..\..\..\src\render\audio\AudioRender.cpp" />
     <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\FrameScale.cpp" />
-    <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\SDL_VideoDevice.cpp" />
+    <ClCompile Include="..\..\..\src\render\video\VideoDevice\common\SDL2_VideoDevice.cpp" />
     <ClCompile Include="..\..\..\src\render\video\VideoDevice\win\Win_VideoDevice.cpp" />
     <ClCompile Include="..\..\..\src\render\video\VideoRender.cpp" />
     <ClCompile Include="..\..\..\src\source\FFmpegReader.cpp" />
@@ -125,6 +126,7 @@ copy "$(SolutionDir)..\..\..\thirdparty\ffmpeg\export\bin\win\swscale-4.dll" "$(
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\base\ECAutoLock.h" />
+    <ClInclude Include="..\..\..\src\base\ECBufferStream.h" />
     <ClInclude Include="..\..\..\src\base\ECError.h" />
     <ClInclude Include="..\..\..\src\base\ECLog.h" />
     <ClInclude Include="..\..\..\src\base\ECMemOP.h" />
@@ -151,12 +153,12 @@ copy "$(SolutionDir)..\..\..\thirdparty\ffmpeg\export\bin\win\swscale-4.dll" "$(
     <ClInclude Include="..\..\..\src\framework\MessageHub.h" />
     <ClInclude Include="..\..\..\src\player\Player.h" />
     <ClInclude Include="..\..\..\src\render\audio\AudioDeviceI.h" />
-    <ClInclude Include="..\..\..\src\render\audio\AudioDevice\common\SDL_AudioDevice.h" />
+    <ClInclude Include="..\..\..\src\render\audio\AudioDevice\common\SDL2_AudioDevice.h" />
     <ClInclude Include="..\..\..\src\render\audio\AudioDevice\win\Win_AudioDevice.h" />
     <ClInclude Include="..\..\..\src\render\audio\AudioRender.h" />
     <ClInclude Include="..\..\..\src\render\video\VideoDeviceI.h" />
     <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\FrameScale.h" />
-    <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\SDL_VideoDevice.h" />
+    <ClInclude Include="..\..\..\src\render\video\VideoDevice\common\SDL2_VideoDevice.h" />
     <ClInclude Include="..\..\..\src\render\video\VideoDevice\win\Win_VideoDevice.h" />
     <ClInclude Include="..\..\..\src\render\video\VideoRender.h" />
     <ClInclude Include="..\..\..\src\source\FFmpegReader.h" />

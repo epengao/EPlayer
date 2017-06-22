@@ -30,7 +30,6 @@
 
 #include "AudioRender.h"
 #include "AudioDeviceI.h"
-#include "SDL_AudioDevice.h"
 
 class Win_AudioDevice : public AudioDeviceI
 {
@@ -45,7 +44,7 @@ public:
     void Flush(){};
 
 private:
-    SDL_AudioDevice* m_AudioDevice;
+    AudioDeviceI* m_AudioDevice;
 };
 
 #endif /* WIN_AUDIO_DEVICE_H */
