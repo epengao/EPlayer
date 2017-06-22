@@ -36,14 +36,14 @@ SDL2_AudioDevice::SDL2_AudioDevice(AudioRender* pAudioRender)
 ,m_pResample(NULL)
 ,m_nMuteBufSize(MUTE_SOUND_BUF_SIZE)
 {
-	m_pMutePCM = (EC_U8*)ECMemAlloc(m_nMuteBufSize);
-	ECMemSet(m_pMutePCM, 0, m_nMuteBufSize);
+    m_pMutePCM = (EC_U8*)ECMemAlloc(m_nMuteBufSize);
+    ECMemSet(m_pMutePCM, 0, m_nMuteBufSize);
     SDL_memset(&m_sAudioContext, 0, sizeof(m_sAudioContext));
 }
 
 SDL2_AudioDevice::~SDL2_AudioDevice()
 {
-	if (m_pMutePCM) ECMemFree(m_pMutePCM);
+    if (m_pMutePCM) ECMemFree(m_pMutePCM);
 }
 
 int SDL2_AudioDevice::Init(MediaContext* pMediaCtx)
@@ -53,7 +53,7 @@ int SDL2_AudioDevice::Init(MediaContext* pMediaCtx)
     m_sAudioContext.callback = PlaySoundCallback;
     m_sAudioContext.freq = pMediaCtx->nSampleRate;
     m_sAudioContext.channels = pMediaCtx->nChannels;
-    m_sAudioContext.samples = 8192;// pMediaCtx->nSampleSize;
+    m_sAudioContext.samples = pMediaCtx->nSampleSize;
     AudioSampleFormat nSampleFmt = m_pAudioRender->SampleFmtSwitch(pMediaCtx->nSampleFormat);
     m_sAudioContext.format = SampleFmtSwitch(nSampleFmt);
 
@@ -139,7 +139,7 @@ void SDL2_AudioDevice::PlaySoundCallback(void* pUserData, Uint8* pStream, int nL
             {
                 EC_U32 doMix = nLen - nTotalMixPCM;
                 SDL_MixAudio(pStream, (Uint8*)pPCM, doMix, SDL_MIX_MAXVOLUME);
-                pSelf->m_PCMBufStream.Write(pPCM, (nOutSize - doMix)); /* Keep the rest of PCM*/
+                pSelf->m_PCMBufStream.Write(pPCM + doMix, (nOutSize - doMix)); /* Keep the rest of PCM*/
             }
             nTotalMixPCM = nTotalMixPCM + nOutSize;
         }
