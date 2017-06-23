@@ -163,7 +163,7 @@ void SDL2_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
         m_pSDLTexture = SDL_CreateTexture(m_pSDLRenderer,
                                           SDL_PIXELFORMAT_IYUV,
                                           SDL_TEXTUREACCESS_STREAMING,
-                                          m_nVideoWndWidth, m_nVideoWndHeight);
+                                          m_nVideoWidth*2, m_nVideoHeight*2);
     }
 }
 
