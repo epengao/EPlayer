@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 #include "ECOSDef.h"
 
 #ifdef EC_OS_Win32

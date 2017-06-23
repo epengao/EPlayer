@@ -38,7 +38,7 @@
     VideoWindow     *videoWindowView;
 
     UISlider        *playProgress;
-    
+
     CGFloat         newWindowWidth;
     CGFloat         newWindowHeight;
 
@@ -47,7 +47,7 @@
 
     BOOL            canRotate;
     BOOL            fullScreen;
-    
+
     NSInteger       openMediaRetCode;
 }
 @end
@@ -169,7 +169,7 @@
     {
         topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, TOP_View_Height)];
         topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
- 
+
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         backButton.tag = TOP_bakButton_Tag;
         [backButton setBackgroundColor:[UIColor clearColor]];
@@ -187,7 +187,7 @@
         [fileNameLable setTextColor:[UIColor whiteColor]];
         [fileNameLable setBackgroundColor:[UIColor clearColor]];
         [fileNameLable setTextAlignment:NSTextAlignmentCenter];
-        
+
         UIColor *colorOne = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
         UIColor *colorTwo = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
         NSArray *colors = [NSArray arrayWithObjects:(id)colorOne.CGColor, colorTwo.CGColor, nil];
@@ -338,7 +338,7 @@
     {
         [dismissPlayCtrlViewTimer invalidate];
         dismissPlayCtrlViewTimer = nil;
-        
+
     }
     dismissPlayCtrlViewTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(dismissPlayCtrlView) userInfo:nil repeats:NO];
 }
@@ -490,7 +490,7 @@
     NSString *playTimeStr = [self getTimeTitle:playTime];
     UILabel *timeLabel = [playControlView viewWithTag:BOT_playTimeLable_Tag];
     [timeLabel setText:playTimeStr];
-    
+
     [playProgress setValue:playTime];
 }
 
@@ -613,7 +613,7 @@
     CGRect lableFrame = CGRectMake(50, 0, lableWidth, height);
     UILabel *fileNameLable = [topMessageView viewWithTag:TOP_fileName_Tag];
     [fileNameLable setFrame:lableFrame];
-    
+
     CAGradientLayer *colorLayer = (CAGradientLayer*)topMessageView.layer.sublayers[0];
     [colorLayer setFrame:topViewFrame];
 

@@ -59,7 +59,7 @@ private:
 private:
     EC_U8*          m_pMutePCM;
     EC_U32          m_nMuteBufSize;
-	ReSample*       m_pResample;
+    ReSample*       m_pResample;
     SDL_AudioSpec   m_sAudioContext;
     ECBufferStream  m_PCMBufStream;
 };

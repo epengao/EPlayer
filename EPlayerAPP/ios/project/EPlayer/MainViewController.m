@@ -63,21 +63,21 @@
     self.title = @"EPlayer 易播";
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, [UIScreen mainScreen].bounds.size.width, kWMHeaderViewHeight)];
     redView.backgroundColor = [UIColor redColor];
-    
+
     UIView *aView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, kWMHeaderViewHeight)];
     UIImageView* headerImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, kWMHeaderViewHeight)];
     UIImage* image = [UIImage imageNamed:@"banner"];
     headerImageView.image = image;
     [aView addSubview:headerImageView];
-    
+
     UIColor * color = [UIColor colorWithRed:90.0f/256.0f green:53.0f/256.0f blue:200.0f/256.0f alpha:0.0];
     [self.navigationController.navigationBar lt_setBackgroundColor:[color colorWithAlphaComponent:0]];
-    
+
     self.redView = aView;
     [self.view addSubview:self.redView];
     self.panGesture = [[WMPanGestureRecognizer alloc] initWithTarget:self action:@selector(panOnView:)];
     [self.view addGestureRecognizer:self.panGesture];
-    
+
     NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
                               [UIColor whiteColor],
                               NSForegroundColorAttributeName,
@@ -112,26 +112,26 @@
 - (void)panOnView:(WMPanGestureRecognizer *)recognizer
 {
     CGPoint currentPoint = [recognizer locationInView:self.view];
-    
+
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         self.lastPoint = currentPoint;
     } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-        
+
         CGPoint velocity = [recognizer velocityInView:self.view];
         CGFloat targetPoint = velocity.y < 0 ? kNavigationBarHeight : kNavigationBarHeight + kWMHeaderViewHeight;
         NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
-        
+
         if (fabs(velocity.y) * 1.0 > fabs(targetPoint - self.viewTop))
         {
             [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 self.viewTop = targetPoint;
             } completion:nil];
-            
+
             return;
         }
     }
     CGFloat yChange = currentPoint.y - self.lastPoint.y;
-    
+
     self.viewTop += yChange;
     self.lastPoint = currentPoint;
 }
@@ -139,12 +139,12 @@
 - (void)setViewTop:(CGFloat)viewTop
 {
     _viewTop = viewTop;
-    
+
     CGFloat factor = 1 - (CGFloat)(_viewTop-kNavigationBarHeight)/(CGFloat)(kWMHeaderViewHeight-kNavigationBarHeight);
     if(factor <= 0) factor = 0.0f;
     if(factor >= 1) factor = 1.0f;
     [self updateNavigationAlpha:factor];
-    
+
     if (_viewTop <= kNavigationBarHeight)
     {
         _viewTop = kNavigationBarHeight;

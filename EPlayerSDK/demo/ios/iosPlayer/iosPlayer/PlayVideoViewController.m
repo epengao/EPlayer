@@ -23,9 +23,9 @@
 
     NSDate          *startTime;
     NSDateFormatter *timeFormatter;
-    
+
     UISlider        *playProgress;
-    
+
     CGFloat         newWindowWidth;
     CGFloat         newWindowHeight;
 }
@@ -93,7 +93,7 @@
     {
         topMessageView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, height)];
         topMessageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
- 
+
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setBackgroundColor:[UIColor clearColor]];
         [backButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.6] forState:UIControlStateNormal];
@@ -102,13 +102,13 @@
         [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
         [backButton setFrame:CGRectMake(0, 0, backButton.frame.size.width, height)];
         [backButton addTarget:self action:@selector(exitFullScreenButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
+
         UILabel *fileNameLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, topMessageView.bounds.size.width, height)];
         fileNameLable.text = [self.videoFileURL lastPathComponent];
         [fileNameLable setTextColor:[UIColor whiteColor]];
         [fileNameLable setBackgroundColor:[UIColor clearColor]];
         [fileNameLable setTextAlignment:NSTextAlignmentCenter];
-        
+
         [topMessageView addSubview:fileNameLable];
         [topMessageView addSubview:backButton];
         [self.view insertSubview:topMessageView aboveSubview:videoWindowView];
@@ -137,13 +137,13 @@
         float y = videoWindowView.bounds.size.height - hight;
         playControlView = [[UIView alloc]initWithFrame:CGRectMake(x, y, width, hight)];
         playControlView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
-        
+
         UIButton *pauseButton = [[UIButton alloc]initWithFrame:CGRectMake(20.0+23.0/2-hight/2, 0, hight, hight)];
         [pauseButton setBackgroundColor:[UIColor clearColor]];
         [pauseButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
         [pauseButton addTarget:self action:@selector(pauseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [playControlView addSubview:pauseButton];
-    
+
         /* duration label */
         NSString *currTime = [self getTimeTitle:0];
         NSString *totalTime = [self getTimeTitle:duration];
@@ -271,7 +271,6 @@
 
 - (NSString*)getTimeTitle :(NSUInteger)time
 {
-    
     int s = (int)time/1000;
     int m = s/60;
     int h = m/60;

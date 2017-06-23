@@ -191,7 +191,7 @@
             CGSize cellSize = self.frame.size;
             CGFloat targetWidth = cellSize.width * 0.5 - 8;
             CGFloat targetHeight = cellSize.height * 0.3;
-            
+
             CGFloat y = 10;
             CGFloat x = targetWidth + 16;
             CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);

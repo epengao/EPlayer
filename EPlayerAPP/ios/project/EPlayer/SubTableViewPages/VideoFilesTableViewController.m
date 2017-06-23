@@ -473,7 +473,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     CGFloat x = (self.tableView.frame.size.width - targetWidth) * 0.5;
     CGFloat y = (self.tableView.frame.size.width - targetHeight) *0.5 + 5;
     CGRect targetFrame = CGRectMake(x, y, targetWidth, targetHeight);
-    
+
     if(_helpButton == nil)
     {
         _helpButton = [[UIButton alloc]initWithFrame:targetFrame];
@@ -483,19 +483,19 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
     [_helpButton addTarget:self action:@selector(helpButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [_helpButton setTitleColor:normalColor forState:UIControlStateNormal];
     [_helpButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
-    
+
     NSRange titleRange = {0,[title length]};
     NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:title];
     [titleStr addAttribute:NSForegroundColorAttributeName value:normalColor range:titleRange];
     [titleStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
     [_helpButton setAttributedTitle:titleStr forState:UIControlStateNormal];
-    
+
     NSRange titleRange0 = {0,[title length]};
     NSMutableAttributedString *titleStr0 = [[NSMutableAttributedString alloc] initWithString:title];
     [titleStr0 addAttribute:NSForegroundColorAttributeName value:highlightedColor range:titleRange0];
     [titleStr0 addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
     [_helpButton setAttributedTitle:titleStr0 forState:UIControlStateHighlighted];
-    
+
     [self.tableView.backgroundView addSubview:_helpButton];
 }
 
@@ -511,7 +511,7 @@ static NSString *const CameraTablewCellIdentifier = @"CameraTablewCellIdentifier
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         videoInfo.updateTime = [dateFormatter stringFromDate:updateDate];
         videoInfo.fileSize = [[fileAttributes objectForKey:NSFileSize] floatValue] / (1000*1000.0f);
-        
+
         NSURL *url = [NSURL fileURLWithPath:fileURL];
         AVURLAsset *urlAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
         videoInfo.videoDuration = [self convertCMTimeToNSString:urlAsset.duration];
