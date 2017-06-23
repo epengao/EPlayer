@@ -32,6 +32,17 @@
 #include "ECType.h"
 #include "VideoDecoder.h"
 
+typedef enum
+{
+    VideoRotation_None      = 0,
+    VideoRotation_Left_90   = 1,
+    VideoRotation_Left_180  = 2,
+    VideoRotation_Left_270  = 3,
+    VideoRotation_Right_90  = 4,
+    VideoRotation_Right_180 = 5,
+    VideoRotation_Right_270 = 6,
+} VideoRotation;
+
 #define Video_Render_Err_None            0x00000000
 #define Video_Render_Err_DeviceErr       0x0F000001
 
