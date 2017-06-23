@@ -85,6 +85,7 @@ typedef struct
     bool seekable;
     bool hasAudio;
     bool hasVideo;
+    int videoRotation;
     unsigned int nDuration;
     unsigned int nVideoWidth;
     unsigned int nVideoHeight;

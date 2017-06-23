@@ -100,6 +100,7 @@ void GetMeidaInfo(MediaInfo* pMediaInfo)
             pMediaInfo->nDuration = pCtx->nDuration;
             pMediaInfo->nVideoWidth = pCtx->nVideoWidth;
             pMediaInfo->nVideoHeight = pCtx->nVideoHeight;
+            pMediaInfo->videoRotation = pCtx->videoRotation;
             pMediaInfo->nAudioChannels = pCtx->nChannels;
             pMediaInfo->nAudioSampleRate = pCtx->nSampleRate;
         }
