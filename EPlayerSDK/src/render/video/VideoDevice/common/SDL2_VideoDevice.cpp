@@ -213,8 +213,8 @@ void SDL2_VideoDevice::SetEqualScalingRotaR90(SDL_Rect *pRect)
 
     if (nVideoScaleToHeight > m_nVideoWndWidth)
     {
-        nVideoScaleToWidth = m_nVideoWndWidth;
-        nVideoScaleToHeight = (EC_U32)((float)nVideoScaleToWidth / ratio);
+        nVideoScaleToHeight = m_nVideoWndWidth;
+        nVideoScaleToWidth = (EC_U32)((float)nVideoScaleToHeight * ratio);
     }
 
     nVideoScaleToWidth = (nVideoScaleToWidth >> 4) << 4;
