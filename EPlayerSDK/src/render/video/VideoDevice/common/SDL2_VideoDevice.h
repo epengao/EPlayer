@@ -31,17 +31,6 @@
 #define VIDEO_POSI_ALIGN 2
 #define VIDEO_SIZE_ALIGN 4
 
-typedef enum
-{
-    VideoRotation_None      = 0,
-    VideoRotation_Left_90   = 1,
-    VideoRotation_Left_180  = 2,
-    VideoRotation_Left_270  = 3,
-    VideoRotation_Right_90  = 4,
-    VideoRotation_Right_180 = 5,
-    VideoRotation_Right_270 = 6,
-} VideoRotation;
-
 extern "C"
 {
 #include "SDL2/SDL.h"
@@ -64,11 +53,15 @@ public:
     void UpdateVideoWindow(void* pWindow, int nWidth, int nHeight);
 
 private:
-    void SetEqualScaling(SDL_Rect *pRect);
-    void SetEqualScalingRotaR90(SDL_Rect *pRect);
+    void SetVideoRect();
+    void SetFrameRect();
+    void SetRenderRect();
+    void SetRenderRectNormal();
+    void SetRenderRectRotaR90();
 
 private:
     SDL_Rect            m_FrameRect;
+    SDL_Rect            m_RenderRect;
     SDL_Window*         m_pSDLWindow;
     SDL_Texture*        m_pSDLTexture;
     SDL_Renderer*       m_pSDLRenderer;

@@ -12,8 +12,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define W_WIDTH  907
-#define W_HEIGHT 617
+#define W_WIDTH  800
+#define W_HEIGHT 600
 
 NSWindow* creat_window(int w, int h)
 {
@@ -50,7 +50,7 @@ int main(int argc, const char * argv[]) {
     //int xxx = player.OpenMedia("http://wsod.qingting.fm/vod/00/00/0000000000000000000024714128_24.m4a");
     //int xxx = player.OpenMedia("http://live.whtv.com.cn/live/2a532d70bcbe47e6aaccc74dea2655cc?fmt=h264_450k_flv", drawable, 600, 400);
 
-    NSInteger xxx = [playerAPI openMediaPath:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"
+    NSInteger xxx = [playerAPI openMediaPath:@"/Users/epengao/Movies/IMG_1048.MOV"
                            videoWindow:videoWindow
                            windowWidth:W_WIDTH
                           windowHeight:W_HEIGHT];

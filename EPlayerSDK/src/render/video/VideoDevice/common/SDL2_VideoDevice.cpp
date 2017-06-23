@@ -56,17 +56,14 @@ int SDL2_VideoDevice::Init(void* pVideoWindow,
     m_nVideoWndHeight = nWindowHeight;
     m_nVideoWidth = pMediaContext->nVideoWidth;
     m_nVideoHeight = pMediaContext->nVideoHeight;
+    m_nVideoRotation = VideoRotation_None;
 
-    ScaleParam  frameScaleParam;
     if(pMediaContext->videoRotation == -90)
     {
-        SetEqualScalingRotaR90(&m_FrameRect);
         m_nVideoRotation = VideoRotation_Right_90;
     }
-    else
-    {
-        SetEqualScaling(&m_FrameRect);
-    }
+    SetVideoRect();
+    ScaleParam frameScaleParam;
     frameScaleParam.outputWidth = m_FrameRect.w;
     frameScaleParam.outputHeight = m_FrameRect.h;
     frameScaleParam.inputWidth = pMediaContext->nVideoWidth;
@@ -84,7 +81,7 @@ int SDL2_VideoDevice::Init(void* pVideoWindow,
     m_pSDLTexture = SDL_CreateTexture(m_pSDLRenderer,
                                       SDL_PIXELFORMAT_IYUV,
                                       SDL_TEXTUREACCESS_STREAMING,
-                                      m_nVideoWndWidth, m_nVideoWndHeight);
+                                      m_nVideoWidth*2, m_nVideoHeight*2);
     return Video_Render_Err_None;
 }
 
@@ -102,6 +99,7 @@ void SDL2_VideoDevice::Uninit()
         m_pVideoFrameScale = NULL;
     }
     ECMemSet(&m_FrameRect, 0, sizeof(SDL_Rect));
+    ECMemSet(&m_RenderRect, 0, sizeof(SDL_Rect));
 
     /* clear video screen to black */
     SDL_SetRenderDrawColor(m_pSDLRenderer, 0, 0, 0, 255);
@@ -111,7 +109,7 @@ void SDL2_VideoDevice::Uninit()
     SDL_DestroyRenderer(m_pSDLRenderer);
     SDL_DestroyTexture(m_pSDLTexture);
     SDL_DestroyWindow(m_pSDLWindow);
-    // SDL_Quit();
+    /* SDL_Quit(); can not Quit? Bug?*/
 }
 
 void SDL2_VideoDevice::Flush()
@@ -129,7 +127,8 @@ void SDL2_VideoDevice::DrawFrame(VideoFrame *pFrame)
         SDL_UpdateTexture(m_pSDLTexture, &m_FrameRect, pOutFrameBuf, nBufSize);
         if(m_nVideoRotation == VideoRotation_Right_90)
         {
-            SDL_RenderCopyEx(m_pSDLRenderer, m_pSDLTexture, &m_FrameRect, &m_FrameRect, 90, NULL, SDL_FLIP_NONE);
+            static SDL_Point rotaPoint = {.x = 0, .y = 0};
+            SDL_RenderCopyEx(m_pSDLRenderer, m_pSDLTexture, &m_FrameRect, &m_RenderRect, 90, &rotaPoint, SDL_FLIP_NONE);
         }
         else
         {
@@ -150,14 +149,7 @@ void SDL2_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
         m_nVideoWndWidth = nWidth;
         m_nVideoWndHeight = nHeight;
 
-        if(m_nVideoRotation == VideoRotation_Right_90)
-        {
-            SetEqualScalingRotaR90(&m_FrameRect);
-        }
-        else
-        {
-            SetEqualScaling(&m_FrameRect);
-        }
+        SetVideoRect();
         m_pVideoFrameScale->UpdateScaleOutput(m_FrameRect.w, m_FrameRect.h);
 
         if(updateWindow)
@@ -176,10 +168,59 @@ void SDL2_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
 }
 
 /* Private Method */
-void SDL2_VideoDevice::SetEqualScaling(SDL_Rect *pRect)
+void SDL2_VideoDevice::SetVideoRect()
 {
-    if (pRect == NULL) return;
+    /* First we have set the 
+     * render rect by the window */
+    SetRenderRect();
+    /* From the render rect we get
+     ^ the video frame scale rect */
+    SetFrameRect();
+}
 
+void SDL2_VideoDevice::SetFrameRect()
+{
+    if(m_nVideoRotation == VideoRotation_None)
+    {
+        m_FrameRect.x = m_RenderRect.x;
+        m_FrameRect.y = m_RenderRect.y;
+        m_FrameRect.w = m_RenderRect.w;
+        m_FrameRect.h = m_RenderRect.h;
+    }
+    else if(m_nVideoRotation == VideoRotation_Right_90)
+    {
+        m_FrameRect.x = 0;
+        m_FrameRect.y = 0;
+        m_FrameRect.w = m_RenderRect.w;
+        m_FrameRect.h = m_RenderRect.h;
+        /* 
+         * 1. rotation from point:{x=0,y=m_FrameRect.h}
+         * 2. scale to new rect point:{x=-m_FrameRect.h,y=0}
+         * 3. move new frame to m_RenderRect
+         */
+        int afterRotaY = 0;
+        int afterRotaX = -1 * m_RenderRect.h;
+        m_RenderRect.x = m_RenderRect.x - afterRotaX;
+        m_RenderRect.y = m_RenderRect.y - afterRotaY;
+    }
+    else {/* TODO */}
+}
+
+void SDL2_VideoDevice::SetRenderRect()
+{
+    if(m_nVideoRotation == VideoRotation_None)
+    {
+        SetRenderRectNormal();
+    }
+    else if(m_nVideoRotation == VideoRotation_Right_90)
+    {
+        SetRenderRectRotaR90();
+    }
+    else {/* TODO */}
+}
+
+void SDL2_VideoDevice::SetRenderRectNormal()
+{
     float ratio = 1.0f * (float)m_nVideoWidth / (float)m_nVideoHeight;
     EC_U32 nVideoScaleToHeight = m_nVideoWndHeight;
     EC_U32 nVideoScaleToWidth = (EC_U32)(ratio * nVideoScaleToHeight);
@@ -192,21 +233,19 @@ void SDL2_VideoDevice::SetEqualScaling(SDL_Rect *pRect)
 
     nVideoScaleToWidth = (nVideoScaleToWidth >> 4) << 4;
     nVideoScaleToHeight = (nVideoScaleToHeight >> 4) << 4;
-    pRect->w = nVideoScaleToWidth;
-    pRect->h = nVideoScaleToHeight;
-    pRect->x = (m_nVideoWndWidth - nVideoScaleToWidth) * 0.5;
-    pRect->y = (m_nVideoWndHeight - nVideoScaleToHeight) * 0.5;
+    m_RenderRect.w = nVideoScaleToWidth;
+    m_RenderRect.h = nVideoScaleToHeight;
+    m_RenderRect.x = (m_nVideoWndWidth - nVideoScaleToWidth) * 0.5;
+    m_RenderRect.y = (m_nVideoWndHeight - nVideoScaleToHeight) * 0.5;
 
-    EC_U32 xa = pRect->x % VIDEO_POSI_ALIGN;
-    EC_U32 ya = pRect->y % VIDEO_POSI_ALIGN;
-    pRect->x = pRect->x + xa;
-    pRect->y = pRect->y + ya;
+    EC_U32 xa = m_RenderRect.x % VIDEO_POSI_ALIGN;
+    EC_U32 ya = m_RenderRect.y % VIDEO_POSI_ALIGN;
+    m_RenderRect.x = m_RenderRect.x + xa;
+    m_RenderRect.y = m_RenderRect.y + ya;
 }
 
-void SDL2_VideoDevice::SetEqualScalingRotaR90(SDL_Rect *pRect)
+void SDL2_VideoDevice::SetRenderRectRotaR90()
 {
-    if (pRect == NULL) return;
-
     float ratio = 1.0f * (float)m_nVideoWidth / (float)m_nVideoHeight;
     EC_U32 nVideoScaleToWidth = m_nVideoWndHeight;
     EC_U32 nVideoScaleToHeight = (EC_U32)((float)nVideoScaleToWidth / ratio);
@@ -219,13 +258,13 @@ void SDL2_VideoDevice::SetEqualScalingRotaR90(SDL_Rect *pRect)
 
     nVideoScaleToWidth = (nVideoScaleToWidth >> 4) << 4;
     nVideoScaleToHeight = (nVideoScaleToHeight >> 4) << 4;
-    pRect->w = nVideoScaleToWidth;
-    pRect->h = nVideoScaleToHeight;
-    pRect->x = (m_nVideoWndWidth - nVideoScaleToWidth) * 0.5;
-    pRect->y = (m_nVideoWndHeight - nVideoScaleToHeight) * 0.5;
+    m_RenderRect.w = nVideoScaleToWidth;
+    m_RenderRect.h = nVideoScaleToHeight;
+    m_RenderRect.x = (m_nVideoWndWidth - nVideoScaleToHeight) * 0.5;
+    m_RenderRect.y = (m_nVideoWndHeight - nVideoScaleToWidth) * 0.5;
 
-    EC_U32 xa = pRect->x % VIDEO_POSI_ALIGN;
-    EC_U32 ya = pRect->y % VIDEO_POSI_ALIGN;
-    pRect->x = pRect->x + xa;
-    pRect->y = pRect->y + ya;
+    EC_U32 xa = m_RenderRect.x % VIDEO_POSI_ALIGN;
+    EC_U32 ya = m_RenderRect.y % VIDEO_POSI_ALIGN;
+    m_RenderRect.x = m_RenderRect.x + xa;
+    m_RenderRect.y = m_RenderRect.y + ya;
 }
