@@ -86,5 +86,6 @@ void Mac_VideoDevice::DrawFrame(VideoFrame *pFrame)
 
 void Mac_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
 {
-    m_pRndDev->UpdateVideoWindow(pWindow, nWidth, nHeight);
+    VideoWindow *pWnd = (__bridge VideoWindow*)pWindow;
+    m_pRndDev->UpdateVideoWindow((__bridge void*)pWnd._videoWnd, nWidth, nHeight);
 }

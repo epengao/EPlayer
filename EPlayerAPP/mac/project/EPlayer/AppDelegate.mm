@@ -17,6 +17,8 @@
 /* EPlayer SDK */
 @property MediaInfo* mediaInfo;
 @property EPlayerAPI* playerSDK;
+/* VideoWindow */
+@property VideoWindow *videoWnd;
 /* player init flag */
 @property bool playerSdkInitFinished;
 /* NSWindow Title */
@@ -111,6 +113,7 @@
     [self.window setMovableByWindowBackground:YES];
     self.window.contentMinSize = NSMakeSize(260, 220);
     self.window.titleVisibility = NSWindowTitleHidden;
+    self.videoWnd = [VideoWindow createVideoWindowFrom:self.window];
     //self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenNone;
 
     CGFloat screenWidth = [NSScreen mainScreen].frame.size.width;
@@ -232,13 +235,12 @@
     {
         ctrlViewHeight = 0;
     }
-    void* videoWnd = (__bridge void*)(self.window);
     CGFloat factor = [NSScreen mainScreen].backingScaleFactor;
     int width = wndWidth * factor;
     int height = (wndHeight - ctrlViewHeight) * factor;
     if([_playerSDK hasMediaActived] && _mediaInfo.hasVideo)
     {
-        [_playerSDK updateVideoWindow:videoWnd windowWidth:width windowHeight:height];
+        [_playerSDK updateVideoWindow:self.videoWnd windowWidth:width windowHeight:height];
     }
     [self updateMediaCtrlPanelSize];
 }
@@ -513,11 +515,10 @@
     {
         ctrlViewHeight = 0;
     }
-    void* videoWnd = (__bridge void*)(self.window);
     CGFloat factor = [NSScreen mainScreen].backingScaleFactor;
     unsigned int width = self.window.contentView.frame.size.width * factor;
     unsigned int height = (self.window.contentView.frame.size.height - ctrlViewHeight) * factor;
-    NSInteger ret = [_playerSDK openMediaPath:mediaURL videoWindow:videoWnd windowWidth:width windowHeight:height];
+    NSInteger ret = [_playerSDK openMediaPath:mediaURL videoWindow:self.videoWnd windowWidth:width windowHeight:height];
     if(ret == EPlayer_Err_None)
     {
         _mediaInfo = [_playerSDK getMeidaInfo];

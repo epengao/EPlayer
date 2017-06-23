@@ -88,6 +88,9 @@ int Player::OpenMedia(const char* pMeidaPath,
             if(pMCtx->hasVideo) m_VEOS = false;
             m_nPlayerStatus = PlayerStatus_Opened;
             ECMemCopy(&m_MediaContext, pMCtx, sizeof(MediaContext));
+            /*
+             * SDK added an atrribute videoRotation, so SDK just tell
+             * user layer the ture width & height with rotation value.
             if( (pMCtx->videoRotation == 90)  ||
                 (pMCtx->videoRotation == -90) ||
                 (pMCtx->videoRotation == 270) ||
@@ -95,7 +98,7 @@ int Player::OpenMedia(const char* pMeidaPath,
             {
                 m_MediaContext.nVideoWidth = pMCtx->nVideoHeight;
                 m_MediaContext.nVideoHeight = pMCtx->nVideoWidth;
-            }
+            } */
         }
         else
         {

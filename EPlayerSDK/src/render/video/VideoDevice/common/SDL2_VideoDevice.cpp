@@ -60,7 +60,7 @@ int SDL2_VideoDevice::Init(void* pVideoWindow,
     ScaleParam  frameScaleParam;
     if(pMediaContext->videoRotation == -90)
     {
-        SetEqualScalingRota(&m_FrameRect);
+        SetEqualScalingRotaR90(&m_FrameRect);
         m_nVideoRotation = VideoRotation_Right_90;
     }
     else
@@ -149,7 +149,15 @@ void SDL2_VideoDevice::UpdateVideoWindow(void* pWindow, int nWidth, int nHeight)
     {
         m_nVideoWndWidth = nWidth;
         m_nVideoWndHeight = nHeight;
-        SetEqualScaling(&m_FrameRect);
+
+        if(m_nVideoRotation == VideoRotation_Right_90)
+        {
+            SetEqualScalingRotaR90(&m_FrameRect);
+        }
+        else
+        {
+            SetEqualScaling(&m_FrameRect);
+        }
         m_pVideoFrameScale->UpdateScaleOutput(m_FrameRect.w, m_FrameRect.h);
 
         if(updateWindow)
@@ -195,7 +203,7 @@ void SDL2_VideoDevice::SetEqualScaling(SDL_Rect *pRect)
     pRect->y = pRect->y + ya;
 }
 
-void SDL2_VideoDevice::SetEqualScalingRota(SDL_Rect *pRect)
+void SDL2_VideoDevice::SetEqualScalingRotaR90(SDL_Rect *pRect)
 {
     if (pRect == NULL) return;
 

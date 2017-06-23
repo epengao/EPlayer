@@ -42,6 +42,7 @@ void NotifyHandler(void* pUserData, unsigned int msg);
         self.duration = 0;
         self.videoWidth = 0;
         self.videoHeight = 0;
+        self.videoRotation = 0;
         self.audioChannels = 0;
         self.audioSampleRate = 0;
     }
@@ -149,6 +150,7 @@ void NotifyHandler(void* pUserData, unsigned int msg);
                 mediaInfo.duration = ctx->nDuration;
                 mediaInfo.videoWidth = ctx->nVideoWidth;
                 mediaInfo.videoHeight = ctx->nVideoHeight;
+                mediaInfo.videoRotation = ctx->videoRotation;
                 mediaInfo.audioChannels = ctx->nChannels;
                 mediaInfo.audioSampleRate = ctx->nSampleRate;
             }

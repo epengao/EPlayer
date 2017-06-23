@@ -98,6 +98,7 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
   @property (nonatomic, assign) NSUInteger duration;
   @property (nonatomic, assign) NSUInteger videoWidth;
   @property (nonatomic, assign) NSUInteger videoHeight;
+  @property (nonatomic, assign) NSInteger videoRotation;
   @property (nonatomic, assign) NSUInteger audioChannels;
   @property (nonatomic, assign) NSUInteger audioSampleRate;
 @end

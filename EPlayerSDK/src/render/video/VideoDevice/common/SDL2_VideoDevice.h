@@ -65,7 +65,7 @@ public:
 
 private:
     void SetEqualScaling(SDL_Rect *pRect);
-    void SetEqualScalingRota(SDL_Rect *pRect);
+    void SetEqualScalingRotaR90(SDL_Rect *pRect);
 
 private:
     SDL_Rect            m_FrameRect;
