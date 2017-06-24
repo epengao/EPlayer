@@ -339,7 +339,7 @@
 
     if ([openDocPanel runModal] == NSModalResponseOK)
     {
-        NSString* mediaPath = openDocPanel.URL.absoluteString;
+        NSString* mediaPath = [[openDocPanel.URL absoluteString]stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [self openMedia:mediaPath];
     }
 }
