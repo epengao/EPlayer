@@ -89,11 +89,11 @@
 		02BA0E991ECD77E0008D136E /* FrameScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BA0E8A1ECD77E0008D136E /* FrameScale.h */; };
 		02BA0E9A1ECD77E0008D136E /* SDL2_VideoDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BA0E8B1ECD77E0008D136E /* SDL2_VideoDevice.cpp */; };
 		02BA0E9B1ECD77E0008D136E /* SDL2_VideoDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BA0E8C1ECD77E0008D136E /* SDL2_VideoDevice.h */; };
-		02BA0E9E1ECD77E0008D136E /* Mac_VideoDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BA0E901ECD77E0008D136E /* Mac_VideoDevice.cpp */; };
-		02BA0E9F1ECD77E0008D136E /* Mac_VideoDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BA0E911ECD77E0008D136E /* Mac_VideoDevice.h */; };
 		02BA0EA21ECD77E0008D136E /* VideoDeviceI.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BA0E951ECD77E0008D136E /* VideoDeviceI.h */; };
 		02BA0EA31ECD77E0008D136E /* VideoRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BA0E961ECD77E0008D136E /* VideoRender.cpp */; };
 		02BA0EA41ECD77E0008D136E /* VideoRender.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BA0E971ECD77E0008D136E /* VideoRender.h */; };
+		90109F6B1EFE0FBE00966228 /* Mac_VideoDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 90109F691EFE0FBE00966228 /* Mac_VideoDevice.h */; };
+		90109F6C1EFE0FBE00966228 /* Mac_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90109F6A1EFE0FBE00966228 /* Mac_VideoDevice.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -193,12 +193,12 @@
 		02BA0E8A1ECD77E0008D136E /* FrameScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameScale.h; sourceTree = "<group>"; };
 		02BA0E8B1ECD77E0008D136E /* SDL2_VideoDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDL2_VideoDevice.cpp; sourceTree = "<group>"; };
 		02BA0E8C1ECD77E0008D136E /* SDL2_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_VideoDevice.h; sourceTree = "<group>"; };
-		02BA0E901ECD77E0008D136E /* Mac_VideoDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mac_VideoDevice.cpp; sourceTree = "<group>"; };
-		02BA0E911ECD77E0008D136E /* Mac_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mac_VideoDevice.h; sourceTree = "<group>"; };
 		02BA0E951ECD77E0008D136E /* VideoDeviceI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDeviceI.h; sourceTree = "<group>"; };
 		02BA0E961ECD77E0008D136E /* VideoRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoRender.cpp; sourceTree = "<group>"; };
 		02BA0E971ECD77E0008D136E /* VideoRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRender.h; sourceTree = "<group>"; };
 		02E4E35B1EB896C1009612AF /* EPlayerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EPlayerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		90109F691EFE0FBE00966228 /* Mac_VideoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mac_VideoDevice.h; sourceTree = "<group>"; };
+		90109F6A1EFE0FBE00966228 /* Mac_VideoDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Mac_VideoDevice.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -437,8 +437,8 @@
 		02BA0E8F1ECD77E0008D136E /* mac */ = {
 			isa = PBXGroup;
 			children = (
-				02BA0E901ECD77E0008D136E /* Mac_VideoDevice.cpp */,
-				02BA0E911ECD77E0008D136E /* Mac_VideoDevice.h */,
+				90109F691EFE0FBE00966228 /* Mac_VideoDevice.h */,
+				90109F6A1EFE0FBE00966228 /* Mac_VideoDevice.mm */,
 			);
 			path = mac;
 			sourceTree = "<group>";
@@ -500,6 +500,7 @@
 				0237C2061EB89D9A005ED91D /* PacketManager.h in Headers */,
 				0237C1D21EB89D9A005ED91D /* ECType.h in Headers */,
 				0237C1C41EB89D9A005ED91D /* ECMutex.h in Headers */,
+				90109F6B1EFE0FBE00966228 /* Mac_VideoDevice.h in Headers */,
 				0237C1E21EB89D9A005ED91D /* VideoDecPort.h in Headers */,
 				0237C1C01EB89D9A005ED91D /* ECLog.h in Headers */,
 				0237C1DE1EB89D9A005ED91D /* FFmpegVideoDecoder.h in Headers */,
@@ -509,7 +510,6 @@
 				0237C1E61EB89D9A005ED91D /* MediaCtrl.h in Headers */,
 				0237C1BE1EB89D9A005ED91D /* ECAutoLock.h in Headers */,
 				0237C2021EB89D9A005ED91D /* FFmpegReader.h in Headers */,
-				02BA0E9F1ECD77E0008D136E /* Mac_VideoDevice.h in Headers */,
 				0237C1F51EB89D9A005ED91D /* AudioRender.h in Headers */,
 				0237C1D41EB89D9A005ED91D /* ECUtil.h in Headers */,
 				0237C1E81EB89D9A005ED91D /* MessageHub.h in Headers */,
@@ -605,7 +605,6 @@
 				02BA0E841ECD7717008D136E /* EPlayerAPI_IMP.mm in Sources */,
 				0237C1CA1EB89D9A005ED91D /* ECString.cpp in Sources */,
 				02BA0E981ECD77E0008D136E /* FrameScale.cpp in Sources */,
-				02BA0E9E1ECD77E0008D136E /* Mac_VideoDevice.cpp in Sources */,
 				0237C1C11EB89D9A005ED91D /* ECMemOP.cpp in Sources */,
 				0237C1F41EB89D9A005ED91D /* AudioRender.cpp in Sources */,
 				0237C2071EB89D9A005ED91D /* SourceAudioPort.cpp in Sources */,
@@ -625,6 +624,7 @@
 				0237C1D51EB89D9A005ED91D /* MediaClock.cpp in Sources */,
 				0237C1DF1EB89D9A005ED91D /* VideoDecoder.cpp in Sources */,
 				0237C1E51EB89D9A005ED91D /* MediaCtrl.cpp in Sources */,
+				90109F6C1EFE0FBE00966228 /* Mac_VideoDevice.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
