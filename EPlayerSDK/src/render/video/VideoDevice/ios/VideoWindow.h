@@ -26,21 +26,11 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "VideoDeviceI.h"
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <QuartzCore/QuartzCore.h>
-
-typedef NS_ENUM(NSUInteger, VideoRotation)
-{
-    VideoRotation_None      = 0,
-    VideoRotation_Left_90   = 1,
-    VideoRotation_Left_180  = 2,
-    VideoRotation_Left_270  = 3,
-    VideoRotation_Right_90  = 4,
-    VideoRotation_Right_180 = 5,
-    VideoRotation_Right_270 = 6,
-};
 
 @interface VideoWindow : UIView
 - (id)initWithFrame:(CGRect)frame;
