@@ -26,6 +26,7 @@
 /* Current NSWindow */
 @property (weak) IBOutlet MainWindow *window;
 /* File menus Ctrl */
+@property (weak) IBOutlet NSMenuItem *openURLMenu;
 @property (weak) IBOutlet NSMenuItem *closeMediaMenu;
 /* Audio Ctrl Menu Items */
 @property (weak) IBOutlet NSMenuItem *audioMute;
@@ -120,27 +121,28 @@
     CGFloat screenHeight = [NSScreen mainScreen].frame.size.height;
     CGFloat initWndWidth = screenWidth * 0.4;
     CGFloat initWndHeight = initWndWidth * 0.618 + 30;
-
     CGFloat x = (screenWidth - initWndWidth) * 0.5;
     CGFloat y = (screenHeight - initWndHeight) * 0.5;
     [self.window setFrame:NSMakeRect(x, y, initWndWidth, initWndHeight) display:YES];
-    
+
     NSRect boundsRect = [[[self.window contentView] superview] bounds];
     _titleview = [[WinTitleView alloc] initWithFrame:boundsRect];
     [_titleview setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-    
+
     self.window.backgroundColor = [NSColor colorWithDeviceRed:0 green:0 blue:0 alpha:1.00];
     [self.window setOpaque:NO];
-    
+
     [[[self.window contentView] superview] addSubview:_titleview positioned:NSWindowBelow relativeTo:[[[[self.window contentView] superview] subviews] objectAtIndex:0]];
-    
+
     NSButton *closeButton = [[self window] standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
     [closeButton setAction:@selector(closeApplication)];
-    
+
     /* 静态毛玻璃模糊 */
     //[self.window.contentView insertVibrancyViewBlendingMode:NSVisualEffectBlendingModeWithinWindow];
-    
+    /* We will supoort OpenURL later */
+    [self.openURLMenu setHidden:YES];
+
     [self setAudioMenuItems:NO];
     [self setVideoMenuItems:NO];
     [self setMenuStatus:_closeMediaMenu status:NO action:nil];
