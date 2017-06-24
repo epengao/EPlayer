@@ -26,6 +26,11 @@
  */
 
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#include <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
 
 /* Return Err Define */
 #define EPlayer_Err_None                 0x00000000
@@ -52,12 +57,10 @@ typedef NS_ENUM(NSUInteger, EPlayerMessage)
     EPlayer_Msg_PlayStart            = 1,
     EPlayer_Msg_PlayStop             = 2,
     EPlayer_Msg_NetworkError         = 3,
-    EPlayer_Msg_Video_BufferingStart = 4,
-    EPlayer_Msg_Video_BufferingStop  = 5,
-    EPlayer_Msg_Audio_BufferingStart = 6,
-    EPlayer_Msg_Audio_BufferingStop  = 7,
-    EPlayer_Msg_Audio_PlayFinished   = 8,
-    EPlayer_Msg_Video_PlayFinished   = 9,
+    EPlayer_Msg_BufferingStart       = 4,
+    EPlayer_Msg_BufferingStop        = 5,
+    EPlayer_Msg_Audio_PlayFinished   = 6,
+    EPlayer_Msg_Video_PlayFinished   = 7,
     EPlayer_Msg_Undefine        = 0xFFFF,
 };
 
@@ -73,16 +76,29 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
     EPlayerStatus_Unknown = 0xFF,
 };
 
+#if TARGET_OS_IPHONE
+@interface VideoWindow : UIView
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithCoder:(NSCoder*)aDecoder;
+@end
+#elif TARGET_OS_MAC
+@interface VideoWindow : NSObject
++ (VideoWindow*)createVideoWindowFrom:(NSWindow*)window;
+@end
+#endif
+
 /*
  * MeidaInfo
  * NOTE: duration use ms
  */
 @interface MediaInfo : NSObject
+  @property (nonatomic, assign) BOOL seekable;
   @property (nonatomic, assign) BOOL hasAudio;
   @property (nonatomic, assign) BOOL hasVideo;
   @property (nonatomic, assign) NSUInteger duration;
   @property (nonatomic, assign) NSUInteger videoWidth;
   @property (nonatomic, assign) NSUInteger videoHeight;
+  @property (nonatomic, assign) NSInteger videoRotation;
   @property (nonatomic, assign) NSUInteger audioChannels;
   @property (nonatomic, assign) NSUInteger audioSampleRate;
 @end
@@ -108,13 +124,13 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
  * API: openMeida
  * @pMediaPath: Local file/Network URL
  * @videoWindow: Video output Window
-                 Mac with NSWindow, iOS with UIImage
+                 Mac create it with NSWindow, iOS create it with UIView
  * @windowWidth: Video output window width
  * @windowHeight: Video output window height
  * API return: If open a media OK return 0, else return Err value.
  */
 - (NSInteger) openMediaPath:(NSString*)path
-                videoWindow:(void*)window
+                videoWindow:(VideoWindow*)window
                 windowWidth:(NSUInteger)width
                windowHeight:(NSUInteger)height;
 /*
@@ -180,7 +196,7 @@ typedef NS_ENUM(NSUInteger, EPlayerStatus)
  * @hight: new video output window height
  * This API for video output window changed, from current window to another.
  */
-- (void) updateVideoWindow:(void*)window
+- (void) updateVideoWindow:(VideoWindow*)window
                windowWidth:(NSUInteger)width
               windowHeight:(NSUInteger)height;
 /*
