@@ -36,6 +36,10 @@ extern "C"
 {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
+#ifdef EC_OS_iOS
+#include "libavutil/pixdesc.h"
+#include "libavcodec/videotoolbox.h"
+#endif
 };
 
 #define Video_Dec_Err_None            0x00000000
@@ -56,7 +60,8 @@ public:
     void FlushDecoder();
     EC_U32 SetInputPacket(SourcePacket* pInputPacket);
     EC_U32 GetOutputFrame(VideoFrame* pOutputVideoFrame);
-
+private:
+    static AVPixelFormat GetDecoderFormat(AVCodecContext* context, AVPixelFormat const formats[]);
 private:
     AVFrame*           m_pFrame;
     AVCodecContext*    m_pCodecCtx;

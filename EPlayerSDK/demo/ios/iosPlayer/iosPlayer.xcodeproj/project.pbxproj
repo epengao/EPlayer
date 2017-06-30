@@ -11,6 +11,8 @@
 		021161C51EE6B1AD0090FA94 /* iOS_VideoDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */; };
 		021161CB1EE6B6510090FA94 /* VideoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 021161CA1EE6B6510090FA94 /* VideoWindow.mm */; };
 		021161CE1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021161CC1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp */; };
+		02AA68211F064BEF0004BDC8 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02AA68201F064BEF0004BDC8 /* GLKit.framework */; };
+		02AA68241F064E2C0004BDC8 /* VideoRenderLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AA68231F064E2C0004BDC8 /* VideoRenderLayer.mm */; };
 		02B383971EE6CCBD00B5DAF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B383961EE6CCBD00B5DAF4 /* UIKit.framework */; };
 		02B383A21EE6CCF100B5DAF4 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839C1EE6CCF100B5DAF4 /* libavcodec.a */; };
 		02B383A31EE6CCF100B5DAF4 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02B3839D1EE6CCF100B5DAF4 /* libavfilter.a */; };
@@ -71,6 +73,9 @@
 		021161CA1EE6B6510090FA94 /* VideoWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoWindow.mm; path = VideoDevice/ios/VideoWindow.mm; sourceTree = "<group>"; };
 		021161CC1EE6C6FF0090FA94 /* iOS_AudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iOS_AudioDevice.cpp; path = AudioDevice/ios/iOS_AudioDevice.cpp; sourceTree = "<group>"; };
 		021161CD1EE6C6FF0090FA94 /* iOS_AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_AudioDevice.h; path = AudioDevice/ios/iOS_AudioDevice.h; sourceTree = "<group>"; };
+		02AA68201F064BEF0004BDC8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		02AA68221F064E2C0004BDC8 /* VideoRenderLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoRenderLayer.h; path = VideoDevice/ios/VideoRenderLayer.h; sourceTree = "<group>"; };
+		02AA68231F064E2C0004BDC8 /* VideoRenderLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoRenderLayer.mm; path = VideoDevice/ios/VideoRenderLayer.mm; sourceTree = "<group>"; };
 		02B383961EE6CCBD00B5DAF4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		02B383981EE6CCC300B5DAF4 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		02B3839A1EE6CCCF00B5DAF4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -179,6 +184,7 @@
 				02B383A41EE6CCF100B5DAF4 /* libavformat.a in Frameworks */,
 				02B383A61EE6CCF100B5DAF4 /* libswresample.a in Frameworks */,
 				02B383971EE6CCBD00B5DAF4 /* UIKit.framework in Frameworks */,
+				02AA68211F064BEF0004BDC8 /* GLKit.framework in Frameworks */,
 				9046F0ED1EF6A71500084BE9 /* CoreVideo.framework in Frameworks */,
 				9046F0EC1EF6A6E600084BE9 /* CoreMedia.framework in Frameworks */,
 				02B383B31EE6D29900B5DAF4 /* OpenGLES.framework in Frameworks */,
@@ -194,6 +200,7 @@
 		02B383951EE6CCBD00B5DAF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02AA68201F064BEF0004BDC8 /* GLKit.framework */,
 				9046F0EB1EF6A6E600084BE9 /* CoreMedia.framework */,
 				9046F0E91EF6A66600084BE9 /* ImageIO.framework */,
 				9046F0E71EF6A65600084BE9 /* CoreVideo.framework */,
@@ -419,6 +426,8 @@
 				021161C41EE6B1AD0090FA94 /* iOS_VideoDevice.mm */,
 				021161C91EE6B6510090FA94 /* VideoWindow.h */,
 				021161CA1EE6B6510090FA94 /* VideoWindow.mm */,
+				02AA68221F064E2C0004BDC8 /* VideoRenderLayer.h */,
+				02AA68231F064E2C0004BDC8 /* VideoRenderLayer.mm */,
 			);
 			path = video;
 			sourceTree = "<group>";
@@ -516,6 +525,7 @@
 				90F9B8261EE59C0B00C2B5F4 /* AudioDecoder.cpp in Sources */,
 				90F9B8301EE59C0B00C2B5F4 /* MediaCtrl.cpp in Sources */,
 				90F9B81D1EE59C0B00C2B5F4 /* ECMemOP.cpp in Sources */,
+				02AA68241F064E2C0004BDC8 /* VideoRenderLayer.mm in Sources */,
 				90F9B8311EE59C0B00C2B5F4 /* MessageHub.cpp in Sources */,
 				90F9B8421EE59C0B00C2B5F4 /* MediaSource.cpp in Sources */,
 				90F9B82A1EE59C0B00C2B5F4 /* VideoDecoder.cpp in Sources */,

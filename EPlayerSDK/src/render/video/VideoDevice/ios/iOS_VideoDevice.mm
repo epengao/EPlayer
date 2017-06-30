@@ -86,7 +86,8 @@ void iOS_VideoDevice::DrawFrame(VideoFrame *pFrame)
         AVFrame *frame = pFrame->pAVFrame;
         if(frame)
         {
-            [m_pUserWnd drawYUV:frame->data[0] U:frame->data[1] V:frame->data[2]];
+            CVPixelBufferRef imgBuf = (CVImageBufferRef)((void*)pFrame->pAVFrame->data[3]);
+            [m_pUserWnd drawPixelBuffer:imgBuf];
         }
     }
 }

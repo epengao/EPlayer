@@ -25,6 +25,7 @@
  * ****************************************************************
  */
 
+#include "ECLog.h"
 #include "ECMemOP.h"
 #include "FFmpegVideoDecoder.h"
 
@@ -49,6 +50,9 @@ EC_U32 FFmpegVideoDecoder::OpenDecoder(MediaContext* pMediaContext)
 
     m_pCodecCtx = pMediaContext->pVideoCodecCtx;
     m_pCodecParam = pMediaContext->pVideoDecParam;
+#ifdef EC_OS_iOS
+    m_pCodecCtx->get_format = FFmpegVideoDecoder::GetDecoderFormat;
+#endif
     AVStream* pStream = pMediaContext->pFormatCtx->streams[pMediaContext->nVideoIndex];
 
     m_TimeBase = av_q2d(pStream->time_base);
@@ -137,4 +141,33 @@ EC_U32 FFmpegVideoDecoder::GetOutputFrame(VideoFrame* pOutputVideoFrame)
         ret = Video_Dec_Err_NeedNewPkt;
     }
     return ret;
+}
+
+AVPixelFormat FFmpegVideoDecoder::GetDecoderFormat(AVCodecContext* context, AVPixelFormat const formats[])
+{
+    EC_U32 i = 0;
+    for (i = 0; formats[i] != AV_PIX_FMT_NONE; ++i)
+    {
+        ecLogI("ffmpeg supported format[ %d ]: %s", i, av_get_pix_fmt_name(formats[i]));
+    }
+#ifdef EC_OS_iOS
+    for (auto j = 0; formats[j] != AV_PIX_FMT_NONE; ++j)
+    {
+        if (formats[j] == AV_PIX_FMT_VIDEOTOOLBOX)
+        {
+            auto result = av_videotoolbox_default_init(context);
+            if (result < 0)
+            {
+                ecLogW("av_videotoolbox_default_init failed: %s", av_err2str(result));
+                return AV_PIX_FMT_YUV420P;
+            }
+            else
+            {
+                ecLogI("hw decoder: selecting fromat AV_PIX_FMT_VIDEOTOOLBOX");
+                return AV_PIX_FMT_VIDEOTOOLBOX;
+            }
+        }
+    }
+#endif
+    return formats[i-1];
 }
