@@ -44,6 +44,14 @@ static const GLVertex Vertices[] =
     {{ 1,  1}, {1, 0}}
 };
 
+static const GLVertex Vertices_R90[] =
+{
+    {{-1, -1}, {0, 0}},
+    {{-1,  1}, {1, 0}},
+    {{ 1, -1}, {0, 1}},
+    {{ 1,  1}, {1, 1}}
+};
+
 // Color Conversion Constants (YUV to RGB) including adjustment from 16-235/16-240 (video range)
 
 // BT.601, which is the standard for SDTV.
@@ -70,10 +78,12 @@ static const GLfloat kColorConversion709[] = {
 
     GLint _drawX;
     GLint _drawY;
-    GLint _videoWidth;
-    GLint _videoHeight;
+    GLint _drawW;
+    GLint _drawH;
     GLint _backingWidth;
     GLint _backingHeight;
+
+    GLfloat _renderRotation;
 
     EAGLContext *_context;
     CVOpenGLESTextureRef _lumaTexture;
@@ -115,16 +125,21 @@ static const GLfloat kColorConversion709[] = {
     return self;
 }
 
-- (void)setDrawRect:(CGRect)rect
+- (void)setRenderFrame:(CGRect)frame
 {
-    _drawX = rect.origin.x;
-    _drawY = rect.origin.y;
-    _videoWidth = rect.size.width;
-    _videoHeight = rect.size.height;
+    _drawX = frame.origin.x;
+    _drawY = frame.origin.y;
+    _drawW = frame.size.width;
+    _drawH = frame.size.height;
 }
 
 - (void)prepareTextureForRGBRendering:(GLuint) texW textureHeight: (GLuint) texH frameWidth: (GLuint) frameW frameHeight: (GLuint) frameH
 {
+}
+
+- (void)setDrawRotation:(CGFloat)rotation
+{
+    _renderRotation = rotation;
 }
 
 - (void)drawRGBBuffer:(uint8_t*)rgbBuffer
@@ -132,7 +147,7 @@ static const GLfloat kColorConversion709[] = {
     [EAGLContext setCurrentContext:_context];
 
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferHandle);
-    glViewport(0, 0, _backingWidth, _backingHeight);
+    glViewport(_drawX, _drawX, _drawW, _drawH);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -142,13 +157,13 @@ static const GLfloat kColorConversion709[] = {
     // the movie player that we're done with the texture after glDrawArrays.
 
     memcpy(trueBuffer, rgbBuffer, RenderBufferSize);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 1280, 720, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, trueBuffer);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 1920, 1080, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, trueBuffer);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindRenderbuffer(GL_RENDERBUFFER, _colorBufferHandle);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer
+- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height
 {
     if (!_context || ![EAGLContext setCurrentContext:_context])
     {
@@ -204,8 +219,8 @@ static const GLfloat kColorConversion709[] = {
                                                        NULL,
                                                        GL_TEXTURE_2D,
                                                        GL_RED_EXT,
-                                                       _videoWidth,
-                                                       _videoHeight,
+                                                       width,
+                                                       height,
                                                        GL_RED_EXT,
                                                        GL_UNSIGNED_BYTE,
                                                        0,
@@ -229,8 +244,8 @@ static const GLfloat kColorConversion709[] = {
                                                            NULL,
                                                            GL_TEXTURE_2D,
                                                            GL_RG_EXT,
-                                                           _videoWidth / 2,
-                                                           _videoHeight / 2,
+                                                           width / 2,
+                                                           height / 2,
                                                            GL_RG_EXT,
                                                            GL_UNSIGNED_BYTE,
                                                            1,
@@ -247,7 +262,7 @@ static const GLfloat kColorConversion709[] = {
     }
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferHandle);
     // Set the view port to the entire view.
-    glViewport(0, 0, _backingWidth, _backingHeight);
+    glViewport(_drawX, _drawX, _drawW, _drawH);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     // Use shader program.
@@ -355,7 +370,14 @@ static const GLfloat kColorConversion709[] = {
     //glUniform1f(uniforms[UNIFORM_ROTATION_ANGLE], 0);
     glGenBuffers(1, &mVertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    if(_renderRotation == -90)
+    {
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    }
+    else
+    {
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices_R90), Vertices_R90, GL_STATIC_DRAW);
+    }
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

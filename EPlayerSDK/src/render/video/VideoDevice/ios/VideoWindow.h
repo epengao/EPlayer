@@ -37,8 +37,8 @@
 - (id)initWithCoder:(NSCoder*)aDecoder;
 - (void)clearWindow;
 - (void)setRotation:(VideoRotation)rotation;
-- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
+- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height;
 - (void)setRenderParam:(CGFloat)videoWidth videoHeight:(CGFloat)videoHeight
        userWindowWidth:(CGFloat)userWndWidth userWindowHeight:(CGFloat)userWndHeight;
 @end

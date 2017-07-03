@@ -5,8 +5,9 @@
 
 @interface VideoRenderLayer : CAEAGLLayer
 - (id)initWithFrame:(CGRect)frame;
-- (void)setDrawRect:(CGRect)rect;
+- (void)setRenderFrame:(CGRect)frame;
 - (void)resetRenderBuffer;
 - (void)drawRGBBuffer:(uint8_t*)rgbBuffer;
-- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+- (void)setDrawRotation:(CGFloat)rotation;
+- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height;
 @end

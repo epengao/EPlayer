@@ -28,28 +28,8 @@
 #import "VideoWindow.h"
 #import "VideoRenderLayer.h"
 
-enum EGL_Attrib
-{
-    ATTRIB_VERTEX,
-    ATTRIB_TEXTURE,
-    ATTRIB_COLOR,
-};
-
-enum EGL_Texture
-{
-    Y   = 0,
-    U   = 1,
-    V   = 2,
-    YUV = 3,
-};
-
 @interface VideoWindow ()
 {
-    EAGLContext             *_glContext;
-    GLuint                  _framebuffer;
-    GLuint                  _renderBuffer;
-    GLuint                  _program;
-    GLuint                  _textureYUV[YUV];
     CGFloat                 _videoWidth;
     CGFloat                 _videoHeight;
     CGFloat                 _userWndWidt;
@@ -67,8 +47,8 @@ enum EGL_Texture
 - (id)initWithCoder:(NSCoder*)aDecoder;
 - (void)clearWindow;
 - (void)setRotation:(VideoRotation)rotation;
-- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 - (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
+- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height;
 - (void)setRenderParam:(CGFloat)videoWidth videoHeight:(CGFloat)videoHeight
        userWindowWidth:(CGFloat)userWndWidth userWindowHeight:(CGFloat)userWndHeight;
 @end
@@ -85,15 +65,16 @@ enum EGL_Texture
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    _viewScale = [[UIScreen mainScreen] scale];
     _drawFrameLayer = [[VideoRenderLayer alloc] initWithFrame:self.bounds];
     [self.layer insertSublayer:_drawFrameLayer atIndex:0];
     return self;
 }
 
-- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer
+- (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height
 {
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [_drawFrameLayer drawPixelBuffer:pixelBuffer];
+        [_drawFrameLayer drawPixelBuffer:pixelBuffer width:width height:height];
     });
 }
 
@@ -107,7 +88,6 @@ enum EGL_Texture
 - (void)setRenderParam:(CGFloat)videoWidth videoHeight:(CGFloat)videoHeight
        userWindowWidth:(CGFloat)userWndWidth userWindowHeight:(CGFloat)userWndHeight
 {
-    _viewScale = 1.0;
     _videoWidth = videoWidth;
     _videoHeight = videoHeight;
     _userWndWidt = userWndWidth;
@@ -116,22 +96,7 @@ enum EGL_Texture
     {
         [self ClipDrawVideoRect:_userWndWidt height:_userWndHeight];
     }
-    GLuint renderDataSize = _videoWidth * _videoHeight;
-    GLubyte *blackData = (GLubyte*)malloc(renderDataSize * 1.5);
-    if(blackData)
-    {
-        memset(blackData, 0x0, renderDataSize * 1.5);
-    }
-    [EAGLContext setCurrentContext:_glContext];
-    glBindTexture(GL_TEXTURE_2D, _textureYUV[Y]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, _videoWidth, _videoHeight, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData);
-    glBindTexture(GL_TEXTURE_2D, _textureYUV[U]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, _videoWidth/2, _videoHeight/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + renderDataSize);
-    glBindTexture(GL_TEXTURE_2D, _textureYUV[V]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, _videoWidth/2, _videoHeight/2, 0, GL_RED_EXT, GL_UNSIGNED_BYTE, blackData + renderDataSize * 5 / 4);
-    free(blackData);
-
-    [_drawFrameLayer setDrawRect:CGRectMake(_drawVideo_x, _drawVideo_y, _drawVideo_w, _drawVideo_h)];
+    [_drawFrameLayer setRenderFrame:CGRectMake(_drawVideo_x, _drawVideo_y, _drawVideo_w, _drawVideo_h)];
 }
 
 - (void)ClipDrawVideoRect:(CGFloat)wndWidth height:(CGFloat)wndHeight
@@ -182,13 +147,16 @@ enum EGL_Texture
 
 - (void)setRotation:(VideoRotation)rotation
 {
+    CGFloat rota = 0;
     if(rotation == VideoRotation_Right_90)
     {
+        rota = -90;
         _rotation = VideoRotation_Right_90;
         [self setRenderParam:_videoWidth videoHeight:_videoHeight
              userWindowWidth:_userWndWidt userWindowHeight:_userWndHeight];
     }
     else {/* TODO */}
+    [_drawFrameLayer setDrawRotation:rota];
 }
 
 - (void)clearWindow
