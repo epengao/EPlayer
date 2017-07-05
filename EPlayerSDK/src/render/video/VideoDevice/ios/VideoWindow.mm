@@ -47,8 +47,8 @@
 - (id)initWithCoder:(NSCoder*)aDecoder;
 - (void)clearWindow;
 - (void)setRotation:(VideoRotation)rotation;
-- (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf;
 - (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height;
+- (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf strideY:(CGFloat)strideY strideUV:(CGFloat)strideUV frameWidth:(CGFloat)width frameHeight:(CGFloat)height;
 - (void)setRenderParam:(CGFloat)videoWidth videoHeight:(CGFloat)videoHeight
        userWindowWidth:(CGFloat)userWndWidth userWindowHeight:(CGFloat)userWndHeight;
 @end
@@ -78,10 +78,75 @@
     });
 }
 
-- (void)drawYUV:(void *)YBuf U:(void *)UBuf V:(void *)VBuf
+- (CVPixelBufferRef)createPixBufferFromYUV:(uint8_t*)Y
+                                       uBuf:(uint8_t*)U
+                                       vBuf:(uint8_t*)V
+                                    strideY:(CGFloat)strideY
+                                   strideUV:(CGFloat)strideUV
+                                 frameWidth:(CGFloat)width
+                                frameHeight:(CGFloat)height
 {
-    @synchronized(self)
+    CVPixelBufferRef pixBufRef = nil;
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @(strideY), kCVPixelBufferBytesPerRowAlignmentKey,
+                             [NSNumber numberWithBool:YES], kCVPixelBufferOpenGLESCompatibilityKey,
+                             [NSDictionary dictionary], kCVPixelBufferIOSurfacePropertiesKey,
+                             nil];
+    size_t srcPlaneSize = strideUV * height/2;
+    size_t dstPlaneSize = srcPlaneSize * 2;
+    uint8_t *dstPlane = (uint8_t*)malloc(dstPlaneSize);
+
+    // interleave Cb and Cr plane [YUV420P]
+    for(size_t i = 0; i < srcPlaneSize; i++)
     {
+        dstPlane[2*i  ]= U[i];
+        dstPlane[2*i+1]= V[i];
+    }
+
+    int ret = CVPixelBufferCreate(kCFAllocatorDefault,
+                                  width, height,
+                                  kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange,
+                                  (__bridge CFDictionaryRef)(options),
+                                  &pixBufRef);
+    if(ret != kCVReturnSuccess)
+    {
+        return nil;
+    }
+
+    CVPixelBufferLockBaseAddress(pixBufRef, 0);
+
+    size_t bytePerRowY = CVPixelBufferGetBytesPerRowOfPlane(pixBufRef, 0);
+    size_t bytesPerRowUV = CVPixelBufferGetBytesPerRowOfPlane(pixBufRef, 1);
+
+    void* base =  CVPixelBufferGetBaseAddressOfPlane(pixBufRef, 0);
+    memcpy(base, Y, bytePerRowY * height);
+    base = CVPixelBufferGetBaseAddressOfPlane(pixBufRef, 1);
+    memcpy(base, dstPlane, bytesPerRowUV * height/2);
+
+    CVPixelBufferUnlockBaseAddress(pixBufRef, 0);
+    free(dstPlane);
+    
+    return pixBufRef;
+}
+
+- (void)drawYUV:(void *)YBuf
+              U:(void *)UBuf
+              V:(void *)VBuf
+        strideY:(CGFloat)strideY
+       strideUV:(CGFloat)strideUV
+     frameWidth:(CGFloat)width
+    frameHeight:(CGFloat)height
+{
+    CVPixelBufferRef pixBufRef = [self createPixBufferFromYUV:(uint8_t*)YBuf
+                                                          uBuf:(uint8_t*)UBuf
+                                                          vBuf:(uint8_t*)VBuf
+                                                       strideY:strideY
+                                                      strideUV:strideUV
+                                                    frameWidth:width
+                                                   frameHeight:height];
+    if(pixBufRef != nil)
+    {
+        [self drawPixelBuffer:pixBufRef width:width height:height];
     }
 }
 
@@ -151,9 +216,6 @@
     if(rotation == VideoRotation_Right_90)
     {
         rota = -90;
-        _rotation = VideoRotation_Right_90;
-        [self setRenderParam:_videoWidth videoHeight:_videoHeight
-             userWindowWidth:_userWndWidt userWindowHeight:_userWndHeight];
     }
     else {/* TODO */}
     [_drawFrameLayer setDrawRotation:rota];

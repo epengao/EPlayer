@@ -262,7 +262,7 @@ static const GLfloat kColorConversion709[] = {
     }
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferHandle);
     // Set the view port to the entire view.
-    glViewport(_drawX, _drawX, _drawW, _drawH);
+    glViewport(_drawX, _drawY, _drawW, _drawH);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     // Use shader program.
@@ -372,11 +372,11 @@ static const GLfloat kColorConversion709[] = {
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
     if(_renderRotation == -90)
     {
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices_R90), Vertices_R90, GL_STATIC_DRAW);
     }
     else
     {
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices_R90), Vertices_R90, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
     }
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

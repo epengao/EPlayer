@@ -51,16 +51,16 @@ int iOS_VideoDevice::Init(void* pVideoWindow,
     m_nVideoWidth = pMediaContext->nVideoWidth;
     m_nVideoHeight = pMediaContext->nVideoHeight;
     m_pUserWnd = (__bridge VideoWindow*)pVideoWindow;
+    if(pMediaContext->videoRotation == -90)
+    {
+        [m_pUserWnd setRotation:VideoRotation_Right_90];
+    }
     if(m_pUserWnd != nil)
     {
         [m_pUserWnd setRenderParam:m_nVideoWidth
                        videoHeight:m_nVideoHeight
                    userWindowWidth:m_nUserWndWidth
                   userWindowHeight:m_nUserWndHeight];
-    }
-    if(pMediaContext->videoRotation == -90)
-    {
-        [m_pUserWnd setRotation:VideoRotation_Right_90];
     }
     return 0;
 }
@@ -84,10 +84,23 @@ void iOS_VideoDevice::DrawFrame(VideoFrame *pFrame)
     if(pFrame && (m_pUserWnd != nil))
     {
         AVFrame *frame = pFrame->pAVFrame;
-        if(frame)
+        if(frame != NULL)
         {
-            CVPixelBufferRef imgBuf = (CVImageBufferRef)((void*)pFrame->pAVFrame->data[3]);
-            [m_pUserWnd drawPixelBuffer:imgBuf width:frame->width height:frame->height];
+            if(frame->format == AV_PIX_FMT_YUV420P)
+            {
+                [m_pUserWnd drawYUV:frame->data[0]
+                                  U:frame->data[1]
+                                  V:frame->data[2]
+                            strideY:frame->linesize[0]
+                           strideUV:frame->linesize[1]
+                         frameWidth:frame->width
+                        frameHeight:frame->height];
+            }
+            else if(frame->format == AV_PIX_FMT_VIDEOTOOLBOX)
+            {
+                CVPixelBufferRef imgBuf = (CVImageBufferRef)((void*)pFrame->pAVFrame->data[3]);
+                [m_pUserWnd drawPixelBuffer:imgBuf width:frame->width height:frame->height];
+            }
         }
     }
 }
