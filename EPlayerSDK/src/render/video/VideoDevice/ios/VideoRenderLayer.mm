@@ -46,10 +46,10 @@ static const GLVertex Vertices[] =
 
 static const GLVertex Vertices_R90[] =
 {
-    {{-1, -1}, {0, 0}},
-    {{-1,  1}, {1, 0}},
-    {{ 1, -1}, {0, 1}},
-    {{ 1,  1}, {1, 1}}
+    {{-1, -1}, {1, 1}},
+    {{-1,  1}, {0, 1}},
+    {{ 1, -1}, {1, 0}},
+    {{ 1,  1}, {0, 0}}
 };
 
 // Color Conversion Constants (YUV to RGB) including adjustment from 16-235/16-240 (video range)
@@ -119,8 +119,6 @@ static const GLfloat kColorConversion709[] = {
         }
         // Set the default conversion to BT.709, which is the standard for HDTV.
         _preferredConversion = kColorConversion709;
-
-        [self setupGL];
     }
     return self;
 }
@@ -131,6 +129,11 @@ static const GLfloat kColorConversion709[] = {
     _drawY = frame.origin.y;
     _drawW = frame.size.width;
     _drawH = frame.size.height;
+}
+
+- (void)initOpenGLES
+{
+    [self setupGL];
 }
 
 - (void)prepareTextureForRGBRendering:(GLuint) texW textureHeight: (GLuint) texH frameWidth: (GLuint) frameW frameHeight: (GLuint) frameH
@@ -147,7 +150,7 @@ static const GLfloat kColorConversion709[] = {
     [EAGLContext setCurrentContext:_context];
 
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferHandle);
-    glViewport(_drawX, _drawX, _drawW, _drawH);
+    glViewport(_drawX, _drawY, _drawW, _drawH);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 

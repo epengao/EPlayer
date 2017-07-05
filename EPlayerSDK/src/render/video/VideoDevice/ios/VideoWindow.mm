@@ -39,6 +39,7 @@
     CGFloat                 _drawVideo_y;
     CGFloat                 _drawVideo_w;
     CGFloat                 _drawVideo_h;
+    CVPixelBufferRef        _pixBufRef;
     VideoRotation           _rotation;
     VideoRenderLayer*       _drawFrameLayer;
 }
@@ -71,11 +72,13 @@
     return self;
 }
 
+- (void)initVideoRendLayer
+{
+}
+
 - (void)drawPixelBuffer:(CVPixelBufferRef)pixelBuffer width:(CGFloat)width height:(CGFloat)height
 {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [_drawFrameLayer drawPixelBuffer:pixelBuffer width:width height:height];
-    });
+    [_drawFrameLayer drawPixelBuffer:pixelBuffer width:width height:height];
 }
 
 - (CVPixelBufferRef)createPixBufferFromYUV:(uint8_t*)Y
@@ -86,12 +89,31 @@
                                  frameWidth:(CGFloat)width
                                 frameHeight:(CGFloat)height
 {
-    CVPixelBufferRef pixBufRef = nil;
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @(strideY), kCVPixelBufferBytesPerRowAlignmentKey,
-                             [NSNumber numberWithBool:YES], kCVPixelBufferOpenGLESCompatibilityKey,
-                             [NSDictionary dictionary], kCVPixelBufferIOSurfacePropertiesKey,
-                             nil];
+    if(_videoWidth != width || _videoHeight != height)
+    {
+        if(_pixBufRef != nil)
+        {
+            CVPixelBufferRelease(_pixBufRef);
+            _pixBufRef = nil;
+        }
+    }
+    if(_pixBufRef == nil)
+    {
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @(strideY), kCVPixelBufferBytesPerRowAlignmentKey,
+                                 [NSNumber numberWithBool:YES], kCVPixelBufferOpenGLESCompatibilityKey,
+                                 [NSDictionary dictionary], kCVPixelBufferIOSurfacePropertiesKey,
+                                 nil];
+        int ret = CVPixelBufferCreate(kCFAllocatorDefault,
+                                      width, height,
+                                      kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange,
+                                      (__bridge CFDictionaryRef)(options),
+                                      &_pixBufRef);
+        if(ret != kCVReturnSuccess)
+        {
+            return nil;
+        }
+    }
     size_t srcPlaneSize = strideUV * height/2;
     size_t dstPlaneSize = srcPlaneSize * 2;
     uint8_t *dstPlane = (uint8_t*)malloc(dstPlaneSize);
@@ -103,30 +125,20 @@
         dstPlane[2*i+1]= V[i];
     }
 
-    int ret = CVPixelBufferCreate(kCFAllocatorDefault,
-                                  width, height,
-                                  kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange,
-                                  (__bridge CFDictionaryRef)(options),
-                                  &pixBufRef);
-    if(ret != kCVReturnSuccess)
-    {
-        return nil;
-    }
+    CVPixelBufferLockBaseAddress(_pixBufRef, 0);
 
-    CVPixelBufferLockBaseAddress(pixBufRef, 0);
+    size_t bytePerRowY = CVPixelBufferGetBytesPerRowOfPlane(_pixBufRef, 0);
+    size_t bytesPerRowUV = CVPixelBufferGetBytesPerRowOfPlane(_pixBufRef, 1);
 
-    size_t bytePerRowY = CVPixelBufferGetBytesPerRowOfPlane(pixBufRef, 0);
-    size_t bytesPerRowUV = CVPixelBufferGetBytesPerRowOfPlane(pixBufRef, 1);
-
-    void* base =  CVPixelBufferGetBaseAddressOfPlane(pixBufRef, 0);
+    void* base =  CVPixelBufferGetBaseAddressOfPlane(_pixBufRef, 0);
     memcpy(base, Y, bytePerRowY * height);
-    base = CVPixelBufferGetBaseAddressOfPlane(pixBufRef, 1);
+    base = CVPixelBufferGetBaseAddressOfPlane(_pixBufRef, 1);
     memcpy(base, dstPlane, bytesPerRowUV * height/2);
 
-    CVPixelBufferUnlockBaseAddress(pixBufRef, 0);
+    CVPixelBufferUnlockBaseAddress(_pixBufRef, 0);
     free(dstPlane);
-    
-    return pixBufRef;
+
+    return _pixBufRef;
 }
 
 - (void)drawYUV:(void *)YBuf
@@ -216,13 +228,20 @@
     if(rotation == VideoRotation_Right_90)
     {
         rota = -90;
+        _rotation = VideoRotation_Right_90;
     }
     else {/* TODO */}
     [_drawFrameLayer setDrawRotation:rota];
+    [_drawFrameLayer initOpenGLES];
 }
 
 - (void)clearWindow
 {
+    if(_pixBufRef != nil)
+    {
+        CVPixelBufferRelease(_pixBufRef);
+        _pixBufRef = nil;
+    }
 }
 
 @end

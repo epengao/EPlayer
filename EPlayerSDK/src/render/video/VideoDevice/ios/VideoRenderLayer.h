@@ -6,6 +6,7 @@
 @interface VideoRenderLayer : CAEAGLLayer
 - (id)initWithFrame:(CGRect)frame;
 - (void)setRenderFrame:(CGRect)frame;
+- (void)initOpenGLES;
 - (void)resetRenderBuffer;
 - (void)drawRGBBuffer:(uint8_t*)rgbBuffer;
 - (void)setDrawRotation:(CGFloat)rotation;

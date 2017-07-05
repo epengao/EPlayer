@@ -55,6 +55,10 @@ int iOS_VideoDevice::Init(void* pVideoWindow,
     {
         [m_pUserWnd setRotation:VideoRotation_Right_90];
     }
+    else
+    {
+        [m_pUserWnd setRotation:VideoRotation_None];
+    }
     if(m_pUserWnd != nil)
     {
         [m_pUserWnd setRenderParam:m_nVideoWidth

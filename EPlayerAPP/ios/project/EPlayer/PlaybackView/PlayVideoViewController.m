@@ -427,11 +427,11 @@
     {
         canRotate = YES;
         fullScreen = YES;
-        SEL selector             = NSSelectorFromString(@"setOrientation:");
+        SEL selector = NSSelectorFromString(@"setOrientation:");
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
-        int val                  = UIDeviceOrientationLandscapeLeft;
+        int val = UIDeviceOrientationLandscapeLeft;
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];
     }
@@ -441,11 +441,11 @@
 {
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
     {
-        SEL selector             = NSSelectorFromString(@"setOrientation:");
+        SEL selector = NSSelectorFromString(@"setOrientation:");
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
-        int val                  = UIDeviceOrientationPortrait;
+        int val = UIDeviceOrientationPortrait;
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];
     }
