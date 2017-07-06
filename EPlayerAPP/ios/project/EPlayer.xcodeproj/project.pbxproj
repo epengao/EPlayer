@@ -10,6 +10,7 @@
 		0201F6621EF2657200252692 /* PlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0201F6611EF2657200252692 /* PlayVideoViewController.m */; };
 		0201F6701EF2711500252692 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F66F1EF2711500252692 /* libz.tbd */; };
 		0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0201F6711EF2740D00252692 /* libbz2.tbd */; };
+		02AA68291F0E1DF00004BDC8 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02AA68281F0E1DF00004BDC8 /* GLKit.framework */; };
 		9001F80B1EF80EF500A37A6C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9001F80A1EF80EF500A37A6C /* Launch Screen.storyboard */; };
 		901F90131EEDB04800AF3FD6 /* AppRootNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */; };
 		903B247B1EF6594B00794632 /* btn_close_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 903B24571EF6594B00794632 /* btn_close_normal.png */; };
@@ -55,6 +56,7 @@
 		0201F6651EF2671900252692 /* libEPlayerSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEPlayerSDK.a; path = ../sdk/libEPlayerSDK.a; sourceTree = "<group>"; };
 		0201F66F1EF2711500252692 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0201F6711EF2740D00252692 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		02AA68281F0E1DF00004BDC8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		9001F80A1EF80EF500A37A6C /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		901F90111EEDB04800AF3FD6 /* AppRootNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRootNavigationViewController.h; sourceTree = "<group>"; };
 		901F90121EEDB04800AF3FD6 /* AppRootNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppRootNavigationViewController.m; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				0201F6721EF2740D00252692 /* libbz2.tbd in Frameworks */,
 				907FE33A1EF303AA0052734C /* libEPlayerSDK.a in Frameworks */,
 				907FE3421EF3042B0052734C /* UIKit.framework in Frameworks */,
+				02AA68291F0E1DF00004BDC8 /* GLKit.framework in Frameworks */,
 				907FE3491EF304850052734C /* Photos.framework in Frameworks */,
 				90C825CD1EF6EF05008363E0 /* CoreVideo.framework in Frameworks */,
 				907FE34D1EF305170052734C /* CoreMedia.framework in Frameworks */,
@@ -139,17 +142,18 @@
 		0201F6641EF2671700252692 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				90C825D01EF6EF36008363E0 /* VideoToolbox.framework */,
-				90C825CE1EF6EF13008363E0 /* ImageIO.framework */,
-				90C825CC1EF6EF05008363E0 /* CoreVideo.framework */,
 				0201F66F1EF2711500252692 /* libz.tbd */,
 				0201F6711EF2740D00252692 /* libbz2.tbd */,
 				0201F6651EF2671900252692 /* libEPlayerSDK.a */,
 				907FE3411EF3042B0052734C /* UIKit.framework */,
+				02AA68281F0E1DF00004BDC8 /* GLKit.framework */,
 				907FE3481EF304850052734C /* Photos.framework */,
+				90C825CE1EF6EF13008363E0 /* ImageIO.framework */,
+				90C825CC1EF6EF05008363E0 /* CoreVideo.framework */,
 				907FE3431EF3043B0052734C /* OpenGLES.framework */,
 				907FE34C1EF305170052734C /* CoreMedia.framework */,
 				907FE3451EF304440052734C /* QuartzCore.framework */,
+				90C825D01EF6EF36008363E0 /* VideoToolbox.framework */,
 				907FE33D1EF303EB0052734C /* AudioToolbox.framework */,
 				907FE33B1EF303CE0052734C /* AVFoundation.framework */,
 				907FE33F1EF303F80052734C /* CoreGraphics.framework */,
