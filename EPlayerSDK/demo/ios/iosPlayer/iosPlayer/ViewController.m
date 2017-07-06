@@ -35,10 +35,12 @@
     [self getAllVideoFiles];
     if(videoFilesFolder != nil && [videoFileNameList count] > 0)
     {
-        NSString* mediaURL = [NSString stringWithFormat:@"%@/%@", videoFilesFolder, videoFileNameList[0]];
+        static int dd = 0;
+        NSString* mediaURL = [NSString stringWithFormat:@"%@/%@", videoFilesFolder, videoFileNameList[dd%3]];
         PlayVideoViewController *playView = [[PlayVideoViewController alloc]init];
         playView.videoFileURL = mediaURL;
         [self presentViewController:playView animated:YES completion:nil];
+        dd++;
     }
     playOneTow = playOneTow + 1;
 }
