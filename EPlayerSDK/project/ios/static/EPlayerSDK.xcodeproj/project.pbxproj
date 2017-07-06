@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02AA68271F0E1A2D0004BDC8 /* VideoRenderLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AA68261F0E1A2D0004BDC8 /* VideoRenderLayer.mm */; };
 		02D123F31EE924C500A8E853 /* ECAutoLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1237C1EE924C400A8E853 /* ECAutoLock.cpp */; };
 		02D123F41EE924C500A8E853 /* ECBufferStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D1237E1EE924C400A8E853 /* ECBufferStream.cpp */; };
 		02D123F51EE924C500A8E853 /* ECMemOP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D123821EE924C400A8E853 /* ECMemOP.cpp */; };
@@ -67,6 +68,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02AA68251F0E1A2D0004BDC8 /* VideoRenderLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoRenderLayer.h; path = VideoDevice/ios/VideoRenderLayer.h; sourceTree = "<group>"; };
+		02AA68261F0E1A2D0004BDC8 /* VideoRenderLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoRenderLayer.mm; path = VideoDevice/ios/VideoRenderLayer.mm; sourceTree = "<group>"; };
 		02D1237C1EE924C400A8E853 /* ECAutoLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECAutoLock.cpp; sourceTree = "<group>"; };
 		02D1237D1EE924C400A8E853 /* ECAutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECAutoLock.h; sourceTree = "<group>"; };
 		02D1237E1EE924C400A8E853 /* ECBufferStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ECBufferStream.cpp; sourceTree = "<group>"; };
@@ -326,6 +329,8 @@
 				02D123DC1EE924C500A8E853 /* iOS_VideoDevice.mm */,
 				02D123DD1EE924C500A8E853 /* VideoWindow.h */,
 				02D123DE1EE924C500A8E853 /* VideoWindow.mm */,
+				02AA68251F0E1A2D0004BDC8 /* VideoRenderLayer.h */,
+				02AA68261F0E1A2D0004BDC8 /* VideoRenderLayer.mm */,
 			);
 			path = video;
 			sourceTree = "<group>";
@@ -456,6 +461,7 @@
 				02D124141EE924C500A8E853 /* VideoWindow.mm in Sources */,
 				02D123F91EE924C500A8E853 /* ECStringOP.cpp in Sources */,
 				02D1241A1EE924C500A8E853 /* PacketManager.cpp in Sources */,
+				02AA68271F0E1A2D0004BDC8 /* VideoRenderLayer.mm in Sources */,
 				02D124191EE924C500A8E853 /* MediaSource.cpp in Sources */,
 				02D1241C1EE924C500A8E853 /* SourceVideoPort.cpp in Sources */,
 				02D123F61EE924C500A8E853 /* ECMutex.cpp in Sources */,
