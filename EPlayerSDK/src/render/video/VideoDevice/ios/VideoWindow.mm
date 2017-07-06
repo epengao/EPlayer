@@ -173,7 +173,19 @@
     {
         [self ClipDrawVideoRect:_userWndWidt height:_userWndHeight];
     }
-    [_drawFrameLayer setRenderFrame:CGRectMake(_drawVideo_x, _drawVideo_y, _drawVideo_w, _drawVideo_h)];
+    if(_drawFrameLayer != nil)
+    {
+        [_drawFrameLayer removeFromSuperlayer];
+        _drawFrameLayer = nil;
+    }
+    _drawFrameLayer = [[VideoRenderLayer alloc] initWithFrame:self.bounds];
+    if(_drawFrameLayer != nil)
+    {
+        [self setRotation:_rotation];
+        [_drawFrameLayer initOpenGLES];
+        [self.layer insertSublayer:_drawFrameLayer atIndex:0];
+        [_drawFrameLayer setRenderFrame:CGRectMake(_drawVideo_x, _drawVideo_y, _drawVideo_w, _drawVideo_h)];
+    }
 }
 
 - (void)ClipDrawVideoRect:(CGFloat)wndWidth height:(CGFloat)wndHeight
@@ -231,8 +243,10 @@
         _rotation = VideoRotation_Right_90;
     }
     else {/* TODO */}
-    [_drawFrameLayer setDrawRotation:rota];
-    [_drawFrameLayer initOpenGLES];
+    if(_drawFrameLayer != nil)
+    {
+        [_drawFrameLayer setDrawRotation:rota];
+    }
 }
 
 - (void)clearWindow
