@@ -34,10 +34,10 @@
 
 extern "C"
 {
+#include "libavutil/pixdesc.h"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #ifdef EC_OS_iOS
-#include "libavutil/pixdesc.h"
 #include "libavcodec/videotoolbox.h"
 #endif
 };
@@ -64,6 +64,7 @@ private:
     static AVPixelFormat GetDecoderFormat(AVCodecContext* context, AVPixelFormat const formats[]);
 private:
     AVFrame*           m_pFrame;
+    AVFrame*           m_pFrameRnd;
     AVCodecContext*    m_pCodecCtx;
     AVCodecParameters* m_pCodecParam;
     double             m_TimeBase;

@@ -33,6 +33,7 @@
 FFmpegVideoDecoder::FFmpegVideoDecoder()
 :m_TimeBase(0)
 ,m_pFrame(NULL)
+,m_pFrameRnd(NULL)
 ,m_pCodecCtx(NULL)
 ,m_pCodecParam(NULL)
 ,m_nMaxPCMBufSize(0)
@@ -81,8 +82,13 @@ void FFmpegVideoDecoder::CloseDecoder()
 {
     if(m_pFrame)
     {
-        av_free(m_pFrame);
+        av_frame_free(&m_pFrame);
         m_pFrame = NULL;
+    }
+    if(m_pFrameRnd)
+    {
+        av_frame_free(&m_pFrameRnd);
+        m_pFrameRnd = NULL;
     }
     avcodec_close(m_pCodecCtx);
 }
@@ -133,7 +139,29 @@ EC_U32 FFmpegVideoDecoder::GetOutputFrame(VideoFrame* pOutputVideoFrame)
         {
             nTimeStamp = m_pFrame->pkt_dts;
         }
+#if (defined(EC_OS_Win32) || defined(EC_OS_MacOS))
+        if( (m_pFrameRnd == NULL) ||
+            (m_pFrameRnd->width != m_pFrame->width) ||
+            (m_pFrameRnd->height != m_pFrame->height) )
+        {
+            if(m_pFrameRnd)
+            {
+                av_frame_free(&m_pFrameRnd);
+            }
+            m_pFrameRnd = av_frame_clone(m_pFrame);
+        }
+        m_pFrameRnd->format = m_pFrame->format;
+        m_pFrameRnd->width = m_pFrame->width;
+        m_pFrameRnd->height = m_pFrame->height;
+        m_pFrameRnd->pts = m_pFrame->pts;
+        m_pFrameRnd->pkt_dts = m_pFrame->pkt_dts;
+        m_pFrameRnd->key_frame = m_pFrame->key_frame;
+        m_pFrameRnd->pict_type = m_pFrame->pict_type;
+        av_frame_copy(m_pFrameRnd, m_pFrame);
+        pOutputVideoFrame->pAVFrame = m_pFrameRnd;
+#else
         pOutputVideoFrame->pAVFrame = m_pFrame;
+#endif
         pOutputVideoFrame->nTimestamp = m_TimeBase * nTimeStamp * TIME_UNIT;
     }
     else if (ret == AVERROR(EAGAIN))
@@ -159,7 +187,7 @@ AVPixelFormat FFmpegVideoDecoder::GetDecoderFormat(AVCodecContext* context, AVPi
             if (result < 0)
             {
                 ecLogW("av_videotoolbox_default_init failed: %s", av_err2str(result));
-                return AV_PIX_FMT_YUV420P;
+                break;
             }
             else
             {
